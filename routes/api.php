@@ -38,4 +38,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/cart/add', 'App\Http\Controllers\Api\Pub\Cart\CartController@cartAdd')->name('api.cartAdd');
     Route::post('/cart/delete', 'App\Http\Controllers\Api\Pub\Cart\CartController@cartDelete')->name('api.cartDelete');
 
+    Route::get('/getUser', 'App\Http\Controllers\Api\Pub\User\UserApiController@getUserByToken')->name('api.getUser');
+
 });

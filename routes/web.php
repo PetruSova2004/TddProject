@@ -29,3 +29,5 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/googleCallback', 'App\Http\Controllers\Web\Pub\AuthController@handleCallback')->name('google.callback');
 });
 
+Route::get('/cart', 'App\Http\Controllers\Web\Pub\CartController@index')->name('cart.index');
+

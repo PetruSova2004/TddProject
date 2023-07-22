@@ -465,10 +465,21 @@
                 .then(response => response.json())
                 .then(responseData => {
                     if (responseData.status === true) {
-                        // Redirect to a different page
-                        localStorage.setItem('accessToken', responseData.data.token);
-
-                        window.location.href = '{{ route("home") }}';
+                        // If the status is true, make a new request to the API
+                        fetch('/api/getUser', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${responseData.data.token}`,
+                            }
+                        })
+                            .then(userResponse => userResponse.json())
+                            .then(userData => {
+                                // Do something with the user data here
+                                window.location.href = '{{ route("home") }}';
+                            })
+                            .catch(error => {
+                                console.error('Error fetching user data:', error);
+                            });
                     } else {
                         alert('Your original_url is wrong, please provide the valid one');
                         console.error(responseData);
@@ -479,6 +490,8 @@
                 });
         });
     });
+
+
 </script>
 
 

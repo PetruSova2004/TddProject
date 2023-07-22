@@ -29,7 +29,7 @@ class ResponseService
             return response()->json(
                 self::responseParams($status, $errors, $data, $cookie['name']),
                 $code
-            )->cookie($cookie['name'], $cookie['value'], $cookie['time'], );
+            )->cookie($cookie['name'], $cookie['value'], $cookie['time']);
         } else {
             return response()->json(
                 self::responseParams($status, $errors, $data),

@@ -15,6 +15,7 @@ class CartService extends Controller
     {
         $cartProducts = DB::table('products')
             ->join('carts', 'products.id', '=','carts.product_id')
+            ->where('user_id', $user->id)
             ->select('carts.quantity', 'carts.product_id', 'products.title', 'products.price', 'products.image_path')
             ->get();
 
@@ -26,7 +27,7 @@ class CartService extends Controller
                     'product_id' => $cartProduct->product_id,
                     'title' => $cartProduct->title,
                     'quantity' => $cartProduct->quantity,
-                    'price-x1' => $cartProduct->price,
+                    'price_x1' => $cartProduct->price,
                     'image_path' => $cartProduct->image_path,
                 ];
             }

@@ -26,7 +26,7 @@
     // Проверка наличия значения в куках
 
     // Define the function to make the API request and fetch products using the access token
-    async function fetchProducts(accessToken) {
+    async function fetchCartProducts(accessToken) {
         try {
             const response = await fetch('http://127.0.0.1:8001/api/getCart', {
                 headers: {
@@ -34,6 +34,19 @@
                 },
             });
             const data = await response.json();
+
+            const subtotalElement = document.querySelector('.cart-total .amount');
+            if (subtotalElement) {
+                subtotalElement.textContent = `£${data.data.totalPrice}`; // Обновляем значение на странице
+            }
+
+            const count = document.querySelector('.shopping-cart-btn .shop-count');
+            if (data.data.count) {
+                count.textContent = data.data.count;
+            } else {
+                count.textContent = 0;
+            }
+
             return data.data.cart;
         } catch (error) {
             console.error('Error fetching product data:', error);
@@ -41,8 +54,7 @@
         }
     }
 
-    // Define the function to build HTML elements using the product data
-    function buildProductElements(products) {
+    function buildProductElements(products, accessToken) {
         const productListElement = document.querySelector('.aside-cart-product-list');
         products.forEach((product) => {
             const productElement = document.createElement('li');
@@ -54,12 +66,45 @@
         <img src="${product.image_path}" width="90" height="110" alt="${product.title}">
         <span class="product-title">${product.title}</span>
       </a>
-      <span class="product-price">${product.quantity} × £${product.price-x1}</span>
+      <span class="product-price">${product.quantity} × £${product.price_x1}</span>
     `;
+
+            // Получаем ссылку на элемент "x"
+            const removeButton = productElement.querySelector('.remove');
+            // Добавляем обработчик события на клик по "x"
+            removeButton.addEventListener('click', () => {
+                // Выполняем POST-запрос к API
+                const productId = product.product_id; // Предположим, что у продукта есть свойство "id"
+                sendPostRequest(accessToken, productId);
+            });
 
             productListElement.appendChild(productElement);
         });
     }
+
+    // Функция для отправки POST-запроса к API
+    async function sendPostRequest(token, productId) {
+        try {
+            const response = await fetch('http://127.0.0.1:8001/api/cart/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({productId: productId}),
+            });
+            if (response.ok) {
+                // Здесь можно добавить код, который выполнится в случае успешного запроса
+                console.log('Post request successful!');
+            } else {
+                // Здесь можно обработать ошибку, если запрос не был успешным
+                console.error('Post request failed:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error sending post request:', error);
+        }
+    }
+
 
     // Define the main handleMenu function that takes the access token as a parameter
     async function handleMenu() {
@@ -81,6 +126,13 @@
                 accountItem.parentElement.remove();
             }
 
+            try {
+                const products = await fetchCartProducts(accessToken);
+                buildProductElements(products, accessToken);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+
             // Добавляем пункт меню "Logout"
             var logoutMenuItem = document.createElement('li');
             logoutMenuItem.innerHTML = '<a href="#" onclick="logout()"><span>Logout</span></a>';
@@ -95,29 +147,65 @@
             }
         }
     }
+
     handleMenu();
 
-
     async function logout() {
-        var accessToken = await getTokenFromCookie();
+        try {
+            var accessToken = await getTokenFromCookie();
+            var tokenName = 'Token';
 
-        var xhr = new XMLHttpRequest();
-        var tokenName = 'Token';
-        xhr.open('POST', '/api/deleteCookie/' + tokenName, true);
-        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
+            const response = await fetch(`/api/deleteCookie/${tokenName}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.ok) {
+
+                const logoutResponse = await fetch(`/api/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (logoutResponse.ok) {
+                    var responseData = await response.json();
                     handleMenu(); // Remove the "Logout" menu item after successful logout
                     window.location.reload(); // Reload the page after logout
-                } else {
-                    console.error('Error in request: ' + xhr.status);
+                    console.log(logoutResponse.data);
                 }
+            } else {
+                console.error('Error in request:', response.status);
             }
-        };
-        xhr.send();
+        } catch (error) {
+            console.error('Error in request:', error);
+        }
     }
+
+
+    // async function logout() {
+    //     var accessToken = await getTokenFromCookie();
+    //
+    //     var xhr = new XMLHttpRequest();
+    //     var tokenName = 'Token';
+    //     xhr.open('POST', '/api/deleteCookie/' + tokenName, true);
+    //     xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState === XMLHttpRequest.DONE) {
+    //             if (xhr.status === 200) {
+    //                 var response = JSON.parse(xhr.responseText);
+    //                 handleMenu(); // Remove the "Logout" menu item after successful logout
+    //                 window.location.reload(); // Reload the page after logout
+    //             } else {
+    //                 console.error('Error in request: ' + xhr.status);
+    //             }
+    //         }
+    //     };
+    //     xhr.send();
+    // }
 
 
     async function getTokenFromCookie() {

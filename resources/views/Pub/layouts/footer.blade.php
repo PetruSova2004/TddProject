@@ -138,7 +138,7 @@
 </aside>
 <!--== End Product Quick Wishlist Modal ==-->
 
-<!--== Start Product Quick Add Cart Modal ==-->
+<!--== Start Product Quick Add Cart Modal Success ==-->
 <aside class="product-action-modal modal fade" id="action-CartAddModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -162,7 +162,33 @@
         </div>
     </div>
 </aside>
-<!--== End Product Quick Add Cart Modal ==-->
+<!--== End Product Quick Add Cart Modal Success ==-->
+
+<!--== Start Product Quick Add Cart Modal Failure ==-->
+<aside class="product-action-modal modal fade" id="action-CartAddFailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="product-action-view-content">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        <i class="pe-7s-close"></i>
+                    </button>
+                    <div class="modal-action-messages">
+                        <i class="pe-7s-check"></i> There are no much such products in the stock!
+                    </div>
+                    <div class="modal-action-product">
+                        <div class="thumb">
+                            <img src="assets/img/shop/modal1.webp" alt="Organic Food Juice" width="466"
+                                 height="320">
+                        </div>
+                        <h4 class="product-name"><a href="single-product.html">Joust Duffle Bag</a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+<!--== End Product Quick Add Cart Modal Failure ==-->
 
 <!--== Start Product Quick View Modal ==-->
 <aside class="product-cart-view-modal modal fade" id="action-QuickViewModal" tabindex="-1" aria-hidden="true">

@@ -39,7 +39,7 @@
                                         <li class="mega-menu-item"><a href="#/"
                                                                       class="mega-title"><span>Others Pages</span></a>
                                             <ul>
-                                                <li><a href="shop-cart.blade.php"><span>Shopping Cart</span></a></li>
+                                                <li><a href="{{route('cart.index')}}"><span>Shopping Cart</span></a></li>
                                                 <li><a href="shop-checkout.blade.php"><span>Checkout</span></a></li>
                                                 <li><a href="shop-wishlist.blade.php"><span>Wishlist</span></a></li>
                                                 <li><a href="shop-compare.blade.php"><span>Compare</span></a></li>
@@ -102,7 +102,7 @@
                                 <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas"
                                         data-bs-target="#AsideOffcanvasCart" aria-controls="AsideOffcanvasCart">
                                     <i class="pe-7s-shopbag icon"></i>
-                                    <sup class="shop-count">2</sup>
+                                    <sup class="shop-count"></sup>
                                 </button>
                             </div>
 

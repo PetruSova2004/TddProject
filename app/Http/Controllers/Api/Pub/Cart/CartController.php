@@ -32,7 +32,7 @@ class CartController extends Controller
 
             $totalPrice = 0;
             foreach ($cart as $item) {
-                $totalPrice += $item['price-x1'];
+                $totalPrice += $item['price_x1'];
             }
 
             return ResponseService::sendJsonResponse(true, 200, [], [
@@ -41,7 +41,7 @@ class CartController extends Controller
                 'totalPrice' => $totalPrice,
             ]);
         } else {
-            return ResponseService::sendJsonResponse(false, 400, [
+            return ResponseService::sendJsonResponse(false, 200, [
                 'Empty' => "No cart products found for the user.",
             ]);
         }
@@ -49,18 +49,28 @@ class CartController extends Controller
 
     public function cartAdd(Request $request): JsonResponse
     {
-        $productId = Product::query()->where('id', $request->input('productId'))->value('id');
+        $product = Product::query()->where('id', $request->input('productId'))->first();
         $quantity = $request->input('quantity');
 
-        if ($productId && $quantity) {
-            $user = Auth::user();
-            $this->service->addProductsToCart($productId, $quantity, $user);
-            $cart = $this->service->getUserCart($user);
+        if ($product->id && $quantity) {
+            if ($product->count >= $quantity) {
+                $user = Auth::user();
+                $this->service->addProductsToCart($product->id, $quantity, $user);
+                $cart = $this->service->getUserCart($user);
 
-            return ResponseService::sendJsonResponse(true, 200, [], [
-                'message' => 'Product has been added to cart successfully',
-                'cart' => $cart,
-            ]);
+                $product->count -= $quantity;
+                $product->save();
+
+                return ResponseService::sendJsonResponse(true, 200, [], [
+                    'message' => 'Product has been added to cart successfully',
+                    'cart' => $cart,
+                ]);
+            } else {
+                return ResponseService::sendJsonResponse(false, 200, [
+                    'There is no more such products in stock',
+                ]);
+            }
+
         } else {
             return ResponseService::sendJsonResponse(false, 400, [
                 'Bad product_id or quantity'
@@ -90,6 +100,11 @@ class CartController extends Controller
                 'Issue' => 'Something is wrong with received productId or Authorization',
             ]);
         }
+    }
+
+    public function automaticDelete()
+    {
+
     }
 
 }

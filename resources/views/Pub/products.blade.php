@@ -253,7 +253,6 @@
 
             // Обработайте полученные данные
             console.log(data); // Выведите данные в консоль или выполните другие действия с ними
-            console.log(data); // Выведите данные в консоль или выполните другие действия с ними
 
             // Дополнительный код для обновления интерфейса, если требуется
         } catch (error) {
@@ -347,7 +346,11 @@
                 cartButton.type = 'button';
                 cartButton.classList.add('btn-product-cart');
                 cartButton.dataset.bsToggle = 'modal';
-                cartButton.dataset.bsTarget = '#action-CartAddModal';
+                if (product.count > 0) {
+                    cartButton.dataset.bsTarget = '#action-CartAddModal';
+                } else {
+                    cartButton.dataset.bsTarget = '#action-CartAddFailModal';
+                }
                 cartButton.innerHTML = '<i class="pe-7s-shopbag"></i>';
                 cartButton.addEventListener('click', () => {
                     addToCart(product.id, 1); // Вызываем функцию addToCart с передачей идентификатора товара и количества

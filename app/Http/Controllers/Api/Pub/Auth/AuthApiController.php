@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Api\Pub\Auth;
 
+use App\Events\TokenCookieExpired;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pub\Auth\LoginRequest;
 use App\Http\Requests\Pub\Auth\RegisterRequest;
+use App\Models\Cart;
 use App\Models\User;
 use App\Services\Response\ResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthApiController extends Controller
 {
@@ -53,7 +57,7 @@ class AuthApiController extends Controller
             $cookie = [
                 'name' => 'Token',
                 'value' => $token,
-                'time' => 60,
+                'time' => 1,
             ];
 
             return ResponseService::sendJsonResponse(true, 200, [], [
@@ -69,10 +73,15 @@ class AuthApiController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->token()->revoke();
+        $user = $request->user();
+        $user->token()->revoke();
+
+        event(new TokenCookieExpired($user));
 
         return ResponseService::sendJsonResponse(true, 200, [], [
             'success' => 'You have been successfully log out',
+            'cartProducts' => "Cart Products has been deleted",
+            'user' => $user,
         ]);
     }
 
