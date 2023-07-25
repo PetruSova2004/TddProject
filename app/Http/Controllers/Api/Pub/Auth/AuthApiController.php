@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Pub\Auth;
 
 use App\Events\TokenCookieExpired;
+use App\Http\Controllers\Api\Pub\Auth\Services\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pub\Auth\LoginRequest;
 use App\Http\Requests\Pub\Auth\RegisterRequest;
@@ -18,15 +19,19 @@ use Illuminate\Support\Facades\Session;
 
 class AuthApiController extends Controller
 {
+
+    private $service;
+
+    public function __construct(AuthService $service)
+    {
+        $this->service = $service;
+    }
+
     public function register(RegisterRequest $request): JsonResponse
     {
         $request->validated();
 
-        User::query()->create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $this->service->createUser($request);
 
         $user = User::where('email', $request->email)->first();
 
