@@ -27,15 +27,23 @@ class AuthController extends Controller
 
     public function handleCallback()
     {
-        $googleUser = Socialite::driver('google')->user();
-        $user = User::query()->firstOrCreate([
-            'email' => $googleUser->getEmail()
-        ]);
+        try {
+            $googleUser = Socialite::driver('google')->user();
+            $user = User::query()->firstOrCreate([
+                'email' => $googleUser->getEmail()
+            ]);
 
-        $token = $user->createToken('PersonalAccessToken')->accessToken;
+            $token = $user->createToken('PersonalAccessToken')->accessToken;
 
+            return redirect()->route('home')
+                ->with('success', "Welcome " . $googleUser->getName())
+                ->withCookie('Token', $token, 60)
+                ->withCookie('User', $googleUser->getEmail());
 
-        return redirect()->route('home')->with('success', "Welcome " . $user->name)->withCookie('Token', $token, 60);
+        } catch (\Throwable $throwable) {
+            dump($throwable->getMessage());
+        }
+
     }
 
 }

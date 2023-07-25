@@ -27,7 +27,7 @@ class CookieService extends Controller
     {
         $value = Cookie::get($cookieName);
         $dataForDelete = [
-            'name' => 'Token',
+            'name' => $cookieName,
             'value' => null,
             'time' => -1,
         ];

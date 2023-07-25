@@ -84,7 +84,7 @@ class CartTest extends TestCase
         ])->get('/api/getCart');
 
         $getResponse->assertStatus(200)
-        ->assertJsonStructure([
+            ->assertJsonStructure([
                 'status',
                 'errors',
                 'data' => [
@@ -97,7 +97,7 @@ class CartTest extends TestCase
 
     }
 
-    public function testCartDelete()
+    public function testCartDelete(): void
     {
         $loginResponse = $this->login();
         $token = $loginResponse['data']['token'];
@@ -125,6 +125,10 @@ class CartTest extends TestCase
                 'status' => true,
                 'errors' => [],
             ]);
+
+        $this->assertDatabaseMissing('carts', [
+            'id' => $cart->id
+        ]);
     }
 
 }

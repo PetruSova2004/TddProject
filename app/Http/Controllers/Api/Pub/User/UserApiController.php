@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserApiController extends Controller
 {
-    public function getUserByToken(Request $request)
+    public function getUserByToken()
     {
-        $token = $request->input('token');
         $user = Auth::guard('api')->user();
 
         $cookie = [
             'name' => 'User',
             'value' => $user->email,
-            'time' => null,
+            'time' => null, // если время куки указанна в null, то она будет существовать пока её не удалят или переопределят
         ];
 
         if ($user) {

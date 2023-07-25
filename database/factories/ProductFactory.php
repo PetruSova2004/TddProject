@@ -29,6 +29,7 @@ class ProductFactory extends Factory
             'image_path' => fake()->filePath(),
             'description' => fake()->text,
             'views' => fake()->numberBetween(1, 100),
+            'count' => fake()->numberBetween(1, 250),
             'category_id' => fake()->randomElement($categoryIds),
         ];
     }

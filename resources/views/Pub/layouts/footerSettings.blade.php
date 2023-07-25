@@ -154,15 +154,24 @@
         try {
             var accessToken = await getTokenFromCookie();
             var tokenName = 'Token';
+            var userName = 'User';
 
-            const response = await fetch(`/api/deleteCookie/${tokenName}`, {
+
+            const tokenResponse = await fetch(`/api/deleteCookie/${tokenName}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                 },
             });
 
-            if (response.ok) {
+            const userResponse = await fetch(`/api/deleteCookie/${userName}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+
+            if (tokenResponse.ok && userResponse.ok) {
 
                 const logoutResponse = await fetch(`/api/logout`, {
                     method: 'POST',
@@ -172,9 +181,9 @@
                 });
 
                 if (logoutResponse.ok) {
-                    var responseData = await response.json();
+                    var responseData = await tokenResponse.json();
                     handleMenu(); // Remove the "Logout" menu item after successful logout
-                    window.location.reload(); // Reload the page after logout
+                    window.location.href = '/';
                     console.log(logoutResponse.data);
                 }
             } else {
@@ -184,28 +193,6 @@
             console.error('Error in request:', error);
         }
     }
-
-
-    // async function logout() {
-    //     var accessToken = await getTokenFromCookie();
-    //
-    //     var xhr = new XMLHttpRequest();
-    //     var tokenName = 'Token';
-    //     xhr.open('POST', '/api/deleteCookie/' + tokenName, true);
-    //     xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState === XMLHttpRequest.DONE) {
-    //             if (xhr.status === 200) {
-    //                 var response = JSON.parse(xhr.responseText);
-    //                 handleMenu(); // Remove the "Logout" menu item after successful logout
-    //                 window.location.reload(); // Reload the page after logout
-    //             } else {
-    //                 console.error('Error in request: ' + xhr.status);
-    //             }
-    //         }
-    //     };
-    //     xhr.send();
-    // }
 
 
     async function getTokenFromCookie() {

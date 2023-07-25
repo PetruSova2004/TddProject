@@ -22,7 +22,7 @@ class CartController extends Controller
         $this->service = $service;
     }
 
-    public function cartGet(Request $request)
+    public function cartGet(): JsonResponse
     {
         $user = Auth::user();
         $cart = $this->service->getUserCart($user);
@@ -67,7 +67,7 @@ class CartController extends Controller
                 ]);
             } else {
                 return ResponseService::sendJsonResponse(false, 200, [
-                    'There is no more such products in stock',
+                    'There are no more such products in stock',
                 ]);
             }
 
@@ -78,7 +78,7 @@ class CartController extends Controller
         }
     }
 
-    public function cartDelete(Request $request)
+    public function cartDelete(Request $request): JsonResponse
     {
         $productId = Product::query()->where('id', $request->input('productId'))->value('id');
         $user = Auth::user();
@@ -102,9 +102,5 @@ class CartController extends Controller
         }
     }
 
-    public function automaticDelete()
-    {
-
-    }
 
 }
