@@ -724,7 +724,7 @@
 
 
 <script>
-    fetch('/api/categoryAll')
+    fetch('{{route('api.getCategories')}}')
         .then(response => response.json())
         .then(data => {
             // Данные успешно получены

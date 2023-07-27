@@ -141,9 +141,13 @@
             menu.appendChild(logoutMenuItem);
         } else {
             var shoppingCartElement = document.querySelector('.shopping-cart-btn');
+            var checkoutItem = document.querySelector('a[href="{{route('checkout.index')}}"]')
 
             if (shoppingCartElement) {
                 shoppingCartElement.parentElement.remove();
+            }
+            if (checkoutItem) {
+                checkoutItem.parentElement.remove();
             }
         }
     }

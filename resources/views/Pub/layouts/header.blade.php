@@ -40,7 +40,7 @@
                                                                       class="mega-title"><span>Others Pages</span></a>
                                             <ul>
                                                 <li><a href="{{route('cart.index')}}"><span>Shopping Cart</span></a></li>
-                                                <li><a href="shop-checkout.blade.php"><span>Checkout</span></a></li>
+                                                <li><a href="{{route('checkout.index')}}"><span>Checkout</span></a></li>
                                                 <li><a href="shop-wishlist.blade.php"><span>Wishlist</span></a></li>
                                                 <li><a href="shop-compare.blade.php"><span>Compare</span></a></li>
                                             </ul>
