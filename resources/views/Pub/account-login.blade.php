@@ -481,7 +481,6 @@
                                 console.error('Error fetching user data:', error);
                             });
                     } else {
-                        alert('Your original_url is wrong, please provide the valid one');
                         console.error(responseData);
                     }
                 })

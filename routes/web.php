@@ -33,6 +33,7 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'custom_web_auth'], function () {
     Route::get('/cart', 'App\Http\Controllers\Web\Pub\CartController@index')->name('cart.index');
     Route::get('/checkout', 'App\Http\Controllers\Web\Pub\CheckoutController@index')->name('checkout.index');
+    Route::get('/account', 'App\Http\Controllers\Web\Pub\UserController@index')->name('user.index');
 });
 
 

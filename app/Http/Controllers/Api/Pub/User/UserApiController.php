@@ -12,18 +12,11 @@ class UserApiController extends Controller
     public function getUserByToken()
     {
         $user = Auth::guard('api')->user();
-
-        $cookie = [
-            'name' => 'User',
-            'value' => $user->email,
-            'time' => null, // если время куки указанна в null, то она будет существовать пока её не удалят или переопределят
-        ];
-
         if ($user) {
             return ResponseService::sendJsonResponse(true, 200, [], [
                 'message' => 'User was successfully found',
                 'email' => $user->email,
-            ], $cookie);
+            ]);
         } else {
             return ResponseService::sendJsonResponse(false, 400, [
                 'Error' => 'Oops, something goes wrong',

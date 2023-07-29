@@ -28,7 +28,7 @@
     // Define the function to make the API request and fetch products using the access token
     async function fetchCartProducts(accessToken) {
         try {
-            const response = await fetch('http://127.0.0.1:8001/api/getCart', {
+            const response = await fetch('/api/getCart', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -49,7 +49,7 @@
 
             return data.data.cart;
         } catch (error) {
-            console.error('Error fetching product data:', error);
+            console.error('Error fetching get-cart-product data:', error);
             return [];
         }
     }
@@ -85,7 +85,7 @@
     // Функция для отправки POST-запроса к API
     async function sendPostRequest(token, productId) {
         try {
-            const response = await fetch('http://127.0.0.1:8001/api/cart/delete', {
+            const response = await fetch('/api/cart/delete', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -114,7 +114,6 @@
             // Если мы авторизированны
             var registerItem = document.querySelector('a[href="{{route('register.index')}}"]');
             var loginItem = document.querySelector('a[href="{{route('login.index')}}"]');
-            var accountItem = document.querySelector('a[href="account.blade.php"]');
 
             if (registerItem) {
                 registerItem.parentElement.remove();
@@ -122,15 +121,13 @@
             if (loginItem) {
                 loginItem.parentElement.remove();
             }
-            if (accountItem) {
-                accountItem.parentElement.remove();
-            }
+
 
             try {
                 const products = await fetchCartProducts(accessToken);
                 buildProductElements(products, accessToken);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                console.error('Error fetching cart-products:', error);
             }
 
             // Добавляем пункт меню "Logout"
@@ -142,12 +139,16 @@
         } else {
             var shoppingCartElement = document.querySelector('.shopping-cart-btn');
             var checkoutItem = document.querySelector('a[href="{{route('checkout.index')}}"]')
+            var accountItem = document.querySelector('a[href="{{route('user.index')}}"]');
 
             if (shoppingCartElement) {
                 shoppingCartElement.parentElement.remove();
             }
             if (checkoutItem) {
                 checkoutItem.parentElement.remove();
+            }
+            if (accountItem) {
+                accountItem.parentElement.remove();
             }
         }
     }
@@ -159,7 +160,6 @@
             var accessToken = await getTokenFromCookie();
             var tokenName = 'Token';
             var userName = 'User';
-
 
             const tokenResponse = await fetch(`/api/deleteCookie/${tokenName}`, {
                 method: 'POST',

@@ -68,7 +68,7 @@
                                 </li>
                                 <li class="has-submenu"><a href="#/"><span>Pages</span></a>
                                     <ul class="submenu-nav">
-                                        <li><a href="account.blade.php"><span>Account</span></a></li>
+                                        <li><a href="{{route('user.index')}}"><span>Account</span></a></li>
                                         <li><a href="{{route('login.index')}}"><span>Login</span></a></li>
                                         <li><a href="{{route('register.index')}}"><span>Register</span></a></li>
                                         <li id="logoutMenuItem"></li>

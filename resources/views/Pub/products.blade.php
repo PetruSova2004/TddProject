@@ -234,11 +234,11 @@
 <script>
     async function addToCart(productId, quantity) {
         try {
-            const responseToken = await fetch('http://127.0.0.1:8001/api/getCookie/Token');
+            const responseToken = await fetch('/api/getCookie/Token');
             const dataToken = await responseToken.json();
             const token = dataToken.data.cookie;
 
-            const response = await fetch('http://127.0.0.1:8001/api/cart/add', {
+            const response = await fetch('/api/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -262,7 +262,7 @@
 
     async function fetchData() {
         try {
-            const responseToken = await fetch('http://127.0.0.1:8001/api/getCookie/Token');
+            const responseToken = await fetch('/api/getCookie/Token');
             const dataToken = await responseToken.json();
 
             let CookieToken = false;
@@ -271,7 +271,7 @@
             }
 
             const queryString = window.location.search.substring(1);
-            const responseProducts = await fetch('http://127.0.0.1:8001/api/getProducts?' + queryString);
+            const responseProducts = await fetch('/api/getProducts?' + queryString);
             const dataProducts = await responseProducts.json();
 
             const productContainer = document.querySelector('.col-12 .tab-content .row');
@@ -381,13 +381,12 @@
 </script>
 
 
-
 <script> // Categories
     // Получаем контейнер списка категорий
     const categoryListContainer = document.querySelector('.category-list');
 
     // Выполняем запрос к API
-    fetch('http://127.0.0.1:8001/api/categoryAll')
+    fetch('/api/categoryAll')
         .then(response => response.json())
         .then(data => {
             // Обрабатываем полученные данные
@@ -404,7 +403,6 @@
             });
         })
         .catch(error => console.log(error));
-
 
 
 </script>

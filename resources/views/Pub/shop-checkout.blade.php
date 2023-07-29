@@ -40,7 +40,7 @@
             <div class="checkout-page-coupon-wrap">
               <!--== Start Checkout Coupon Accordion ==-->
               <div class="coupon-accordion" id="CouponAccordion">
-                <div class="card">
+                <div class="card" id="cardId">
                   <h3>
                     <i class="fa fa-info-circle"></i>
                     Have a Coupon?
@@ -50,18 +50,20 @@
                     <div class="card-body">
                       <div class="apply-coupon-wrap">
                         <p>If you have a coupon code, please apply it below.</p>
+
                         <form action="#" method="post">
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Coupon code">
+                                <input class="form-control" type="text" name="Coupon code" placeholder="Coupon code">
                               </div>
                             </div>
                             <div class="col-md-6">
-                              <button type="button" class="btn-coupon">Apply coupon</button>
+                                <button type="button" class="btn-coupon">Apply coupon</button>
                             </div>
                           </div>
                         </form>
+
                       </div>
                     </div>
                   </div>
@@ -368,6 +370,104 @@
 </div>
 
 @include('Pub.layouts.footerSettings')
+
+<script>
+    async function getCookie(cookieName) {
+        var apiUrl = '/api/getCookie/' + cookieName;
+
+        try {
+            var response = await fetch(apiUrl);
+            var data = await response.json();
+            var cookieValue = data.data.cookie;
+
+            if (cookieValue) {
+                return cookieValue;
+            } else {
+                console.log('getCookieFalse');
+                return false;
+            }
+        } catch (error) {
+            if (error.message === '400') {
+                console.log("An error occurred:", error);
+            }
+            throw error;
+        }
+    }
+
+    function toggleCouponButton(hasCookie) {
+        var applyButton = document.getElementById('cardId');
+        if (hasCookie) {
+            // Cookie exists, show "Delete coupon" button, and hide "Apply coupon" button
+            if (applyButton) {
+                applyButton.style.display = 'none';
+            }
+        } else {
+            // Cookie does not exist, show "Apply coupon" button, and hide "Delete coupon" button
+            if (applyButton) {
+                applyButton.style.display = 'block';
+            }
+        }
+    }
+
+    async function checkAndToggleCouponButton() {
+        try {
+            const cookieName = 'Coupon';
+            const hasCookie = await getCookie(cookieName);
+            toggleCouponButton(hasCookie);
+        } catch (error) {
+            console.error('Error checking coupon:', error);
+        }
+    }
+
+    async function applyCoupon() {
+        try {
+            // Получаем значение токена куки
+            var token = await getTokenFromCookie();
+
+            // Получаем значение из поля "Coupon code"
+            var couponCode = document.querySelector('input[name="Coupon code"]').value;
+
+            const cookieName = 'Coupon';
+            const hasCookie = await getCookie(cookieName);
+
+            if (hasCookie) {
+                alert('You already have a coupon');
+            } else {
+                // Выполняем POST-запрос на API
+                const response = await fetch('/api/applyCoupon', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ code: couponCode }), // Отправляем код купона
+                });
+
+                // Проверяем успешность запроса
+                if (response.ok) {
+                    var data = await response.json();
+                    var discount = data.data.discount;
+                    alert("You activated the coupon successfully, your discount for all products is " + discount + "%");
+                    window.location.reload();
+                } else {
+                    alert('Failed to apply coupon')
+                    console.error('Failed to apply coupon:', response.status, response.statusText);
+                    window.location.reload();
+                }
+            }
+
+        } catch (error) {
+            console.error('Error applying coupon:', error);
+        }
+    }
+
+    // Найти кнопку "Apply coupon" и добавить обработчик события на клик
+    var applyButton = document.querySelector('.btn-coupon');
+    applyButton.addEventListener('click', applyCoupon);
+
+    checkAndToggleCouponButton();
+
+</script>
 
 </body>
 

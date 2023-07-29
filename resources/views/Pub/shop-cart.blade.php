@@ -134,7 +134,7 @@
     // Функция для получения данных о продуктах из API
     async function fetchCartPageProducts(token) {
         try {
-            const response = await fetch('http://127.0.0.1:8001/api/getCart', {
+            const response = await fetch('/api/getCart', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
