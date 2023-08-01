@@ -22,6 +22,13 @@ Route::get('/test2', 'App\Http\Controllers\Web\Pub\IndexController@test2')->name
 Route::get('/products', 'App\Http\Controllers\Web\Pub\ProductController@index')->name('products.index');
 Route::get('/product', 'App\Http\Controllers\Web\Pub\ProductController@showProduct')->name('product.show');
 
+Route::get('/about', 'App\Http\Controllers\Web\Pub\AboutController@index')->name('about.index');
+Route::get('/contact', 'App\Http\Controllers\Web\Pub\ContactController@index')->name('contact.index');
+
+Route::get('/blog', 'App\Http\Controllers\Web\Pub\BlogController@blog')->name('blog.index');
+Route::get('/blogDetails', 'App\Http\Controllers\Web\Pub\BlogController@blogDetails')->name('blogDetails.index');
+
+
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', 'App\Http\Controllers\Web\Pub\AuthController@login')->name('login.index');
     Route::get('/register', 'App\Http\Controllers\Web\Pub\AuthController@register')->name('register.index');

@@ -95,6 +95,9 @@ class ProductsTest extends TestCase
         ]);
 
         $this->assertEmpty($response['errors']);
+        $this->assertEquals($product->views + 1, $response['data']['product']['views']);
+
+
     }
 
     public function testBadReceivingProduct(): void

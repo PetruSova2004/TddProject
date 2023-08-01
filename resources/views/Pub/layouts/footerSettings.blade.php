@@ -23,7 +23,7 @@
 <script src="/assets/js/custom.js"></script>
 
 <script>
-    // Проверка наличия значения в куках
+
 
     // Define the function to make the API request and fetch products using the access token
     async function fetchCartProducts(accessToken) {
@@ -75,7 +75,8 @@
             removeButton.addEventListener('click', () => {
                 // Выполняем POST-запрос к API
                 const productId = product.product_id; // Предположим, что у продукта есть свойство "id"
-                sendPostRequest(accessToken, productId);
+                const quantity = product.quantity;
+                sendPostRequest(accessToken, productId, quantity);
             });
 
             productListElement.appendChild(productElement);
@@ -83,7 +84,7 @@
     }
 
     // Функция для отправки POST-запроса к API
-    async function sendPostRequest(token, productId) {
+    async function sendPostRequest(token, productId, quantity) {
         try {
             const response = await fetch('/api/cart/delete', {
                 method: 'POST',
@@ -91,7 +92,7 @@
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({productId: productId}),
+                body: JSON.stringify({productId: productId, quantity: quantity}),
             });
             if (response.ok) {
                 // Здесь можно добавить код, который выполнится в случае успешного запроса
@@ -159,7 +160,7 @@
         try {
             var accessToken = await getTokenFromCookie();
             var tokenName = 'Token';
-            var userName = 'User';
+            var couponName = 'Coupon';
 
             const tokenResponse = await fetch(`/api/deleteCookie/${tokenName}`, {
                 method: 'POST',
@@ -168,15 +169,31 @@
                 },
             });
 
-            const userResponse = await fetch(`/api/deleteCookie/${userName}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-            });
+            // const getCookieResponse = await fetch(`/api/getCoupon`, {
+            //     method: 'GET',
+            //     headers: {
+            //         'Authorization': `Bearer ${accessToken}`,
+            //     },
+            // });
+            // var data = await getCookieResponse.json();
+            // var couponValue = data.data.Code
+            //
+            // const couponCookie = await fetch(`/api/deleteCookie/${couponName}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Authorization': `Bearer ${accessToken}`,
+            //     },
+            // });
+            //
+            // const deleteResponse = await fetch(`/api/deleteCoupon`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Authorization': `Bearer ${accessToken}`,
+            //     },
+            //     body: JSON.stringify({code: couponValue}),
+            // });
 
-            if (tokenResponse.ok && userResponse.ok) {
-
+            if (tokenResponse.ok) {
                 const logoutResponse = await fetch(`/api/logout`, {
                     method: 'POST',
                     headers: {
@@ -222,6 +239,38 @@
         }
     }
 
+    async function deleteCoupon() {
+        try {
+            var accessToken = await getTokenFromCookie();
+
+            const getCookieResponse = await fetch(`/api/getCoupon`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+            var data = await getCookieResponse.json();
+            var couponValue = data.data.Code
+
+            if (getCookieResponse.ok && couponValue) {
+                const deleteResponse = await fetch(`/api/deleteCoupon`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify({code: couponValue}),
+                });
+
+                if (deleteResponse.ok) {
+                    alert("Coupon: " + couponValue + " has been deleted successfully.")
+                    window.location.href = '/';
+                }
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    deleteCoupon()
 
 </script>
 

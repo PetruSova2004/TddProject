@@ -42,5 +42,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/applyCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@apply')->name('api.applyCoupon');
     Route::post('/deleteCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@delete')->name('api.deleteCoupon');
+    Route::get('/getCoupon', 'App\Services\Coupon\CouponService@getCoupon')->name('api.getCoupon');
+
+    Route::get('/blogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogs')->name('api.getBlogs');
+    Route::get('/blog', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogDetails')->name('api.getBlogDetails');
 
 });

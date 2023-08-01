@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Pub\Checkout\Services;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,18 +20,20 @@ class CouponService extends Controller
             ->where('id', $request->input('coupon_id'))
             ->first();
         $user = Auth::guard('api')->user();
-        $query = DB::table('coupon_user')
+
+        return DB::table('coupon_user')
             ->where('user_id', $user->id)
             ->where('coupon_id', $coupon->id);
-
-        return $query;
     }
 
-    public function getTimeDifference($query)
+    public function getTimeDifference(Authenticatable $user, Model $coupon): int
     {
-        $createdAtTime = $query->value('created_at');
+        $createdAtTime = DB::table('coupon_user')
+            ->where('user_id', $user->id)
+            ->where('coupon_id', $coupon->id)
+            ->value('created_at');
         $currentTime = Carbon::now();
-        $activatedCouponTime = Carbon::parse($createdAtTime)->addHours(7);
+        $activatedCouponTime = Carbon::parse($createdAtTime);
 
         return $currentTime->diffInHours($activatedCouponTime);
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\Pub\Checkout\Services\CouponService;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Services\Response\ResponseService;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,21 +60,18 @@ class CouponController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request): JsonResponse
     {
         $user = Auth::guard('api')->user();
         $coupon = Coupon::query()
             ->where('code', $request->input('code'))
             ->first();
-        $query = DB::table('coupon_user')
-            ->where('user_id', $user->id)
-            ->where('coupon_id', $coupon->id);
+        $differenceInHours = $this->service->getTimeDifference($user, $coupon);
 
-        $differenceInHours = $this->service->getTimeDifference($query);
-
-        if ($differenceInHours >= 6 && $coupon) {
+        if ($coupon && $differenceInHours >= 6) {
             // Купон был активирован более 6 часов назад
-            $query->delete();
+            $user->coupons()->detach($coupon->id);
+
             return ResponseService::sendJsonResponse(true, 200, [], [
                 'Deleted' => "Coupon " . $coupon->title . " has been removed by timeout",
             ]);

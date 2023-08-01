@@ -26,7 +26,7 @@
                             <ul class="main-menu nav">
                                 <li class="has-submenu"><a href="{{route('home')}}"><span>Home</span></a>
                                 </li>
-                                <li><a href="about-us.blade.php"><span>About</span></a></li>
+                                <li><a href="{{route('about.index')}}"><span>About</span></a></li>
                                 <li class="has-submenu position-static"><a href="#/"><span>Shop</span></a>
                                     <ul class="submenu-nav submenu-nav-mega column-3">
                                         <li class="mega-menu-item"><a href="#/"
@@ -51,17 +51,12 @@
                                     <ul class="submenu-nav submenu-nav-mega">
                                         <li class="mega-menu-item"><a href="#/" class="mega-title">Blog Layout</a>
                                             <ul>
-                                                <li><a href="blog-grid.blade.php">Blog Grid</a></li>
-                                                <li><a href="blog.blade.php">Blog Left Sidebar</a></li>
-                                                <li><a href="blog-right-sidebar.blade.php">Blog Right Sidebar</a></li>
+                                                <li><a href="{{route('blog.index')}}">Blogs</a></li>
                                             </ul>
                                         </li>
                                         <li class="mega-menu-item"><a href="#/" class="mega-title">Single Blog</a>
                                             <ul>
-                                                <li><a href="blog-details-no-sidebar.blade.php">Blog Details</a></li>
-                                                <li><a href="blog-details.blade.php">Blog Details Left Sidebar</a></li>
-                                                <li><a href="blog-details-right-sidebar.blade.php">Blog Details Right
-                                                        Sidebar</a></li>
+                                                <li><a href="{{route('blogDetails.index')}}">Blog Details</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -76,7 +71,7 @@
 
                                     </ul>
                                 </li>
-                                <li><a href="#"><span>Contact</span></a></li>
+                                <li><a href="{{route('contact.index')}}"><span>Contact</span></a></li>
                             </ul>
                         </div>
                     </div>

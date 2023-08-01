@@ -68,10 +68,9 @@ class CheckoutTest extends TestCase
             'status',
             'errors',
             'data',
-        ])
-            ->assertJson([
-                'status' => false,
-            ]);
+        ])->assertJson([
+            'status' => false,
+        ]);
 
         $count = DB::table('coupon_user')
             ->where('user_id', $user->id)
@@ -89,8 +88,6 @@ class CheckoutTest extends TestCase
         $user = Auth::user();
 
         $coupon = Coupon::factory()->create();
-        $coupon->created_at = Carbon::parse($coupon->created_at)->addHours(6);
-        $coupon->save();
 
         DB::table('coupon_user')->insert([
             'coupon_id' => $coupon->id,
@@ -98,6 +95,20 @@ class CheckoutTest extends TestCase
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
+        $query = DB::table('coupon_user')
+            ->where('user_id', $user->id)
+            ->where('coupon_id', $coupon->id);
+        $user_coupon = $query->first();
+
+        if ($user_coupon) {
+            $currentCreatedAt = $user_coupon->created_at;
+            $newCreatedAt = Carbon::parse($currentCreatedAt)->addHours(7);
+            $query->update([
+                'created_at' => $newCreatedAt,
+                'updated_at' => $newCreatedAt,
+            ]);
+        }
 
         $data = [
             'code' => $coupon['code'],

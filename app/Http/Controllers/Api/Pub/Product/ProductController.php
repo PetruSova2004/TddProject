@@ -45,7 +45,7 @@ class ProductController extends Controller
         $product = Product::query()->where('id', $id)->first();
 
         if ($product) {
-            $product->views = $product->views + 1;
+            $product->views += 1;
             $product->save();
             $product['category_title'] = $product->category->title;
             $product->makeHidden('created_at', 'updated_at', 'category_id', 'category');

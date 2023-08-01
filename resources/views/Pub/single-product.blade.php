@@ -382,7 +382,7 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-    const apiUrl = 'http://127.0.0.1:8001/api/getProduct';
+    const apiUrl = '/api/getProduct';
 
     // Добавляем значение id в URL API
     const apiWithParams = `${apiUrl}?id=${id}`;

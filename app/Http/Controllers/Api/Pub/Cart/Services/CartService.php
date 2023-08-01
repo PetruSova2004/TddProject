@@ -4,18 +4,17 @@ namespace App\Http\Controllers\Api\Pub\Cart\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use function PHPUnit\Framework\isEmpty;
 
 class CartService extends Controller
 {
-    public function getUserCart(User $user): array|bool
+    public function getUserCart(Authenticatable $user): array|bool
     {
         $cartProducts = DB::table('products')
-            ->join('carts', 'products.id', '=','carts.product_id')
-            ->where('user_id', $user->id)
+            ->join('carts', 'products.id', '=', 'carts.product_id')
+            ->where('user_id', $user->getAuthIdentifier())
             ->select('carts.quantity', 'carts.product_id', 'products.title', 'products.price', 'products.image_path')
             ->get();
 
@@ -38,19 +37,17 @@ class CartService extends Controller
         }
     }
 
-    public function getSpecificCartProducts($productId, User $user): Builder
+    public function getSpecificCartProducts($productId, Authenticatable $user): Builder
     {
-        $query = Cart::query()->where('product_id', $productId)
-            ->where('user_id', $user->id);
-
-        return $query;
+        return Cart::query()->where('product_id', $productId)
+            ->where('user_id', $user->getAuthIdentifier());
     }
 
-    public function addProductsToCart($productId, $quantity, User $user): void
+    public function addProductsToCart($productId, $quantity, Authenticatable $user): void
     {
         $existProduct = Cart::query()
             ->where('product_id', $productId)
-            ->where('user_id', $user->id)
+            ->where('user_id', $user->getAuthIdentifier())
             ->first();
 
         if ($existProduct) {
@@ -58,7 +55,7 @@ class CartService extends Controller
             $existProduct->save();
         } else {
             Cart::query()->create([
-                'user_id' => $user->id,
+                'user_id' => $user->getAuthIdentifier(),
                 'product_id' => $productId,
                 'quantity' => $quantity,
             ]);

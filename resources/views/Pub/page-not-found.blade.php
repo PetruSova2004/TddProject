@@ -107,14 +107,14 @@
                         <ul>
                           <li><a href="blog-grid.blade.php">Blog Grid</a></li>
                           <li><a href="blog.blade.php">Blog Left Sidebar</a></li>
-                          <li><a href="blog-right-sidebar.blade.php">Blog Right Sidebar</a></li>
+                          <li><a href="blog.blade.php">Blog Right Sidebar</a></li>
                         </ul>
                       </li>
                       <li class="mega-menu-item"><a href="#/" class="mega-title">Single Blog</a>
                         <ul>
                           <li><a href="blog-details-no-sidebar.blade.php">Blog Details</a></li>
                           <li><a href="blog-details.blade.php">Blog Details Left Sidebar</a></li>
-                          <li><a href="blog-details-right-sidebar.blade.php">Blog Details Right Sidebar</a></li>
+                          <li><a href="blog-details.blade.php">Blog Details Right Sidebar</a></li>
                         </ul>
                       </li>
                     </ul>
@@ -545,7 +545,7 @@
                 <ul>
                   <li><a href="blog-grid.blade.php">Blog Grid</a></li>
                   <li><a href="blog.blade.php">Blog Left Sidebar</a></li>
-                  <li><a href="blog-right-sidebar.blade.php">Blog Right Sidebar</a></li>
+                  <li><a href="blog.blade.php">Blog Right Sidebar</a></li>
                 </ul>
               </li>
               <li>
@@ -553,7 +553,7 @@
                 <ul>
                   <li><a href="blog-details-no-sidebar.blade.php">Blog Details</a></li>
                   <li><a href="blog-details.blade.php">Blog Details Left Sidebar</a></li>
-                  <li><a href="blog-details-right-sidebar.blade.php">Blog Details Right Sidebar</a></li>
+                  <li><a href="blog-details.blade.php">Blog Details Right Sidebar</a></li>
                 </ul>
               </li>
             </ul>

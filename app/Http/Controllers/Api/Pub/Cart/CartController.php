@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Api\Pub\Cart;
 
 use App\Http\Controllers\Api\Pub\Cart\Services\CartService;
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
 use App\Models\Product;
 use App\Services\Response\ResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -80,12 +78,17 @@ class CartController extends Controller
 
     public function cartDelete(Request $request): JsonResponse
     {
-        $productId = Product::query()->where('id', $request->input('productId'))->value('id');
+        $product = Product::query()->where('id', $request->input('productId'))->first();
+        $quantity = $request->input('quantity');
         $user = Auth::user();
-        if ($productId && $user) {
-            $cartItems = $this->service->getSpecificCartProducts($productId, $user);
+        if ($product && $user) {
+            $cartItems = $this->service->getSpecificCartProducts($product->id, $user);
             if ($cartItems->get()->isNotEmpty()) {
                 $cartItems->delete();
+                $product->count += $quantity;
+                $product->save();
+
+
                 return ResponseService::sendJsonResponse(true, 200, [], [
                     'message' => 'Products have been successfully deleted',
                 ]);
