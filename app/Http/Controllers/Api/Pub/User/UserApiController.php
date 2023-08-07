@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Pub\User;
 
 use App\Http\Controllers\Controller;
 use App\Services\Response\ResponseService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserApiController extends Controller

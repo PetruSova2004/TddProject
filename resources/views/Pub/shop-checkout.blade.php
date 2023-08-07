@@ -372,6 +372,30 @@
 @include('Pub.layouts.footerSettings')
 
 <script>
+
+    async function getTokenFromCookie() {
+        var cookieName = 'Token';
+        var apiUrl = '/api/getCookie/' + cookieName;
+
+        try {
+            var response = await fetch(apiUrl);
+            var data = await response.json();
+            var cookieValue = data.data.cookie;
+
+            if (cookieValue) {
+                return cookieValue;
+            } else {
+                console.log('getTokenFromCookieFalse');
+                return false;
+            }
+        } catch (error) {
+            if (error.message === '400') {
+                console.log("An error occurred:", error);
+            }
+            throw error;
+        }
+    }
+
     async function getCookie(cookieName) {
         var apiUrl = '/api/getCookie/' + cookieName;
 
@@ -383,7 +407,31 @@
             if (cookieValue) {
                 return cookieValue;
             } else {
-                console.log('getCookieFalse');
+                return false;
+            }
+        } catch (error) {
+            if (error.message === '400') {
+                console.log("An error occurred:", error);
+            }
+            throw error;
+        }
+    }
+
+    async function getCoupon() {
+        var apiUrl = 'api/getCoupon';
+        var token = await getTokenFromCookie();
+
+        try {
+            var response = await fetch(apiUrl, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            var data = await response.json();
+
+            if (data.status === true) {
+                return true;
+            } else {
                 return false;
             }
         } catch (error) {
@@ -397,12 +445,10 @@
     function toggleCouponButton(hasCookie) {
         var applyButton = document.getElementById('cardId');
         if (hasCookie) {
-            // Cookie exists, show "Delete coupon" button, and hide "Apply coupon" button
             if (applyButton) {
                 applyButton.style.display = 'none';
             }
         } else {
-            // Cookie does not exist, show "Apply coupon" button, and hide "Delete coupon" button
             if (applyButton) {
                 applyButton.style.display = 'block';
             }
@@ -411,8 +457,7 @@
 
     async function checkAndToggleCouponButton() {
         try {
-            const cookieName = 'Coupon';
-            const hasCookie = await getCookie(cookieName);
+            const hasCookie = await getCoupon();
             toggleCouponButton(hasCookie);
         } catch (error) {
             console.error('Error checking coupon:', error);

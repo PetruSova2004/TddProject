@@ -288,9 +288,9 @@
 
         </ul>
         <p class="cart-total"><span>Subtotal:</span><span class="amount">£89.99</span></p>
-        <a class="btn-total" href="shop-cart.html">View cart</a>
-        <a class="btn-total" href="shop-checkout.html">Checkout</a>
-        <a class="d-block text-end lh-1" href="shop-checkout.html"><img src="assets/img/photos/paypal.webp"
+        <a class="btn-total" href="{{route('cart.index')}}">View cart</a>
+        <a class="btn-total" href="{{route('checkout.index')}}">Checkout</a>
+        <a class="d-block text-end lh-1" href="{{route('checkout.index')}}"><img src="assets/img/photos/paypal.webp"
                                                                         width="133" height="26" alt="Has-image"></a>
     </div>
 </aside>

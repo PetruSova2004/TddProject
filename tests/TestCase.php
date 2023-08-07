@@ -3,9 +3,7 @@
 namespace Tests;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\TestResponse;
 
@@ -30,10 +28,16 @@ abstract class TestCase extends BaseTestCase
             'user_id' => null,
             'name' => 'Laravel Personal Access Client',
             'secret' => 'cCrOjCBmZYDqilaYa1qNvJ6WNnckKJDem6AeD6to',
-            'redirect' => 'http://127.0.0.1:8001/',
+            'redirect' => 'http://localhost',
             'personal_access_client' => 1,
             'password_client' => 0,
             'revoked' => 0,
+        ]);
+
+        $authClient = DB::table('oauth_clients')->first();
+
+        DB::table('oauth_personal_access_clients')->insert([
+            'client_id' => $authClient->id,
         ]);
 
         return User::factory()->create([

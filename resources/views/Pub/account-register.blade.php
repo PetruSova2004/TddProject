@@ -474,7 +474,6 @@
                         // Redirect to a different page
                         window.location.href = '{{ route("home") }}';
                     } else {
-                        alert('Your original_url is wrong, please provide the valid one');
                         console.error('Oops, something goes wrong');
                     }
                 })

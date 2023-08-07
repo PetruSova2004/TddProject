@@ -22,14 +22,14 @@ class CouponService extends Controller
         $user = Auth::guard('api')->user();
 
         return DB::table('coupon_user')
-            ->where('user_id', $user->id)
+            ->where('user_id', $user->getAuthIdentifier())
             ->where('coupon_id', $coupon->id);
     }
 
     public function getTimeDifference(Authenticatable $user, Model $coupon): int
     {
         $createdAtTime = DB::table('coupon_user')
-            ->where('user_id', $user->id)
+            ->where('user_id', $user->getAuthIdentifier())
             ->where('coupon_id', $coupon->id)
             ->value('created_at');
         $currentTime = Carbon::now();

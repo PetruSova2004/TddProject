@@ -29,6 +29,11 @@ Route::get('/blog', 'App\Http\Controllers\Web\Pub\BlogController@blog')->name('b
 Route::get('/blogDetails', 'App\Http\Controllers\Web\Pub\BlogController@blogDetails')->name('blogDetails.index');
 
 
+Route::get('/wishlist', 'App\Http\Controllers\Web\Pub\WishlistController@index')->name('wishlist.index');
+
+Route::get('/compare', 'App\Http\Controllers\Web\Pub\CompareController@index')->name('compare.index');
+
+
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', 'App\Http\Controllers\Web\Pub\AuthController@login')->name('login.index');
     Route::get('/register', 'App\Http\Controllers\Web\Pub\AuthController@register')->name('register.index');

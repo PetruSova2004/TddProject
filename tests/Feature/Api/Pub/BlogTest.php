@@ -16,7 +16,7 @@ class BlogTest extends TestCase
      * A basic feature test example.
      */
 
-    public function testThatUnauthorizedRequest(): void
+    public function testUnauthorizedRequest(): void
     {
         User::factory()->count(5)->create();
         Category::factory()->count(5)->create();

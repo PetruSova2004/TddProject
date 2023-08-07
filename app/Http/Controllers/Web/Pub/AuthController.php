@@ -4,28 +4,29 @@ namespace App\Http\Controllers\Web\Pub;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Throwable;
 
 class AuthController extends Controller
 {
-    public function login()
+    public function login(): View
     {
         return view('Pub.account-login');
     }
 
-    public function register()
+    public function register(): View
     {
         return view('Pub.account-register');
     }
 
-    public function redirectToGoogle()
+    public function redirectToGoogle(): RedirectResponse
     {
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleCallback()
+    public function handleCallback(): \Illuminate\Http\RedirectResponse | string
     {
         try {
             $googleUser = Socialite::driver('google')->user();
@@ -40,10 +41,9 @@ class AuthController extends Controller
                 ->withCookie('Token', $token, 60)
                 ->withCookie('User', $googleUser->getEmail());
 
-        } catch (\Throwable $throwable) {
-            dump($throwable->getMessage());
+        } catch (Throwable $throwable) {
+            return $throwable->getMessage();
         }
-
     }
 
 }

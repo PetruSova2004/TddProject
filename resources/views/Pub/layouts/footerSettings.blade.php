@@ -160,7 +160,6 @@
         try {
             var accessToken = await getTokenFromCookie();
             var tokenName = 'Token';
-            var couponName = 'Coupon';
 
             const tokenResponse = await fetch(`/api/deleteCookie/${tokenName}`, {
                 method: 'POST',
@@ -168,31 +167,6 @@
                     'Authorization': `Bearer ${accessToken}`,
                 },
             });
-
-            // const getCookieResponse = await fetch(`/api/getCoupon`, {
-            //     method: 'GET',
-            //     headers: {
-            //         'Authorization': `Bearer ${accessToken}`,
-            //     },
-            // });
-            // var data = await getCookieResponse.json();
-            // var couponValue = data.data.Code
-            //
-            // const couponCookie = await fetch(`/api/deleteCookie/${couponName}`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Authorization': `Bearer ${accessToken}`,
-            //     },
-            // });
-            //
-            // const deleteResponse = await fetch(`/api/deleteCoupon`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Authorization': `Bearer ${accessToken}`,
-            //     },
-            //     body: JSON.stringify({code: couponValue}),
-            // });
-
             if (tokenResponse.ok) {
                 const logoutResponse = await fetch(`/api/logout`, {
                     method: 'POST',
@@ -239,38 +213,38 @@
         }
     }
 
-    async function deleteCoupon() {
-        try {
-            var accessToken = await getTokenFromCookie();
-
-            const getCookieResponse = await fetch(`/api/getCoupon`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-            });
-            var data = await getCookieResponse.json();
-            var couponValue = data.data.Code
-
-            if (getCookieResponse.ok && couponValue) {
-                const deleteResponse = await fetch(`/api/deleteCoupon`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                    body: JSON.stringify({code: couponValue}),
-                });
-
-                if (deleteResponse.ok) {
-                    alert("Coupon: " + couponValue + " has been deleted successfully.")
-                    window.location.href = '/';
-                }
-            }
-        } catch (e) {
-            console.log(e)
-        }
-    }
-    deleteCoupon()
+    // async function deleteCoupon() {
+    //     try {
+    //         var accessToken = await getTokenFromCookie();
+    //
+    //         const getCookieResponse = await fetch(`/api/getCoupon`, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Authorization': `Bearer ${accessToken}`,
+    //             },
+    //         });
+    //         var data = await getCookieResponse.json();
+    //         var couponValue = data.data.Code
+    //
+    //         if (getCookieResponse.ok && couponValue) {
+    //             const deleteResponse = await fetch(`/api/deleteCoupon`, {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Authorization': `Bearer ${accessToken}`,
+    //                 },
+    //                 body: JSON.stringify({code: couponValue}),
+    //             });
+    //
+    //             if (deleteResponse.ok) {
+    //                 alert("Coupon: " + couponValue + " has been deleted successfully.")
+    //                 window.location.href = '/';
+    //             }
+    //         }
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+    // deleteCoupon()
 
 </script>
 

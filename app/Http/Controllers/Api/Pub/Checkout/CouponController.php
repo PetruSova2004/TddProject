@@ -22,7 +22,6 @@ class CouponController extends Controller
         $this->service = $service;
     }
 
-
     public function apply(Request $request): JsonResponse
     {
         $user = Auth::guard('api')->user();
@@ -32,30 +31,29 @@ class CouponController extends Controller
 
         $existCouponCookie = Cookie::get('Coupon');
 
-        if ($coupon && !$existCouponCookie) {
+        $dbUserCoupon = DB::table('coupon_user')
+            ->where('user_id', $user->getAuthIdentifier())
+            ->first();
+
+        if ($dbUserCoupon || $existCouponCookie) {
+            return ResponseService::sendJsonResponse(false, 400, [
+                'Nope' => 'This user already have an active coupon',
+            ]);
+        }
+        if ($coupon) {
             $cookie = [
                 'name' => 'Coupon',
                 'value' => $coupon->code,
                 'time' => 360,
             ];
-            $dbUserCoupon = DB::table('coupon_user')
-                ->where('user_id', $user->id)
-                ->first();
-
-            if ($dbUserCoupon) {
-                return ResponseService::sendJsonResponse(false, 400, [
-                    'Nope' => 'This user already have an active coupon',
-                ]);
-            } else {
-                $coupon->users()->attach($user->id);
-                return ResponseService::sendJsonResponse(true, 200, [], [
-                    'success' => 'Coupon has been found',
-                    'discount' => $coupon->discount_percent,
-                ], $cookie);
-            }
+            $coupon->users()->attach($user->getAuthIdentifier());
+            return ResponseService::sendJsonResponse(true, 200, [], [
+                'success' => 'Coupon has been found',
+                'discount' => $coupon->discount_percent,
+            ], $cookie);
         } else {
             return ResponseService::sendJsonResponse(false, 400, [
-                'Error' => 'Something is wrong with this coupon',
+                'Error' => 'Something is wrong with this coupon, maybe you already have an coupon',
             ]);
         }
     }

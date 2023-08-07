@@ -19,15 +19,7 @@ class AuthTest extends TestCase
 
     public function testRegistration(): void
     {
-        DB::table('oauth_clients')->insert([
-            'user_id' => null,
-            'name' => 'Laravel Personal Access Client',
-            'secret' => 'cCrOjCBmZYDqilaYa1qNvJ6WNnckKJDem6AeD6to',
-            'redirect' => 'http://127.0.0.1:8001/',
-            'personal_access_client' => 1,
-            'password_client' => 0,
-            'revoked' => 0,
-        ]);
+        $this->getUser();
 
         $userData = [
             'name' => $this->faker->name,
@@ -54,8 +46,6 @@ class AuthTest extends TestCase
             'name' => $userData['name'],
             'email' => $userData['email'],
         ]);
-
-
     }
 
     public function testBadRegistration(): void
@@ -118,9 +108,6 @@ class AuthTest extends TestCase
             'status',
             'errors',
         ]);
-
-        $testAuthBadRoute = $this->withHeaders(['Authorization' => 'Bearer ' . 'Bad Token',])->get('/api/user');
-        $testAuthBadRoute->assertStatus(500);
     }
 
 

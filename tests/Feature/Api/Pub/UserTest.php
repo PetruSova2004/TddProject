@@ -43,7 +43,5 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => $response['data']['email'],
         ]);
-
-
     }
 }

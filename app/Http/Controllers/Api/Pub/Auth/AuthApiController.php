@@ -7,15 +7,11 @@ use App\Http\Controllers\Api\Pub\Auth\Services\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pub\Auth\LoginRequest;
 use App\Http\Requests\Pub\Auth\RegisterRequest;
-use App\Models\Cart;
 use App\Models\User;
 use App\Services\Response\ResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 
 class AuthApiController extends Controller
 {
@@ -33,7 +29,7 @@ class AuthApiController extends Controller
 
         $this->service->createUser($request);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::query()->where('email', $request->email)->first();
 
         if ($user) {
             $token = $user->createToken('PersonalAccessToken')->accessToken;
@@ -62,7 +58,7 @@ class AuthApiController extends Controller
             $cookie = [
                 'name' => 'Token',
                 'value' => $token,
-                'time' => 60,
+                'time' => 360,
             ];
 
             return ResponseService::sendJsonResponse(true, 200, [], [

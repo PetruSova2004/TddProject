@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Web\Pub;
 
 use App\Http\Controllers\Controller;
-use App\Services\Response\ResponseService;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('Pub.products');
     }
 
-    public function showProduct(Request $request)
+    public function showProduct(): View
     {
         return view('Pub.single-product');
     }

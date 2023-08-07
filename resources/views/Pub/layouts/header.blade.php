@@ -41,8 +41,8 @@
                                             <ul>
                                                 <li><a href="{{route('cart.index')}}"><span>Shopping Cart</span></a></li>
                                                 <li><a href="{{route('checkout.index')}}"><span>Checkout</span></a></li>
-                                                <li><a href="shop-wishlist.blade.php"><span>Wishlist</span></a></li>
-                                                <li><a href="shop-compare.blade.php"><span>Compare</span></a></li>
+                                                <li><a href="{{route('wishlist.index')}}"><span>Wishlist</span></a></li>
+                                                <li><a href="{{route('compare.index')}}"><span>Compare</span></a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -88,7 +88,7 @@
                                 </a>
                             </div>
                             <div class="shopping-wishlist">
-                                <a class="shopping-wishlist-btn" href="shop-wishlist.blade.php">
+                                <a class="shopping-wishlist-btn" href="{{route('wishlist.index')}}">
                                     <i class="pe-7s-like icon"></i>
                                 </a>
                             </div>

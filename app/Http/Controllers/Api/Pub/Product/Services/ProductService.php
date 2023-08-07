@@ -26,11 +26,9 @@ class ProductService extends Controller
             $query->where('price', '<', $price);
         }
         if ($search) {
-            $query->where('title', 'LIKE', $search . '%')->get();
+            $query->where('title', 'LIKE', $search . '%');
         }
 
-        $filteredProducts = $query->get();
-
-        return $filteredProducts;
+        return $query->get();
     }
 }
