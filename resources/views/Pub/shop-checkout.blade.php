@@ -122,10 +122,6 @@
                         <label for="street-address">Street address <abbr class="required" title="required">*</abbr></label>
                         <input id="street-address" type="text"  class="form-control" placeholder="House number and street name">
                       </div>
-                      <div class="form-group">
-                        <label for="street-address2" class="visually-hidden">Street address 2 <abbr class="required" title="required">*</abbr></label>
-                        <input id="street-address2" type="text"  class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-                      </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
@@ -135,30 +131,13 @@
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label for="district">District <abbr class="required" title="required">*</abbr></label>
-                        <select id="district" class="form-control">
-                          <option>Afghanistan</option>
-                          <option>Albania</option>
-                          <option>Algeria</option>
-                          <option>Armenia</option>
-                          <option>India</option>
-                          <option>Pakistan</option>
-                          <option>England</option>
-                          <option>London</option>
-                          <option>London</option>
-                          <option>China</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="pz-code">Postcode / ZIP (optional)</label>
+                        <label for="pz-code">Postcode / ZIP</label>
                         <input id="pz-code" type="text"  class="form-control">
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label for="phone">Phone (optional)</label>
+                        <label for="phone">Phone</label>
                         <input id="phone" type="text"  class="form-control">
                       </div>
                     </div>
@@ -280,27 +259,19 @@
                     </tr>
                   </thead>
                   <tbody class="table-body">
-                    <tr class="cart-item">
-                      <td class="product-name">Satin gown <span class="product-quantity">× 1</span></td>
-                      <td class="product-total">£69.99</td>
-                    </tr>
-                    <tr class="cart-item">
-                      <td class="product-name">Printed cotton t-shirt <span class="product-quantity">× 1</span></td>
-                      <td class="product-total">£20.00</td>
-                    </tr>
                   </tbody>
                   <tfoot class="table-foot">
                     <tr class="cart-subtotal">
                       <th>Subtotal</th>
-                      <td>£89.99</td>
+                      <td id="subtotal"></td>
                     </tr>
                     <tr class="shipping">
-                      <th>Shipping</th>
-                      <td>Flat rate: £2.00</td>
+                      <th>Discount</th>
+                      <td id="discount"></td>
                     </tr>
                     <tr class="order-total">
                       <th>Total </th>
-                      <td>£91.99</td>
+                      <td id="total"></td>
                     </tr>
                   </tfoot>
                 </table>
@@ -371,148 +342,7 @@
 
 @include('Pub.layouts.footerSettings')
 
-<script>
-
-    async function getTokenFromCookie() {
-        var cookieName = 'Token';
-        var apiUrl = '/api/getCookie/' + cookieName;
-
-        try {
-            var response = await fetch(apiUrl);
-            var data = await response.json();
-            var cookieValue = data.data.cookie;
-
-            if (cookieValue) {
-                return cookieValue;
-            } else {
-                console.log('getTokenFromCookieFalse');
-                return false;
-            }
-        } catch (error) {
-            if (error.message === '400') {
-                console.log("An error occurred:", error);
-            }
-            throw error;
-        }
-    }
-
-    async function getCookie(cookieName) {
-        var apiUrl = '/api/getCookie/' + cookieName;
-
-        try {
-            var response = await fetch(apiUrl);
-            var data = await response.json();
-            var cookieValue = data.data.cookie;
-
-            if (cookieValue) {
-                return cookieValue;
-            } else {
-                return false;
-            }
-        } catch (error) {
-            if (error.message === '400') {
-                console.log("An error occurred:", error);
-            }
-            throw error;
-        }
-    }
-
-    async function getCoupon() {
-        var apiUrl = 'api/getCoupon';
-        var token = await getTokenFromCookie();
-
-        try {
-            var response = await fetch(apiUrl, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            var data = await response.json();
-
-            if (data.status === true) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (error) {
-            if (error.message === '400') {
-                console.log("An error occurred:", error);
-            }
-            throw error;
-        }
-    }
-
-    function toggleCouponButton(hasCookie) {
-        var applyButton = document.getElementById('cardId');
-        if (hasCookie) {
-            if (applyButton) {
-                applyButton.style.display = 'none';
-            }
-        } else {
-            if (applyButton) {
-                applyButton.style.display = 'block';
-            }
-        }
-    }
-
-    async function checkAndToggleCouponButton() {
-        try {
-            const hasCookie = await getCoupon();
-            toggleCouponButton(hasCookie);
-        } catch (error) {
-            console.error('Error checking coupon:', error);
-        }
-    }
-
-    async function applyCoupon() {
-        try {
-            // Получаем значение токена куки
-            var token = await getTokenFromCookie();
-
-            // Получаем значение из поля "Coupon code"
-            var couponCode = document.querySelector('input[name="Coupon code"]').value;
-
-            const cookieName = 'Coupon';
-            const hasCookie = await getCookie(cookieName);
-
-            if (hasCookie) {
-                alert('You already have a coupon');
-            } else {
-                // Выполняем POST-запрос на API
-                const response = await fetch('/api/applyCoupon', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ code: couponCode }), // Отправляем код купона
-                });
-
-                // Проверяем успешность запроса
-                if (response.ok) {
-                    var data = await response.json();
-                    var discount = data.data.discount;
-                    alert("You activated the coupon successfully, your discount for all products is " + discount + "%");
-                    window.location.reload();
-                } else {
-                    alert('Failed to apply coupon')
-                    console.error('Failed to apply coupon:', response.status, response.statusText);
-                    window.location.reload();
-                }
-            }
-
-        } catch (error) {
-            console.error('Error applying coupon:', error);
-        }
-    }
-
-    // Найти кнопку "Apply coupon" и добавить обработчик события на клик
-    var applyButton = document.querySelector('.btn-coupon');
-    applyButton.addEventListener('click', applyCoupon);
-
-    checkAndToggleCouponButton();
-
-</script>
+<script src="/assets/js/customFiles/shop-checkout.js"></script>
 
 </body>
 

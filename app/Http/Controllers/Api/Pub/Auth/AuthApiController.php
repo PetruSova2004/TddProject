@@ -38,7 +38,7 @@ class AuthApiController extends Controller
                 'token' => $token,
             ]);
         } else {
-            return ResponseService::sendJsonResponse(false, 400, [
+            return ResponseService::sendJsonResponse(false, 404, [
                 'Oops, something goes wrong',
             ]);
         }
@@ -81,7 +81,6 @@ class AuthApiController extends Controller
 
         return ResponseService::sendJsonResponse(true, 200, [], [
             'success' => 'You have been successfully log out',
-            'cartProducts' => "Cart Products has been deleted",
             'user' => $user,
         ]);
     }

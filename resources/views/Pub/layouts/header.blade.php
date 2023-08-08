@@ -40,7 +40,7 @@
                                                                       class="mega-title"><span>Others Pages</span></a>
                                             <ul>
                                                 <li><a href="{{route('cart.index')}}"><span>Shopping Cart</span></a></li>
-                                                <li><a href="{{route('checkout.index')}}"><span>Checkout</span></a></li>
+                                                <li><a href="/checkout"><span>Checkout</span></a></li>
                                                 <li><a href="{{route('wishlist.index')}}"><span>Wishlist</span></a></li>
                                                 <li><a href="{{route('compare.index')}}"><span>Compare</span></a></li>
                                             </ul>
@@ -63,9 +63,9 @@
                                 </li>
                                 <li class="has-submenu"><a href="#/"><span>Pages</span></a>
                                     <ul class="submenu-nav">
-                                        <li><a href="{{route('user.index')}}"><span>Account</span></a></li>
-                                        <li><a href="{{route('login.index')}}"><span>Login</span></a></li>
-                                        <li><a href="{{route('register.index')}}"><span>Register</span></a></li>
+                                        <li><a href="/account"><span>Account</span></a></li>
+                                        <li><a href="/login"><span>Login</span></a></li>
+                                        <li><a href="/register"><span>Register</span></a></li>
                                         <li id="logoutMenuItem"></li>
                                         <!-- Пустой элемент, в который мы будем добавлять пункт "Logout" -->
 

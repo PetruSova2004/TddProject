@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Pub\Cart;
 use App\Http\Controllers\Api\Pub\Cart\Services\CartService;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\User;
 use App\Services\Response\ResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,22 +23,35 @@ class CartController extends Controller
 
     public function cartGet(): JsonResponse
     {
-        $user = Auth::user();
+        $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
         $cart = $this->service->getUserCart($user);
 
         if ($cart) {
             $cartCount = count($cart);
+            $coupons = $user->coupons;
 
             $totalPrice = 0;
             foreach ($cart as $item) {
-                $totalPrice += $item['price_x1'];
+                $totalPrice += $item['price_x1'] * $item['quantity'];
             }
 
-            return ResponseService::sendJsonResponse(true, 200, [], [
-                'cart' => $cart,
-                'count' => $cartCount,
-                'totalPrice' => $totalPrice,
-            ]);
+            if ($coupons->count() > 0) {
+                $priceData = $this->service->calcPriceWithDiscount($coupons, $totalPrice);
+
+                return ResponseService::sendJsonResponse(true, 200, [], [
+                    'cart' => $cart,
+                    'count' => $cartCount,
+                    'totalPrice' => $totalPrice,
+                    'priceWithDiscount' => floor($priceData['priceWithDiscount']),
+                    'discountPercent' => $priceData['totalPercent']
+                ]);
+            } else {
+                return ResponseService::sendJsonResponse(true, 200, [], [
+                    'cart' => $cart,
+                    'count' => $cartCount,
+                    'totalPrice' => $totalPrice,
+                ]);
+            }
         } else {
             return ResponseService::sendJsonResponse(false, 200, [
                 'Empty' => "No cart products found for the user.",
@@ -52,7 +66,7 @@ class CartController extends Controller
 
         if ($product->id && $quantity) {
             if ($product->count >= $quantity) {
-                $user = Auth::user();
+                $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
                 $this->service->addProductsToCart($product->id, $quantity, $user);
                 $cart = $this->service->getUserCart($user);
 
@@ -80,7 +94,8 @@ class CartController extends Controller
     {
         $product = Product::query()->where('id', $request->input('productId'))->first();
         $quantity = $request->input('quantity');
-        $user = Auth::user();
+        $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
+
         if ($product && $user) {
             $cartItems = $this->service->getSpecificCartProducts($product->id, $user);
             if ($cartItems->get()->isNotEmpty()) {
