@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('country');
             $table->string('address');
             $table->string('city');
-            $table->bigInteger('ZIP');
+            $table->bigInteger('zip');
 
             $table->timestamps();
         });

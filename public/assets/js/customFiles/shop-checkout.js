@@ -1,3 +1,32 @@
+
+async function getCountries()
+{
+    try {
+        var token = await getTokenFromCookie();
+        var response = await fetch('/api/getCountries', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        var data = await response.json();
+        var countries = data.data.countries;
+
+        if (data.status === true) {
+            countries.forEach(function(country) {
+                var option = document.createElement("option");
+                option.text = country.name;
+                document.getElementById("country").appendChild(option);
+            });
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+
+}
+
 async function getCookie(cookieName) {
     var apiUrl = '/api/getCookie/' + cookieName;
 
@@ -179,3 +208,8 @@ var applyButton = document.querySelector('.btn-coupon');
 applyButton.addEventListener('click', applyCoupon);
 
 checkAndToggleCouponButton();
+getCountries()
+
+
+
+

@@ -103,17 +103,7 @@
                       <div class="form-group">
                         <label for="country">Country <abbr class="required" title="required">*</abbr></label>
                         <select id="country" class="form-control">
-                          <option>Bangladesh</option>
-                          <option>Afghanistan</option>
-                          <option>Albania</option>
-                          <option>Algeria</option>
-                          <option>Armenia</option>
-                          <option>India</option>
-                          <option>Pakistan</option>
-                          <option>England</option>
-                          <option>London</option>
-                          <option>London</option>
-                          <option>China</option>
+
                         </select>
                       </div>
                     </div>

@@ -103,7 +103,6 @@ class CartController extends Controller
                 $product->count += $quantity;
                 $product->save();
 
-
                 return ResponseService::sendJsonResponse(true, 200, [], [
                     'message' => 'Products have been successfully deleted',
                 ]);
@@ -112,12 +111,17 @@ class CartController extends Controller
                     'Product' => 'This product dont exist in your cart',
                 ]);
             }
-
         } else {
             return ResponseService::sendJsonResponse(false, 400, [
                 'Issue' => 'Something is wrong with received productId or Authorization',
             ]);
         }
+    }
+
+    public function completeCartDelete()
+    {
+        $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
+        $user->cart()->delete();
     }
 
 

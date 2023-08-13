@@ -184,7 +184,7 @@
                             <div class="product-info">
                                 <h4 class="title"><a href="single-product.blade.php">The Special One</a></h4>
                                 <div class="prices">
-                                    <span class="price">$20.19</span>
+                                    <span class="price">$20000000</span>
                                 </div>
                             </div>
                             <div class="product-action">

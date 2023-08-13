@@ -37,6 +37,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/getCart', 'App\Http\Controllers\Api\Pub\Cart\CartController@cartGet')->name('api.getCart');
     Route::post('/cart/add', 'App\Http\Controllers\Api\Pub\Cart\CartController@cartAdd')->name('api.cartAdd');
     Route::post('/cart/delete', 'App\Http\Controllers\Api\Pub\Cart\CartController@cartDelete')->name('api.cartDelete');
+    Route::post('/completeCart/delete', 'App\Http\Controllers\Api\Pub\Cart\CartController@cartDelete')->name('api.completeCartDelete');
 
     Route::get('/getUser', 'App\Http\Controllers\Api\Pub\User\UserApiController@getUserByToken')->name('api.getUser');
 
@@ -46,5 +47,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/blogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogs')->name('api.getBlogs');
     Route::get('/blog', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogDetails')->name('api.getBlogDetails');
+
+    Route::get('/getCountries', 'App\Services\Country\CountryService@getCountries')->name('api.getCountries');
+
+    Route::post('/placeOrder', 'App\Http\Controllers\Api\Pub\Checkout\CheckoutController@placeOrder')->name('api.placeOrder');
 
 });

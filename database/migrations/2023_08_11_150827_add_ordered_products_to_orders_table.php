@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zipcode', function (Blueprint $table) {
-            $table->id();
-            $table->string('country');
-            $table->bigInteger('code');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->json('ordered_products'); // Поле для хранения JSON с информацией о продуктах
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zipcode');
+        Schema::table('orders', function (Blueprint $table) {
+            Schema::dropIfExists('ordered_products');
+        });
     }
 };

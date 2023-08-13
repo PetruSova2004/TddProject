@@ -25,7 +25,7 @@ class CategorySeeder extends Seeder
 
         Category::query()->create([
             'title' => 'Parrots',
-            'image_path' => '/assets/img/shop/category/Iasha.webp'
+            'image_path' => '/assets/img/shop/category/Iasha.jpg'
         ]);
 
         Category::query()->create([
