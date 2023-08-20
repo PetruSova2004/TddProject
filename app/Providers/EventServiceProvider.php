@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\DeleteAllCartProducts;
 use App\Events\TokenCookieExpired;
 use App\Listeners\DeleteCartProducts;
 use Illuminate\Auth\Events\Registered;
@@ -22,6 +23,10 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         TokenCookieExpired::class => [
+            DeleteCartProducts::class,
+        ],
+
+        DeleteAllCartProducts::class => [
             DeleteCartProducts::class,
         ],
 

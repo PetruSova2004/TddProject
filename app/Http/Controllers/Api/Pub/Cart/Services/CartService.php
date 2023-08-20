@@ -27,6 +27,7 @@ class CartService extends Controller
                     'title' => $cartProduct->title,
                     'quantity' => $cartProduct->quantity,
                     'price_x1' => $cartProduct->price,
+                    'total_price' => $cartProduct->quantity * $cartProduct->price,
                     'image_path' => $cartProduct->image_path,
                 ];
             }

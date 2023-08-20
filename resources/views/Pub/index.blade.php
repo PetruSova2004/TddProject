@@ -29,7 +29,7 @@
                                                         <h2 class="title">A Greate Meal With Your Pet</h2>
                                                     </div>
                                                     <div class="btn-box">
-                                                        <a class="btn-theme text-dark" href="products.blade.php">Shop
+                                                        <a class="btn-theme text-dark" href={{route('products.index')}}>Shop
                                                             Now</a>
                                                     </div>
                                                 </div>

@@ -132,30 +132,16 @@ handleMenu();
 async function logout() {
     try {
         var accessToken = await getTokenFromCookie();
-        var tokenName = 'Token';
 
-        const tokenResponse = await fetch(`/api/deleteCookie/${tokenName}`, {
+        const logoutResponse = await fetch(`/api/logout`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             },
         });
-        if (tokenResponse.ok) {
-            const logoutResponse = await fetch(`/api/logout`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-            });
-
-            if (logoutResponse.ok) {
-                var responseData = await tokenResponse.json();
-                handleMenu(); // Remove the "Logout" menu item after successful logout
-                window.location.href = '/';
-                console.log(logoutResponse.data);
-            }
-        } else {
-            console.error('Error in request:', response.status);
+        if (logoutResponse.ok) {
+            handleMenu(); // Remove the "Logout" menu item after successful logout
+            window.location.href = '/';
         }
     } catch (error) {
         console.error('Error in request:', error);

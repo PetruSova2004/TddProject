@@ -8,12 +8,30 @@ async function fetchCartPageProducts(token) {
         });
         const data = await response.json();
 
-        const subtotalElement = document.getElementById('totalAmount');
+        const subTotalElement = document.getElementById('subtotalAmount');
+        const discount = document.getElementById('discount');
+        const totalElement = document.getElementById('totalAmount');
+
+
         if (data.data.totalPrice) {
-            subtotalElement.textContent = "$" + data.data.totalPrice;
+            subTotalElement.textContent = "$" + data.data.totalPrice;
         } else {
-            subtotalElement.textContent = "$" + 0;
+            subTotalElement.textContent = "$" + 0;
         }
+
+        if (data.data.discountPercent) {
+            discount.textContent = "%" + data.data.discountPercent;
+        } else {
+            totalElement.textContent = "%" + 0;
+        }
+
+        if (data.data.priceWithDiscount) {
+            totalElement.textContent = "$" + data.data.priceWithDiscount;
+        } else {
+            totalElement.textContent = "$" + 0;
+        }
+
+
 
         return data.data.cart; // Предполагается, что API возвращает данные в виде массива объектов продуктов
     } catch (error) {

@@ -1,9 +1,6 @@
 fetch('/api/categoryAll')
 .then(response => response.json())
     .then(data => {
-        // Данные успешно получены
-        console.log(data); // Вывод данных в консоль
-
         // Вывод каждой категории в шаблоне
         var categoriesContainer = document.getElementById('categories-container');
         data.data.categories.forEach(category => {

@@ -20,7 +20,7 @@ class DeleteCartProducts
     /**
      * Handle the event.
      */
-    public function handle(TokenCookieExpired $event): void
+    public function handle($event): void
     {
         $user_id = $event->user->id;
 

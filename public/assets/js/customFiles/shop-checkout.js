@@ -1,6 +1,4 @@
-
-async function getCountries()
-{
+async function getCountries() {
     try {
         var token = await getTokenFromCookie();
         var response = await fetch('/api/getCountries', {
@@ -12,7 +10,7 @@ async function getCountries()
         var countries = data.data.countries;
 
         if (data.status === true) {
-            countries.forEach(function(country) {
+            countries.forEach(function (country) {
                 var option = document.createElement("option");
                 option.text = country.name;
                 document.getElementById("country").appendChild(option);
@@ -73,7 +71,7 @@ async function getCoupon() {
     }
 }
 
- function toggleCouponButton(hasCookie) {
+function toggleCouponButton(hasCookie) {
     var applyButton = document.getElementById('cardId');
     if (hasCookie) {
         if (applyButton) {
@@ -116,7 +114,7 @@ async function applyCoupon() {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ code: couponCode }), // Отправляем код купона
+                body: JSON.stringify({code: couponCode}), // Отправляем код купона
             });
 
             // Проверяем успешность запроса
@@ -190,16 +188,78 @@ async function displayProductDetails(cartItems, subTotal, total, discount) {
         const subtotalElement = document.getElementById("subtotal");
         subtotalElement.textContent = "£" + subTotal;
 
-        const totalElement = document.getElementById("total");
-        totalElement.textContent = "£" + total;
+        if (discount) {
+            const discountElement = document.getElementById("discount");
+            discountElement.textContent = "%" + discount;
+        } else {
+            const discountElement = document.getElementById("discount");
+            discountElement.textContent = "%" + 0;
+        }
 
-        const discountElement = document.getElementById("discount");
-        discountElement.textContent = "%" + discount;
+        if (total) {
+            const totalElement = document.getElementById("total");
+            totalElement.textContent = "£" + total;
+        } else {
+            const totalElement = document.getElementById("total");
+            totalElement.textContent = "£" + subTotal;
+        }
 
     } catch (error) {
         console.error('Error displaying product details:', error);
     }
 }
+
+
+async function addOrder() {
+    try {
+        // Получим токен из cookie
+        const token = await getTokenFromCookie();
+
+        const placeOrderButton = document.getElementById('placeOrderButton');
+
+        const totalElement = document.getElementById("total");
+        const price = parseInt(totalElement.textContent.slice(1));
+
+        placeOrderButton.disabled = true;
+
+        // Соберем данные из полей формы
+        const formData = {
+            firstname: document.getElementById('f_name').value,
+            lastname: document.getElementById('l_name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            price: price,
+            company: document.getElementById('com_name').value,
+            country: document.getElementById('country').value,
+            address: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            zip: document.getElementById('zip').value,
+        };
+
+        // Отправим запрос к API
+        const response = await fetch("/api/placeOrder", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        console.log(data);
+        if (data.status === true) {
+            await alert('Your order has been successfully added, and waiting for confirmation on email');
+            window.location.href = "/";
+        } else {
+            window.location.reload();
+            await alert('sex');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 
 getCartItems()
 
@@ -209,6 +269,10 @@ applyButton.addEventListener('click', applyCoupon);
 
 checkAndToggleCouponButton();
 getCountries()
+
+const placeOrderButton = document.getElementById('placeOrderButton');
+placeOrderButton.addEventListener('click', addOrder);
+
 
 
 

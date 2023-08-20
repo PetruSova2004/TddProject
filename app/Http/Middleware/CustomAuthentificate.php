@@ -20,7 +20,7 @@ class CustomAuthentificate
         if ($cookie) {
             return $next($request);
         } else {
-            return redirect()->back()->with('error', 'You dont have access to this page');
+            return redirect()->route('home')->with('error', 'You dont have access to this page');
         }
     }
 }

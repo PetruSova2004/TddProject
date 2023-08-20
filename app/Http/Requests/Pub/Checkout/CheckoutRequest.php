@@ -27,26 +27,28 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'required|max:255',
-            'lastname' => 'required|max:255',
-            'company' => 'sometimes|required|max:255', // опциональное поле, но если присутствует, то должно быть обязательным
+            'firstname' => 'required|max:255|alpha_dash',
+            'lastname' => 'required|max:255|alpha_dash',
+            'company' => 'sometimes|required|max:255|alpha_dash', // опциональное поле, но если присутствует, то должно быть обязательным
             'country' => [
                 'required',
                 new CountryShouldBeFromDB(),
                 'max:255',
+                'alpha_dash'
             ],
-            'address' => 'required|max:255',
-            'city' => 'required|max:255',
+            'address' => 'required|max:255|alpha_dash', // alpha_dash разрешает только буквы, цифры, подчеркивания и дефисы
+            'city' => 'required|max:255|alpha_dash',
             'price' => 'required|integer',
             'zip' => [
                 'required',
                 'string',
                 new ZipCodeMatchesCountry($this->input('country')),
-                'max:255'
+                'max:255',
+                'alpha_dash'
             ],
-            'phone' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'notes' => 'nullable|max:255',
+            'phone' => 'required|string|max:255|alpha_dash',
+            'email' => 'required|email|max:255|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/', // email и без пробелов
+            'notes' => 'nullable|max:255|alpha_dash',
         ];
     }
 

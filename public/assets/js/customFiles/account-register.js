@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const formData = new FormData(urlForm);
         const url = urlForm.getAttribute('action');
-        console.log(formData);
 
         fetch(url, {
             method: 'POST',
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Redirect to a different page
                     window.location.href = '/';
                 } else {
-                    console.error('Oops, something goes wrong');
+                    console.error(responseData);
                 }
             })
             .catch(error => {

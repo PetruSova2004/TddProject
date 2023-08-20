@@ -26,21 +26,22 @@ class AuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleCallback(): \Illuminate\Http\RedirectResponse | string
+    public function handleCallback(): \Illuminate\Http\RedirectResponse|string
     {
         try {
             $googleUser = Socialite::driver('google')->user();
-            $user = User::query()->firstOrCreate([
-                'email' => $googleUser->getEmail()
-            ]);
-
+            $user = User::query()->where('email', $googleUser->getEmail())->first();
+            if (!$user) {
+                $user = User::query()->create([
+                    'email' => $googleUser->getEmail(),
+                    'name' => $googleUser->getName(),
+                    'password' => fake()->password,
+                ]);
+            }
             $token = $user->createToken('PersonalAccessToken')->accessToken;
-
             return redirect()->route('home')
                 ->with('success', "Welcome " . $googleUser->getName())
-                ->withCookie('Token', $token, 60)
-                ->withCookie('User', $googleUser->getEmail());
-
+                ->withCookie('Token', $token, 525600);
         } catch (Throwable $throwable) {
             return $throwable->getMessage();
         }

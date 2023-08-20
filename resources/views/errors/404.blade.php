@@ -8,7 +8,6 @@
 <!--wrapper start-->
 <div class="wrapper">
 
-  @include('Pub.layouts.header')
   <main class="main-content">
     <!--== Start Faq Area Wrapper ==-->
     <section class="page-not-found-area">
@@ -20,7 +19,7 @@
                 <h3 class="not-found-text">404</h3>
                 <h3 class="title">Page Cannot Be Found!</h3>
                 <p class="desc">Seems like nothing was found at this location. Try something else or you can go back to the homepage following the button below!</p>
-                <a class="btn-theme-border" href="index.blade.php">Back to home</a>
+                <a class="btn-theme-border" href="{{route('home')}}">Back to home</a>
               </div>
             </div>
           </div>

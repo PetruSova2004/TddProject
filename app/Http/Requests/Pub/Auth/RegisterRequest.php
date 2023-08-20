@@ -25,10 +25,26 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
+        // alpha_dash ограничит ввод в поле только буквами (большими и маленькими), цифрами, подчеркиваниями и дефисами, но не позволит вводить пробелы и другие специальные символы.
         return [
-            'email' => 'required|email|unique:users|max:255',
-            'name' => 'required|max:255',
-            'password' => 'required|min:6|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/', // email без пробелов
+            ],
+            'name' => [
+                'required',
+                'min:4',
+                'max:255',
+                'regex:/^[a-zA-Z0-9\s\x{00C0}-\x{024F}]+$/u', // разрешить пробелы, и запретить специальные символы, а также разрешает символы из других алфавитов.
+            ],
+            'password' => [
+                'required',
+                'min:6',
+                'max:255',
+                'alpha_dash',
+            ],
         ];
     }
 

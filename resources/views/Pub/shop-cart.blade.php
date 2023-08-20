@@ -75,40 +75,25 @@
                                 <tr class="cart-subtotal">
                                     <th>Subtotal</th>
                                     <td>
-                                        <span id="subtotalAmount" class="amount">$499.00</span>
+                                        <span id="subtotalAmount" class="amount"></span>
                                     </td>
                                 </tr>
                                 <tr class="shipping-totals">
-                                    <th>Shipping</th>
+                                    <th>Discount</th>
                                     <td>
-                                        <ul class="shipping-list">
-                                            <li class="radio">
-                                                <input type="radio" name="shipping" id="radio1" checked>
-                                                <label for="radio1">Flat rate: <span>$3.00</span></label>
-                                            </li>
-                                            <li class="radio">
-                                                <input type="radio" name="shipping" id="radio2">
-                                                <label for="radio2">Free shipping</label>
-                                            </li>
-                                            <li class="radio">
-                                                <input type="radio" name="shipping" id="radio3">
-                                                <label for="radio3">Local pickup</label>
-                                            </li>
-                                        </ul>
-                                        <p class="destination">Shipping to <strong>USA</strong>.</p>
-                                        <a href="javascript:void(0)" class="btn-shipping-address">Change address</a>
+                                        <span id="discount" class="amount"></span>
                                     </td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>Total</th>
                                     <td>
-                                        <span id="totalAmount" class="amount">$504.00</span>
+                                        <span id="totalAmount" class="amount"></span>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <div class="text-end">
-                                <a href="shop-checkout.blade.php" class="checkout-button">Proceed to checkout</a>
+                                <a href="{{route('checkout.index')}}" class="checkout-button">Proceed to checkout</a>
                             </div>
                         </div>
                     </div>

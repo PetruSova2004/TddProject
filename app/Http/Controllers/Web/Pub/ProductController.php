@@ -18,7 +18,7 @@ class ProductController extends Controller
         if ($request->input('id')) {
             return view('Pub.single-product');
         } else {
-            return view('Pub.page-not-found');
+            abort(404);
         }
     }
 

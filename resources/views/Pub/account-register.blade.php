@@ -434,7 +434,7 @@
                             <li><a href="account.blade.php"><span>Account</span></a></li>
                             <li><a href="account-login.blade.php"><span>Login</span></a></li>
                             <li><a href="account-register.html"><span>Register</span></a></li>
-                            <li><a href="page-not-found.blade.php"><span>Page Not Found</span></a></li>
+                            <li><a href="../errors/404.blade.php"><span>Page Not Found</span></a></li>
                         </ul>
                     </li>
 

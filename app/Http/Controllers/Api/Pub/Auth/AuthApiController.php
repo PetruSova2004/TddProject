@@ -58,7 +58,7 @@ class AuthApiController extends Controller
             $cookie = [
                 'name' => 'Token',
                 'value' => $token,
-                'time' => 360,
+                'time' => 525600,
             ];
 
             return ResponseService::sendJsonResponse(true, 200, [], [
@@ -77,12 +77,18 @@ class AuthApiController extends Controller
         $user = $request->user();
         $user->token()->revoke();
 
+        $cookie = [
+            'name' => 'Token',
+            'value' => null,
+            'time' => -1,
+        ];
+
         event(new TokenCookieExpired($user));
 
         return ResponseService::sendJsonResponse(true, 200, [], [
             'success' => 'You have been successfully log out',
             'user' => $user,
-        ]);
+        ], $cookie);
     }
 
 

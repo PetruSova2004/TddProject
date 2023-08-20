@@ -47,7 +47,7 @@
                     <button class="nav-link" id="payment-method-tab" data-bs-toggle="tab" data-bs-target="#payment-method" type="button" role="tab" aria-controls="payment-method" aria-selected="false">Payment Method</button>
                     <button class="nav-link" id="address-edit-tab" data-bs-toggle="tab" data-bs-target="#address-edit" type="button" role="tab" aria-controls="address-edit" aria-selected="false">address</button>
                     <button class="nav-link" id="account-info-tab" data-bs-toggle="tab" data-bs-target="#account-info" type="button" role="tab" aria-controls="account-info" aria-selected="false">Account Details</button>
-                    <button class="nav-link" onclick="window.location.href='account-login.blade.php'" type="button">Logout</button>
+                    <button class="nav-link" onclick="logout()" type="button">Logout</button>
                   </div>
                 </nav>
               </div>
@@ -57,7 +57,7 @@
                     <div class="myaccount-content">
                       <h3>Dashboard</h3>
                       <div class="welcome">
-                        <p>Hello, <strong>Alex Tuntuni</strong> (If Not <strong>Tuntuni !</strong><a href="account-login.blade.php" class="logout"> Logout</a>)</p>
+                        <p>Hello, <strong></strong> (If Not <strong></strong><a href="#" class="logout"> Logout</a>)</p>
                       </div>
                       <p>From your account dashboard. you can easily check & view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
                     </div>
@@ -78,27 +78,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>Aug 22, 2018</td>
-                              <td>Pending</td>
-                              <td>$3000</td>
-                              <td><a href="shop-cart.blade.php" class="check-btn sqr-btn ">View</a></td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>July 22, 2018</td>
-                              <td>Approved</td>
-                              <td>$200</td>
-                              <td><a href="shop-cart.blade.php" class="check-btn sqr-btn ">View</a></td>
-                            </tr>
-                            <tr>
-                              <td>3</td>
-                              <td>June 12, 2017</td>
-                              <td>On Hold</td>
-                              <td>$990</td>
-                              <td><a href="shop-cart.blade.php" class="check-btn sqr-btn ">View</a></td>
-                            </tr>
+
                           </tbody>
                         </table>
                       </div>
@@ -161,54 +141,45 @@
                     <div class="myaccount-content">
                       <h3>Account Details</h3>
                       <div class="account-details-form">
-                        <form action="#">
-                          <div class="row">
-                            <div class="col-lg-6">
-                              <div class="single-input-item">
-                                <label for="first-name" class="required">First Name</label>
-                                <input type="text" id="first-name" />
-                              </div>
-                            </div>
-                            <div class="col-lg-6">
-                              <div class="single-input-item">
-                                <label for="last-name" class="required">Last Name</label>
-                                <input type="text" id="last-name" />
-                              </div>
-                            </div>
-                          </div>
+
+                        <form action="{{route('api.updateProfile')}}">
+                            @method('PATCH')
+                            @csrf
+
                           <div class="single-input-item">
                             <label for="display-name" class="required">Display Name</label>
-                            <input type="text" id="display-name" />
+                            <input type="text" id="display-name" name="name"/>
                           </div>
                           <div class="single-input-item">
                             <label for="email" class="required">Email Addres</label>
-                            <input type="email" id="email" />
+                            <input type="email" id="email" name="email"/>
                           </div>
                           <fieldset>
                             <legend>Password change</legend>
                             <div class="single-input-item">
                               <label for="current-pwd" class="required">Current Password</label>
-                              <input type="password" id="current-pwd" />
+                              <input type="password" id="current-pwd" name="old_password"/>
                             </div>
                             <div class="row">
                               <div class="col-lg-6">
                                 <div class="single-input-item">
                                   <label for="new-pwd" class="required">New Password</label>
-                                  <input type="password" id="new-pwd" />
+                                  <input type="password" id="new-pwd" name="new_password"/>
                                 </div>
                               </div>
                               <div class="col-lg-6">
                                 <div class="single-input-item">
                                   <label for="confirm-pwd" class="required">Confirm Password</label>
-                                  <input type="password" id="confirm-pwd" />
+                                  <input type="password" id="confirm-pwd" name="new_password_confirmation"/>
                                 </div>
                               </div>
                             </div>
                           </fieldset>
                           <div class="single-input-item">
-                            <button class="check-btn sqr-btn">Save Changes</button>
+                            <button type="submit" class="check-btn sqr-btn">Save Changes</button>
                           </div>
                         </form>
+
                       </div>
                     </div>
                   </div>
@@ -283,6 +254,8 @@
 <!--=======================Javascript============================-->
 
 @include('Pub.layouts.footerSettings')
+
+<script src="/assets/js/customFiles/account.js"></script>
 
 </body>
 

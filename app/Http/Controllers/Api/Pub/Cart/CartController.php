@@ -41,7 +41,7 @@ class CartController extends Controller
                 return ResponseService::sendJsonResponse(true, 200, [], [
                     'cart' => $cart,
                     'count' => $cartCount,
-                    'totalPrice' => $totalPrice,
+                    'totalPrice' => floor($totalPrice),
                     'priceWithDiscount' => floor($priceData['priceWithDiscount']),
                     'discountPercent' => $priceData['totalPercent']
                 ]);
@@ -117,12 +117,5 @@ class CartController extends Controller
             ]);
         }
     }
-
-    public function completeCartDelete()
-    {
-        $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
-        $user->cart()->delete();
-    }
-
 
 }
