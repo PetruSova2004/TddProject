@@ -5,7 +5,12 @@ const apiUrl = '/api/getProduct';
 // Добавляем значение id в URL API
 const apiWithParams = `${apiUrl}?id=${id}`;
 
-fetch(apiWithParams)
+fetch(apiWithParams, {
+    method: 'GET',
+    headers: {
+        'guestToken': localStorage.getItem('customToken'),
+    },
+})
     .then(response => response.json())
     .then(data => {
         const productTitle = document.querySelector('.main-title');

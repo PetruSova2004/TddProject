@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(url, {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'guestToken': localStorage.getItem('customToken'),
             },
             body: formData
         })
             .then(response => response.json())
             .then(responseData => {
                 if (responseData.status === true) {
-                    // Redirect to a different page
                     window.location.href = '/';
                 } else {
                     console.error(responseData);
@@ -28,3 +28,5 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 });
+
+

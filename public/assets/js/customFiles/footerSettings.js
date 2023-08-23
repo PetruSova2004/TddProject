@@ -96,7 +96,6 @@ async function handleMenu() {
             loginItem.parentElement.remove();
         }
 
-
         try {
             const products = await fetchCartProducts(accessToken);
             buildProductElements(products, accessToken);
@@ -127,7 +126,6 @@ async function handleMenu() {
     }
 }
 
-handleMenu();
 
 async function logout() {
     try {
@@ -150,11 +148,18 @@ async function logout() {
 
 
 async function getTokenFromCookie() {
+    const customToken = localStorage.getItem('customToken');
+
     var cookieName = 'Token';
     var apiUrl = '/api/getCookie/' + cookieName;
 
     try {
-        var response = await fetch(apiUrl);
+        var response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'guestToken': customToken,
+            }
+        });
         var data = await response.json();
         var cookieValue = data.data.cookie;
 
@@ -171,3 +176,93 @@ async function getTokenFromCookie() {
         throw error;
     }
 }
+
+async function applyCustomToken() {
+    try {
+        var apiUrl = '/api/generateToken';
+
+        var response = await fetch(apiUrl, {
+            method: 'POST',
+        });
+        var data = await response.json();
+        var tokenValue = data.data.token;
+
+        if (tokenValue) {
+            return tokenValue;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        if (error.message === '400') {
+            console.log("An error occurred:", error);
+        }
+        throw error;
+    }
+}
+
+async function checkToken(accessToken) {
+    try {
+        if (accessToken) {
+            const checkResponse = await fetch(`/api/verifyToken`, {
+                method: 'POST',
+                headers: {
+                    'guestToken': `${accessToken}`,
+                },
+            });
+            if (checkResponse.ok) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error in request:', error);
+    }
+}
+
+let isFetchingToken = false;
+
+async function getCustomToken() {
+    if (isFetchingToken) {
+        await waitForTokenFetch(); // Ожидаем завершения текущего запроса
+        return localStorage.getItem('customToken');
+    }
+
+    const localToken = localStorage.getItem('customToken');
+    if (localToken) {
+        const verifiedToken = await checkToken(localToken);
+        if (verifiedToken) {
+            return localToken;
+        } else {
+            isFetchingToken = true;
+            localStorage.removeItem('customToken');
+            const token = await applyCustomToken();
+            localStorage.setItem('customToken', token);
+            isFetchingToken = false;
+            return token;
+        }
+    } else {
+        isFetchingToken = true;
+        const token = await applyCustomToken();
+        localStorage.setItem('customToken', token);
+        isFetchingToken = false;
+        return token;
+    }
+}
+
+let tokenFetchPromise = Promise.resolve(); // Инициализируем промис, который будет использован для ожидания завершения запроса
+
+async function waitForTokenFetch() {
+    await tokenFetchPromise; // Ожидаем завершения текущего запроса
+}
+
+async function updateTokenFetchPromise(promise) {
+    await waitForTokenFetch(); // Ожидаем завершения предыдущего запроса
+    tokenFetchPromise = promise; // Устанавливаем новый промис ожидания
+}
+
+getCustomToken();
+handleMenu();
+

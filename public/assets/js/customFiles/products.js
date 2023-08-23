@@ -1,6 +1,13 @@
 async function addToCart(productId, quantity) {
     try {
-        const responseToken = await fetch('/api/getCookie/Token');
+        const customToken = localStorage.getItem('customToken');
+
+        const responseToken = await fetch('/api/getCookie/Token', {
+            method: 'GET',
+            headers: {
+                'guestToken': customToken,
+            }
+        });
         const dataToken = await responseToken.json();
         const token = dataToken.data.cookie;
 
@@ -28,7 +35,14 @@ async function addToCart(productId, quantity) {
 
 async function fetchData() {
     try {
-        const responseToken = await fetch('/api/getCookie/Token');
+        const customToken = localStorage.getItem('customToken');
+
+        const responseToken = await fetch('/api/getCookie/Token', {
+            method: 'GET',
+            headers: {
+                'guestToken': customToken,
+            }
+        });
         const dataToken = await responseToken.json();
 
         let CookieToken = false;
@@ -37,7 +51,12 @@ async function fetchData() {
         }
 
         const queryString = window.location.search.substring(1);
-        const responseProducts = await fetch('/api/getProducts?' + queryString);
+        const responseProducts = await fetch('/api/getProducts?' + queryString, {
+            method: 'GET',
+            headers: {
+                'guestToken': customToken,
+            }
+        });
         const dataProducts = await responseProducts.json();
 
         const productContainer = document.querySelector('.col-12 .tab-content .row');
@@ -149,26 +168,35 @@ fetchData();
 
 // Categories
 // Получаем контейнер списка категорий
-const categoryListContainer = document.querySelector('.category-list');
 
-// Выполняем запрос к API
-fetch('/api/categoryAll')
-    .then(response => response.json())
-    .then(data => {
-        // Обрабатываем полученные данные
-        data.data.categories.forEach(category => {
-            // Создаем элементы и заполняем их значениями из данных категории
-            const categoryItem = document.createElement('li');
-            const categoryLink = document.createElement('a');
-            categoryLink.href = `/products?category_id=${category.id}`;
-            categoryLink.textContent = `${category.title} (${category.products_count})`;
+async function categories() {
+    const categoryListContainer = document.querySelector('.category-list');
+    const customToken = localStorage.getItem('customToken');
 
-            // Добавляем элементы в контейнер списка категорий
-            categoryItem.appendChild(categoryLink);
-            categoryListContainer.appendChild(categoryItem);
-        });
+    fetch('/api/categoryAll', {
+        method: 'GET',
+        headers: {
+            'guestToken': customToken,
+        }
     })
-    .catch(error => console.log(error));
+        .then(response => response.json())
+        .then(data => {
+            // Обрабатываем полученные данные
+            data.data.categories.forEach(category => {
+                // Создаем элементы и заполняем их значениями из данных категории
+                const categoryItem = document.createElement('li');
+                const categoryLink = document.createElement('a');
+                categoryLink.href = `/products?category_id=${category.id}`;
+                categoryLink.textContent = `${category.title} (${category.products_count})`;
+
+                // Добавляем элементы в контейнер списка категорий
+                categoryItem.appendChild(categoryLink);
+                categoryListContainer.appendChild(categoryItem);
+            });
+        })
+        .catch(error => console.log(error));
+}
+categories();
 
 document.getElementById('searchButton').addEventListener('click', function (event) {
     event.preventDefault(); // Отмена отправки формы

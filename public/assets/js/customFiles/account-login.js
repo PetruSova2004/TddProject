@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(url, {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'guestToken': localStorage.getItem('customToken'),
             },
             body: formData
         })
@@ -41,3 +42,4 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 });
+

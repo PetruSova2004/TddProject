@@ -16,7 +16,7 @@
                 <div class="header-align">
                     <div class="header-align-start">
                         <div class="header-logo-area">
-                            <a href="index.blade.php">
+                            <a href="{{route('home')}}">
                                 <img class="logo-main" src="/assets/img/logo-light.webp" alt="Logo"/>
                             </a>
                         </div>

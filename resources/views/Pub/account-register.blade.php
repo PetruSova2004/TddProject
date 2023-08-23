@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group mb--0">
-                                            <input type="submit" class="btn-register" value="Register">
+                                            <input type="submit" class="btn-register" onclick="register()" value="Register">
                                             <a href="{{route('google.redirect')}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="26"
                                                      fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">

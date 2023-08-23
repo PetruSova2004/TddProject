@@ -18,13 +18,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/registration', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@register')->name('api.register');
-Route::post('/login', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@login')->name('api.login');
+Route::post('/generateToken', 'App\Services\CustomToken\CustomTokenService@generate')->name('api.generateToken');
+Route::post('/verifyToken', 'App\Services\CustomToken\CustomTokenService@verify')->name('api.verifyToken');
 
-Route::get('/getCookie/{cookieName}', 'App\Services\Cookie\CookieService@getCookie')->name('api.getCookie');
-Route::get('/categoryAll', 'App\Http\Controllers\Api\Pub\Category\CategoryController@getCategories')->name('api.getCategories');
-Route::get('/getProducts', 'App\Http\Controllers\Api\Pub\Product\ProductController@getProducts')->name('api.getProducts');
-Route::get('/getProduct', 'App\Http\Controllers\Api\Pub\Product\ProductController@getProduct')->name('api.getProduct');
+
+Route::middleware('demand_token')->group(function () {
+    Route::get('/categoryAll', 'App\Http\Controllers\Api\Pub\Category\CategoryController@getCategories')->name('api.getCategories');
+    Route::get('/getCookie/{cookieName}', 'App\Services\Cookie\CookieService@getCookie')->name('api.getCookie');
+    Route::get('/getProducts', 'App\Http\Controllers\Api\Pub\Product\ProductController@getProducts')->name('api.getProducts');
+    Route::get('/getProduct', 'App\Http\Controllers\Api\Pub\Product\ProductController@getProduct')->name('api.getProduct');
+    Route::post('/registration', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@register')->name('api.register');
+});
+
+
+Route::post('/login', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@login')->name('api.login');
 
 
 
