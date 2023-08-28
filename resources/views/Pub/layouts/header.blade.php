@@ -10,7 +10,6 @@
 <!--== Start Header Wrapper ==-->
 <header class="header-area header-default" data-bg-img="assets/img/photos/header-bg.webp">
     <div class="container">
-        @include('Pub.layouts.alerts')
         <div class="row no-gutter align-items-center position-relative">
             <div class="col-12">
                 <div class="header-align">
@@ -39,7 +38,8 @@
                                         <li class="mega-menu-item"><a href="#/"
                                                                       class="mega-title"><span>Others Pages</span></a>
                                             <ul>
-                                                <li><a href="{{route('cart.index')}}"><span>Shopping Cart</span></a></li>
+                                                <li><a href="{{route('cart.index')}}"><span>Shopping Cart</span></a>
+                                                </li>
                                                 <li><a href="/checkout"><span>Checkout</span></a></li>
                                                 <li><a href="{{route('wishlist.index')}}"><span>Wishlist</span></a></li>
                                                 <li><a href="{{route('compare.index')}}"><span>Compare</span></a></li>

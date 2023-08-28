@@ -70,7 +70,7 @@
                         <table class="table table-bordered">
                           <thead class="thead-light">
                             <tr>
-                              <th>Order</th>
+                              <th>Customer Email</th>
                               <th>Date</th>
                               <th>Status</th>
                               <th>Total</th>

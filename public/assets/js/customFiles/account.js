@@ -44,7 +44,6 @@ async function fetchUserDataAndReplaceName() {
             logout(); // Вызываем функцию logout()
         });
     }
-
 }
 
 // Функция для получения данных с API и заполнения таблицы
@@ -54,12 +53,11 @@ async function fetchAndFillTable() {
     // Замените 'URL_ВАШЕГО_API' на фактический URL вашего API
     fetch('/api/getOrder', {
         headers: {
-            'Authorization': `Bearer ${authToken}` // Добавляем токен в заголовок
+            'Authorization': `Bearer ${authToken}`, // Добавляем токен в заголовок
         }
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             const tableBody = document.querySelector('.table tbody');
 
             // Очистка текущего содержимого таблицы
@@ -68,21 +66,87 @@ async function fetchAndFillTable() {
             // Заполнение таблицы данными
             data.data.orders.forEach(order => {
                 const row = document.createElement('tr');
+                let statusContent;
+                let additionalCellContent = '';
+
+                if (order.status === 'Approved') {
+                    statusContent = `
+                <form onsubmit="payment('${order.id}')" method="post">
+
+                    <input type="hidden" value="${order.id}" name="order">
+                    <button type="submit" class="check-btn sqr-btn">Go to the payment</button>
+                </form>
+            `;
+                } else if (order.status === 'Pending') {
+                    statusContent = `
+                <a href="https://mail.google.com/" class="check-btn sqr-btn">Confirm on Email</a>
+            `;
+                } else if (order.status === 'Canceled') {
+                    statusContent = 'Canceled';
+                } else if (order.status === 'Paid') {
+                    statusContent = 'Paid';
+                }
+
+                if (order.status !== 'Canceled') {
+                    additionalCellContent = `
+                <td>${order.email}</td>
+                <td>${order.created_at}</td>
+                <td>${order.status}</td>
+                <td>$${order.price}</td>
+            `;
+                } else {
+                    additionalCellContent = `
+                <td>${order.email}</td>
+                <td>${order.created_at}</td>
+                <td>${order.status}</td>
+                <td>$${order.price}</td>
+            `;
+                }
+
                 row.innerHTML = `
-          <td>${order.id}</td>
-          <td>${order.created_at}</td>
-          <td>${order.status}</td>
-          <td>$${order.price}</td>
-          <td><a href="shop-cart.blade.php" class="check-btn sqr-btn">View</a></td>
+            ${additionalCellContent}
+            <td>${statusContent}</td>
         `;
+
                 tableBody.appendChild(row);
             });
-
         })
         .catch(error => {
             console.error('Ошибка при получении данных:', error);
         });
 }
+
+async function payment(OrderData) {
+    // Предотвращение отправки формы по умолчанию
+    event.preventDefault();
+
+    const token = await getTokenFromCookie();
+    const apiUrl = '/api/payment';
+
+    const requestData = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        // Дополнительные данные, если необходимо
+        body: JSON.stringify({
+            order: OrderData,
+        })
+    };
+
+    try {
+        const response = await fetch(apiUrl, requestData);
+        const data = await response.json();
+
+        window.location.href = data.data.redirect;
+        // Дополнительные действия по обработке успешного ответа
+    } catch (error) {
+        console.error('Error:', error);
+        // Обработайте ошибку
+    }
+}
+
 
 fetchAndFillTable();
 

@@ -36,8 +36,8 @@ class CheckoutRequest extends FormRequest
                 'max:255',
                 'alpha_dash'
             ],
-            'address' => 'required|max:255|alpha_dash', // alpha_dash разрешает только буквы, цифры, подчеркивания и дефисы
-            'city' => 'required|max:255|alpha_dash',
+            'address' => 'required|max:255',
+            'city' => 'required|max:255',
             'price' => 'required|integer',
             'zip' => [
                 'required',
@@ -46,7 +46,7 @@ class CheckoutRequest extends FormRequest
                 'max:255',
                 'alpha_dash'
             ],
-            'phone' => 'required|string|max:255|alpha_dash',
+            'phone' => 'required|string|max:255',
             'email' => 'required|email|max:255|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/', // email и без пробелов
             'notes' => 'nullable|max:255|alpha_dash',
         ];

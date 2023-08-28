@@ -14,12 +14,22 @@ abstract class TestCase extends BaseTestCase
     public function login(): TestResponse
     {
         $user = $this->getUser();
+        $guestToken = $this->getGuestToken();
         $data = [
             'email' => $user->email,
             'password' => 'password123',
         ];
 
-        return  $this->post('/api/login', $data);
+        return $this->withHeaders([
+            'guestToken' => $guestToken,
+        ])->post('/api/login', $data);
+    }
+
+    public function getGuestToken()
+    {
+        $response = $this->post('/api/generateToken');
+
+        return $response['data']['token'];
     }
 
     public function getUser(): User

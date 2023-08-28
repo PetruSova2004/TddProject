@@ -24,7 +24,7 @@ class ProductFactory extends Factory
         $categoryIds = Category::query()->pluck('id')->toArray();
 
         return [
-            'title' => fake()->title,
+            'title' => fake()->name,
             'price' => fake()->randomFloat(2, 0, 9999.99),
             'image_path' => "assets/img/shop/1.webp",
             'description' => fake()->text,

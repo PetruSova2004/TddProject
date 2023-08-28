@@ -15,8 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', 'App\Http\Controllers\Web\Pub\IndexController@index')->name('home');
+
 Route::get('/test', 'App\Http\Controllers\Web\Pub\IndexController@test')->name('test');
 Route::get('/test2', 'App\Http\Controllers\Web\Pub\IndexController@test2')->name('test2');
+
+Route::get('/payment', 'App\Http\Controllers\PaymentController@index');
+Route::post('/charge', 'App\Http\Controllers\PaymentController@charge');
+Route::get('/paymentsuccess', 'App\Http\Controllers\PaymentController@payment_success');
+Route::get('/paymenterror', 'App\Http\Controllers\PaymentController@payment_error');
 
 
 Route::get('/products', 'App\Http\Controllers\Web\Pub\ProductController@index')->name('products.index');

@@ -17,7 +17,10 @@ class CategoriesTest extends TestCase
     public function testReceiving(): void
     {
         Category::factory()->create();
-        $response = $this->get('/api/categoryAll');
+        $guestToken = $this->getGuestToken();
+        $response = $this->withHeaders([
+            'guestToken' => $guestToken,
+        ])->get('/api/categoryAll');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -44,9 +47,12 @@ class CategoriesTest extends TestCase
 
     public function testBadReceiving(): void
     {
+        Category::factory()->create();
+
+        // Call api without guest token
         $response = $this->get('/api/categoryAll');
 
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJsonStructure([
             'status',
             'errors',

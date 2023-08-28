@@ -21,7 +21,10 @@ class ProductsTest extends TestCase
         Category::factory()->count(10)->create();
         Product::factory()->count(25)->create();
 
-        $response = $this->get('/api/getProducts');
+        $guestToken = $this->getGuestToken();
+        $response = $this->withHeaders([
+            'guestToken' => $guestToken,
+        ])->get('/api/getProducts');
 
         $response->assertStatus(200)->assertJsonStructure([
             'status',
@@ -71,7 +74,10 @@ class ProductsTest extends TestCase
 
         $product = Product::factory()->create();
 
-        $response = $this->get("/api/getProduct?id={$product->id}");
+        $guestToken = $this->getGuestToken();
+        $response = $this->withHeaders([
+            'guestToken' => $guestToken,
+        ])->get("/api/getProduct?id={$product->id}");
 
         $response->assertStatus(200)->assertJsonStructure([
             'status',

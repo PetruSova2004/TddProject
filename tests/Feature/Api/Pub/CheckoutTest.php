@@ -30,7 +30,6 @@ class CheckoutTest extends TestCase
 
     public function testPlaceOrder(): void
     {
-        $this->withoutExceptionHandling();
         $loginResponse = $this->login();
         $token = $loginResponse['data']['token'];
         $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
@@ -45,8 +44,8 @@ class CheckoutTest extends TestCase
 
         $data = [
             'user_id' => $user->id,
-            'firstname' => $user->name,
-            'lastname' => 'Test',
+            'firstname' => 'Firstname',
+            'lastname' => 'Lastname',
             'email' => $user->email,
             'phone' => "+37367594703",
             'price' => 4862,

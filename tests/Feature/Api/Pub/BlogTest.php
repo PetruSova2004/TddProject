@@ -23,7 +23,7 @@ class BlogTest extends TestCase
         Blog::factory()->count(10)->create();
 
         $response = $this->get('/api/blogs');
-        $response->assertRedirect(route('login.index'));
+        $response->assertStatus(404);
     }
 
     public function testGetBlogs(): void

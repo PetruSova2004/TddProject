@@ -27,12 +27,10 @@ Route::middleware('demand_token')->group(function () {
     Route::get('/getCookie/{cookieName}', 'App\Services\Cookie\CookieService@getCookie')->name('api.getCookie');
     Route::get('/getProducts', 'App\Http\Controllers\Api\Pub\Product\ProductController@getProducts')->name('api.getProducts');
     Route::get('/getProduct', 'App\Http\Controllers\Api\Pub\Product\ProductController@getProduct')->name('api.getProduct');
+
+    Route::post('/login', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@login')->name('api.login');
     Route::post('/registration', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@register')->name('api.register');
 });
-
-
-Route::post('/login', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@login')->name('api.login');
-
 
 
 Route::middleware('auth:api')->group(function () {
@@ -60,4 +58,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/getOrder', 'App\Http\Controllers\Api\Pub\Checkout\CheckoutController@getOrder')->name('api.getOrder');
     Route::post('/placeOrder', 'App\Http\Controllers\Api\Pub\Checkout\CheckoutController@placeOrder')->name('api.placeOrder');
+
+    Route::post('/payment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@charge')->name('api.payOrder');
+    Route::get('/successPayment/{orderId}', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_success')->name('api.paymentSuccess');
+    Route::get('/errorPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_error')->name('api.paymentError');
+
 });
+
+Route::patch('/confirmOrder/{orderId}', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@confirmOrder')->name('api.confirmOrder');
+

@@ -6,23 +6,29 @@ use App\Events\DeleteAllCartProducts;
 use App\Http\Controllers\Api\Pub\Cart\Services\CartService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pub\Checkout\CheckoutRequest;
-use App\Mail\WelcomeEmail;
+use App\Mail\Checkout\ConfirmationMail;
 use App\Models\Order;
 use App\Services\Response\ResponseService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CheckoutService extends Controller
 {
+    private CartService $cartService;
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
     public function insertOrder(CheckoutRequest $request, Model $user)
     {
-        $cartService = new CartService();
-        $carts = $cartService->getUserCart($user);
+        $carts = $this->cartService->getUserCart($user);
 
         if ($carts) {
             try {
@@ -42,7 +48,8 @@ class CheckoutService extends Controller
                     'status' => 'Pending',
                     'ordered_products' => json_encode($carts),
                 ];
-                $orderId = DB::table('orders')->insertGetId($orderData); // Вставка и получение ID
+                $order = Order::query()->create($orderData);
+                $orderId = $order->id;
                 event(new DeleteAllCartProducts($user));
                 DB::commit();
 
@@ -68,11 +75,11 @@ class CheckoutService extends Controller
         return $price;
     }
 
-    public function sendEmail(Model $user): bool|JsonResponse
+    public function sendEmail(Model $user, $data, $totalPrice, $order): bool|JsonResponse
     {
         $userEmail = $user->email;
         try {
-            Mail::to($userEmail)->send(new WelcomeEmail());
+            Mail::to($userEmail)->send(new ConfirmationMail($data, $totalPrice, $order));
             return true;
         } catch (Exception $exception) {
             return ResponseService::sendJsonResponse(false, 400, [
@@ -81,7 +88,7 @@ class CheckoutService extends Controller
         }
     }
 
-    public function getFormatedOrders($orders)
+    public function getFormattedOrders($orders): Collection
     {
         return $orders->map(function ($order) {
             return [

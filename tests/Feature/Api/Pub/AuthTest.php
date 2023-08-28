@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -20,18 +21,23 @@ class AuthTest extends TestCase
     public function testRegistration(): void
     {
         $this->getUser();
+        $password = Str::random(7);
 
         $userData = [
-            'name' => $this->faker->name,
+            'name' => $this->faker->firstName,
             'email' => $this->faker->unique()->safeEmail,
-            'password' => $this->faker->password,
+            'password' => $password,
         ];
 
         $this->assertDatabaseMissing('users', [
             'email' => $userData['email'],
         ]);
 
-        $response = $this->post('/api/registration', $userData);
+        $guestToken = $this->getGuestToken();
+
+        $response = $this->withHeaders([
+            'guestToken' => $guestToken,
+        ])->post('/api/registration', $userData);
 
         $response->assertStatus(200)->assertJson([
             'status' => true,
@@ -74,7 +80,11 @@ class AuthTest extends TestCase
             'password' => 'password123',
         ];
 
-        $response = $this->post('/api/login', $data);
+        $guestToken = $this->getGuestToken();
+
+        $response = $this->withHeaders([
+            'guestToken' => $guestToken,
+        ])->post('/api/login', $data);
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('token', $response->json()['data']);
