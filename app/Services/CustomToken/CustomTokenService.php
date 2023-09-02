@@ -15,7 +15,7 @@ class CustomTokenService extends Controller
     {
         try {
             $token = bin2hex(random_bytes(16)); // Генерируем случайный токен
-            $expiresAt = now()->addHours(1);
+            $expiresAt = now()->addHours(48);
 
             DB::table('custom_tokens')->insert([
                 'token' => $token,

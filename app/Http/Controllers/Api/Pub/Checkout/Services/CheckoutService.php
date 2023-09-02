@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Pub\Checkout\CheckoutRequest;
 use App\Mail\Checkout\ConfirmationMail;
 use App\Models\Order;
+use App\Models\User;
 use App\Services\Response\ResponseService;
 use Carbon\Carbon;
 use Exception;
@@ -17,7 +18,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class CheckoutService extends Controller
 {
@@ -39,6 +39,7 @@ class CheckoutService extends Controller
                     'lastname' => $request->input('lastname'),
                     'email' => $request->input('email'),
                     'phone' => $request->input('phone'),
+                    'discount' => $request->input('discount'),
                     'price' => $request->input('price'),
                     'company' => $request->input('company'),
                     'country' => $request->input('country'),
@@ -48,6 +49,7 @@ class CheckoutService extends Controller
                     'status' => 'Pending',
                     'ordered_products' => json_encode($carts),
                 ];
+
                 $order = Order::query()->create($orderData);
                 $orderId = $order->id;
                 event(new DeleteAllCartProducts($user));
@@ -75,11 +77,11 @@ class CheckoutService extends Controller
         return $price;
     }
 
-    public function sendEmail(Model $user, $data, $totalPrice, $order): bool|JsonResponse
+    public function sendEmail(User $user, $data, int $totalPrice, Order $order, array $discount = null): bool|JsonResponse
     {
         $userEmail = $user->email;
         try {
-            Mail::to($userEmail)->send(new ConfirmationMail($data, $totalPrice, $order));
+            Mail::to($userEmail)->send(new ConfirmationMail($data, $totalPrice, $order, $discount));
             return true;
         } catch (Exception $exception) {
             return ResponseService::sendJsonResponse(false, 400, [

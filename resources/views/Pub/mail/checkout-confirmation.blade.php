@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <form action="{{ route('api.confirmOrder', ['orderId' => $order->id])}}" method="post">
+    <form action="{{ route('api.approveOrder', ['orderId' => $order->id])}}" method="post">
         @csrf
         @method('PATCH')
 
@@ -37,6 +37,11 @@
             <h3>Overall price:</h3>
             <p>${{$totalPrice}}</p>
 
+            @if($discount)
+                <h3>Discount %{{$discount['totalPercent']}}</h3>
+                <h3>Price with discount:</h3>
+                <p>${{floor($discount['priceWithDiscount'])}}</p>
+            @endif
             </tbody>
         </table>
 

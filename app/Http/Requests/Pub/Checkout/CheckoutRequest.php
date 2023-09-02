@@ -26,10 +26,11 @@ class CheckoutRequest extends FormRequest
      */
     public function rules(): array
     {
+        // alpha_dash проверяет что строка содержит только буквы, цифры, дефисы и подчеркивания.
         return [
             'firstname' => 'required|max:255|alpha_dash',
             'lastname' => 'required|max:255|alpha_dash',
-            'company' => 'sometimes|required|max:255|alpha_dash', // опциональное поле, но если присутствует, то должно быть обязательным
+            'company' => 'nullable|min:3|max:255|alpha_dash',
             'country' => [
                 'required',
                 new CountryShouldBeFromDB(),

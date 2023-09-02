@@ -21,6 +21,7 @@ class Order extends Model
         'lastname',
         'email',
         'phone',
+        'discount',
         'price',
         'company',
         'country',

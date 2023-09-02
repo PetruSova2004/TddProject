@@ -26,7 +26,7 @@ class CartService extends Controller
                     'product_id' => $cartProduct->product_id,
                     'title' => $cartProduct->title,
                     'quantity' => $cartProduct->quantity,
-                    'price_x1' => $cartProduct->price,
+                    'price_x1' => floor($cartProduct->price),
                     'total_price' => $cartProduct->quantity * $cartProduct->price,
                     'image_path' => $cartProduct->image_path,
                 ];
@@ -66,9 +66,12 @@ class CartService extends Controller
     {
         $totalPercents = 0;
 
-        foreach ($coupons as $coupon) {
-            $totalPercents += $coupon->discount_percent;
+        if ($coupons) {
+            foreach ($coupons as $coupon) {
+                $totalPercents += $coupon->discount_percent;
+            }
         }
+
         $priceWithDiscount = $totalPrice - ($totalPrice / 100 * $totalPercents);
 
         return [

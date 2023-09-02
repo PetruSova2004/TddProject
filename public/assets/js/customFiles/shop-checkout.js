@@ -217,8 +217,11 @@ async function addOrder() {
 
         const placeOrderButton = document.getElementById('placeOrderButton');
 
-        const totalElement = document.getElementById("total");
+        const totalElement = document.getElementById("subtotal");
         const price = parseInt(totalElement.textContent.slice(1));
+
+        const discountElement = document.getElementById("discount");
+        const discount = parseInt(discountElement.textContent.slice(1));
 
         placeOrderButton.disabled = true;
 
@@ -228,6 +231,7 @@ async function addOrder() {
             lastname: document.getElementById('l_name').value,
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
+            discount: discount,
             price: price,
             company: document.getElementById('com_name').value,
             country: document.getElementById('country').value,
@@ -247,13 +251,12 @@ async function addOrder() {
         });
 
         const data = await response.json();
-        console.log(data);
         if (data.status === true) {
             await alert('Your order has been successfully added, and waiting for confirmation on email');
             window.location.href = "/";
         } else {
+            alert('Validation Error')
             window.location.reload();
-            await alert('sex');
         }
     } catch (error) {
         console.error('Error:', error);

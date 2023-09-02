@@ -142,7 +142,7 @@
                       <h3>Account Details</h3>
                       <div class="account-details-form">
 
-                        <form action="{{route('api.updateProfile')}}">
+                        <form action="{{route('api.updateProfile')}}" method="post">
                             @method('PATCH')
                             @csrf
 

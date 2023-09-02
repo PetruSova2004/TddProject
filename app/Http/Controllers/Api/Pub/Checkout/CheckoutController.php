@@ -28,7 +28,11 @@ class CheckoutController extends Controller
     {
         try {
             $request->validated();
-            $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
+            $user = User::query()
+                ->find(Auth::user()->getAuthIdentifier())
+                ->first();
+            // Здесь мы сначала создаем объект запроса с помощью User::query(), затем вызываем find, и после этого добавляем first(), чтобы выполнить запрос и получить объект модели.
+
             $order = $this->service->insertOrder($request, $user);
 
             if ($order) {
@@ -37,7 +41,7 @@ class CheckoutController extends Controller
                 $totalPrice = $this->service->getOrderTotalPrice($order);
                 $discount = $this->cartService->calcPriceWithDiscount($user->coupons, $totalPrice);
 
-                $this->service->sendEmail($user, $products, $totalPrice, $order);
+                $this->service->sendEmail($user, $products, $totalPrice, $order, $discount);
 
                 return ResponseService::sendJsonResponse(true, 200, [], [
                     'success' => "Order number " . $order->id . " has been added",

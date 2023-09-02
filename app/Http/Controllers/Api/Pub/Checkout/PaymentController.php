@@ -8,10 +8,11 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Services\Response\ResponseService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Omnipay\Common\GatewayInterface;
 use Omnipay\Omnipay;
+use Illuminate\Http\RedirectResponse;
 
 class PaymentController extends Controller
 {
@@ -30,20 +31,9 @@ class PaymentController extends Controller
         $this->gateway->setTestMode(true); //set it to 'false' when go live
     }
 
-    public function confirmOrder(Request $request, $orderId)
-    {
-        try {
-            $order = Order::query()->where('id', $orderId)->firstOrFail();
-            $order->status = 'Approved';
-            $order->save();
-            return redirect()->route('home')->with('success', 'Your order was successfully approved');
-        } catch (Exception $exception) {
-            return redirect()->route('home')->with('error', $exception->getMessage());
-        }
 
-    }
 
-    public function charge(Request $request)
+    public function charge(Request $request): JsonResponse
     {
         $data = $request->json()->all(); // Получение данных из JSON в теле запроса
         $order = Order::query()->where('id', $data['order'])->first();
@@ -56,9 +46,8 @@ class PaymentController extends Controller
                     'amount' => $purchaseData['totalPrice'],
                     'items' => $purchaseData['products'],
                     'currency' => env('PAYPAL_CURRENCY'),
-//                    'returnUrl' => route('api.paymentSuccess', ['orderId' => $order->id]),
-                    'returnUrl' => url('paymentsuccess'),
-                    'cancelUrl' => url('paymenterror'),
+                    'returnUrl' => route('success-payment.index', ['order' => $order->id, 'status' => true]),
+                    'cancelUrl' => route('error-payment.index', ['status' => 'false']),
                 ))->send();
 
                 if ($response->isRedirect()) {
@@ -75,12 +64,18 @@ class PaymentController extends Controller
                     'error' => $e->getMessage(),
                 ]);
             }
+        } else {
+            return ResponseService::sendJsonResponse(false, 400, [
+                'error' => 'This order does not exist',
+            ]);
         }
     }
 
-    public function payment_success(Request $request, $orderId)
+    public function payment_success(Request $request): JsonResponse
     {
-        if ($request->input('paymentId') && $request->input('PayerID')) {
+        if ($request->input('paymentId') && $request->input('PayerID') && $request->input('order')) {
+            $this->service->payOrder($request->input('order'));
+
             $transaction = $this->gateway->completePurchase(array(
                 'payer_id' => $request->input('PayerID'),
                 'transactionReference' => $request->input('paymentId'),
@@ -95,30 +90,30 @@ class PaymentController extends Controller
                 $isPaymentExist = Payment::query()->where('payment_id', $arr_body['id'])->first();
 
                 if (!$isPaymentExist) {
-                    $payment = new Payment;
-                    $payment->payment_id = $arr_body['id'];
-                    $payment->payer_id = $arr_body['payer']['payer_info']['payer_id'];
-                    $payment->payer_email = $arr_body['payer']['payer_info']['email'];
-                    $payment->amount = $arr_body['transactions'][0]['amount']['total'];
-                    $payment->currency = env('PAYPAL_CURRENCY');
-                    $payment->payment_status = $arr_body['state'];
-                    $payment->save();
+                    $this->service->storePayment($arr_body);
                 }
-
 
                 return ResponseService::sendJsonResponse(true, 200, [], [
                     'success' => "Payment is successful. Your transaction id is: " . $arr_body['id'],
                 ]);
             } else {
-                return $response->getMessage();
+                return ResponseService::sendJsonResponse(false, 400, [
+                    'Error' => $response->getMessage(),
+                ]);
             }
         } else {
-            return 'Transaction is declined';
+            return ResponseService::sendJsonResponse(false, 400, [
+                'Error' => 'Transaction is declined',
+            ]);
         }
     }
 
     public function payment_error()
     {
-        return 'User is canceled the payment.';
+        return ResponseService::sendJsonResponse(false, 400, [
+            'Error' => 'User is canceled to payment',
+        ]);
     }
+
+
 }

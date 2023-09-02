@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/generateToken', 'App\Services\CustomToken\CustomTokenService@generate')->name('api.generateToken');
 Route::post('/verifyToken', 'App\Services\CustomToken\CustomTokenService@verify')->name('api.verifyToken');
 
+Route::patch('/confirmOrder/{orderId}', 'App\Http\Controllers\Api\Pub\Checkout\Services\PaymentService@approveOrder')->name('api.approveOrder');
 
 Route::middleware('demand_token')->group(function () {
     Route::get('/categoryAll', 'App\Http\Controllers\Api\Pub\Category\CategoryController@getCategories')->name('api.getCategories');
@@ -60,10 +61,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/placeOrder', 'App\Http\Controllers\Api\Pub\Checkout\CheckoutController@placeOrder')->name('api.placeOrder');
 
     Route::post('/payment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@charge')->name('api.payOrder');
-    Route::get('/successPayment/{orderId}', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_success')->name('api.paymentSuccess');
-    Route::get('/errorPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_error')->name('api.paymentError');
+    Route::post('/errorPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_error')->name('api.paymentError');
+    Route::post('/successPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_success')->name('api.paymentSuccess');
 
 });
 
-Route::patch('/confirmOrder/{orderId}', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@confirmOrder')->name('api.confirmOrder');
 
