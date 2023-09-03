@@ -21,8 +21,6 @@ Route::get('/test2', 'App\Http\Controllers\Web\Pub\IndexController@test2')->name
 
 Route::get('/payment', 'App\Http\Controllers\PaymentController@index');
 Route::post('/charge', 'App\Http\Controllers\PaymentController@charge');
-Route::get('/paymentsuccess', 'App\Http\Controllers\PaymentController@payment_success');
-Route::get('/paymenterror', 'App\Http\Controllers\PaymentController@payment_error');
 
 
 Route::get('/products', 'App\Http\Controllers\Web\Pub\ProductController@index')->name('products.index');
@@ -50,7 +48,10 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => 'custom_web_auth'], function () {
     Route::get('/cart', 'App\Http\Controllers\Web\Pub\CartController@index')->name('cart.index');
+
     Route::get('/checkout', 'App\Http\Controllers\Web\Pub\CheckoutController@index')->name('checkout.index');
+    Route::get('/confirmOrder', 'App\Http\Controllers\Web\Pub\CheckoutController@confirmOrder')->name('checkout.confirmOrder');
+
     Route::get('/account', 'App\Http\Controllers\Web\Pub\UserController@index')->name('user.index');
 
     Route::get('/successPayment', 'App\Http\Controllers\Web\Pub\AfterPaymentController@success')->name('success-payment.index');

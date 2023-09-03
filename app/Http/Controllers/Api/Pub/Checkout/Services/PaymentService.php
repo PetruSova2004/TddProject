@@ -61,12 +61,19 @@ class PaymentService extends Controller
     {
         try {
             $order = Order::query()->where('id', $orderId)->firstOrFail();
-            $order->status = 'Approved';
-            $order->save();
 
-            return ResponseService::sendJsonResponse(true, 200, [], [
-                'success' => 'Order has been successfully updated'
-            ]);
+            if ($order->status === 'Pending') {
+                $order->status = 'Approved';
+                $order->save();
+
+                return ResponseService::sendJsonResponse(true, 200, [], [
+                    'success' => 'Order has been successfully updated'
+                ]);
+            } else {
+                return ResponseService::sendJsonResponse(false, 400, [
+                    'error' => 'Order is not waiting for confirmation'
+                ]);
+            }
         } catch (Exception $exception) {
             return ResponseService::sendJsonResponse(false, 400, [
                 'Error' => $exception->getMessage(),

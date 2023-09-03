@@ -22,10 +22,12 @@ use Illuminate\Support\Facades\Mail;
 class CheckoutService extends Controller
 {
     private CartService $cartService;
+
     public function __construct(CartService $cartService)
     {
         $this->cartService = $cartService;
     }
+
     public function insertOrder(CheckoutRequest $request, Model $user)
     {
         $carts = $this->cartService->getUserCart($user);
@@ -92,14 +94,23 @@ class CheckoutService extends Controller
 
     public function getFormattedOrders($orders): Collection
     {
-        return $orders->map(function ($order) {
+        $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
+        $coupons = $user->coupons;
+
+        return $orders->map(function ($order) use ($coupons) {
+            if ($coupons->count()) {
+                $price = $this->cartService->calcPriceWithDiscount($coupons, $order->price)['priceWithDiscount'];
+            } else {
+                $price = $order->price;
+            }
+
             return [
                 'id' => $order->id,
                 'firstname' => $order->firstname,
                 'lastname' => $order->lastname,
                 'email' => $order->email,
                 'phone' => $order->phone,
-                'price' => $order->price,
+                'price' => floor($price),
                 'company' => $order->company,
                 'country' => $order->country,
                 'address' => $order->address,
@@ -110,6 +121,12 @@ class CheckoutService extends Controller
                 'created_at' => Carbon::parse($order->created_at)->toDateString(), // Форматирование даты
             ];
         });
+    }
+
+    public function getDiscountOrderPrice($price)
+    {
+        $user = Auth::user();
+
     }
 
 }

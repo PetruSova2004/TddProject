@@ -9,44 +9,38 @@
 </head>
 <body>
 <div class="container">
-    <form action="{{ route('api.approveOrder', ['orderId' => $order->id])}}" method="post">
-        @csrf
-        @method('PATCH')
+    <h2>Данные заказа</h2>
 
-
-        <h2>Данные заказа</h2>
-
-        <table class="table">
-            <thead>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Quantity</th>
+            <th>Price x1</th>
+            <th>Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($data as $item)
             <tr>
-                <th>Title</th>
-                <th>Quantity</th>
-                <th>Price x1</th>
-                <th>Total Price</th>
+                <td>{{ $item->title }}</td>
+                <td>{{ $item->quantity }}</td>
+                <td>${{ $item->price_x1 }}</td>
+                <td>${{ $item->total_price }}</td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach($data as $item)
-                <tr>
-                    <td>{{ $item->title }}</td>
-                    <td>{{ $item->quantity }}</td>
-                    <td>${{ $item->price_x1 }}</td>
-                    <td>${{ $item->total_price }}</td>
-                </tr>
-            @endforeach
-            <h3>Overall price:</h3>
-            <p>${{$totalPrice}}</p>
+        @endforeach
+        <h3>Overall price:</h3>
+        <p>${{$totalPrice}}</p>
 
-            @if($discount)
-                <h3>Discount %{{$discount['totalPercent']}}</h3>
-                <h3>Price with discount:</h3>
-                <p>${{floor($discount['priceWithDiscount'])}}</p>
-            @endif
-            </tbody>
-        </table>
+        @if($discount)
+            <h3>Discount %{{$discount['totalPercent']}}</h3>
+            <h3>Price with discount:</h3>
+            <p>${{floor($discount['priceWithDiscount'])}}</p>
+        @endif
+        </tbody>
+    </table>
 
-        <input type="submit" name="submit" value="Confirm Order">
-    </form>
+    <a href="{{ route('checkout.confirmOrder', ['order' => $order->id]) }}" class="btn btn-primary">Confirm Order</a>
 </div>
 
 </body>

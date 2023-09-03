@@ -27,10 +27,7 @@ async function index() {
     })
         .then(response => response.json())
         .then(data => {
-            // Обработка данных от API
-            if (data.status === true) {
-                alert('zbs');
-            }
+
         })
         .catch(error => {
             // Обработка ошибок
