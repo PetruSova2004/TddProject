@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
 
-    private $service;
+    private CartService $service;
 
     public function __construct(CartService $service)
     {

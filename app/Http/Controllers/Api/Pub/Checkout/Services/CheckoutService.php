@@ -22,10 +22,12 @@ use Illuminate\Support\Facades\Mail;
 class CheckoutService extends Controller
 {
     private CartService $cartService;
+    private CouponService $couponService;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, CouponService $couponService)
     {
         $this->cartService = $cartService;
+        $this->couponService = $couponService;
     }
 
     public function insertOrder(CheckoutRequest $request, Model $user)
@@ -41,7 +43,7 @@ class CheckoutService extends Controller
                     'lastname' => $request->input('lastname'),
                     'email' => $request->input('email'),
                     'phone' => $request->input('phone'),
-                    'discount' => $request->input('discount'),
+                    'discount' => $this->couponService->getUserDiscount(),
                     'price' => $request->input('price'),
                     'company' => $request->input('company'),
                     'country' => $request->input('country'),
@@ -125,7 +127,7 @@ class CheckoutService extends Controller
 
     public function getDiscountOrderPrice($price)
     {
-        $user = Auth::user();
+
 
     }
 

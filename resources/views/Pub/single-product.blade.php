@@ -133,9 +133,9 @@
                           <input type="text" title="Quantity" value="01">
                         </div>
                       </div>
-                      <button type="button" class="btn-product-cart" data-bs-toggle="modal" data-bs-target="#action-CartAddModal">
-                        Add To Cart
-                      </button>
+                        <button id="addToCartButton" type="button" class="btn-product-cart" data-bs-toggle="modal" data-bs-target="#action-CartAddModal">
+                            Add To Cart
+                        </button>
                         <button type="button" class="btn-product-wishlist" data-bs-toggle="modal" data-bs-target="#action-WishlistModal">
                           <i class="pe-7s-like"></i>
                         </button>

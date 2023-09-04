@@ -1,7 +1,6 @@
 async function fetchUserDataAndReplaceName() {
-    // Замените 'URL_ВАШЕГО_API' на фактический URL вашего API
     const apiUrl = '/api/getUser';
-    const authToken = await getTokenFromCookie(); // Замените на ваш токен
+    const authToken = await getTokenFromCookie();
 
     fetch(apiUrl, {
         method: 'GET',
@@ -146,6 +145,55 @@ async function payment(OrderData) {
         // Обработайте ошибку
     }
 }
+
+// Получите форму и элементы ввода
+const profileForm = document.getElementById('profileForm');
+const submitButton = document.getElementById('submitButton');
+
+// Обработчик отправки формы
+profileForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    // Получите значения полей формы
+    const name = document.getElementById('display-name').value;
+    const password = document.getElementById('new-pwd').value;
+    const passwordConfirmation = document.getElementById('confirm-pwd').value;
+
+    const authToken = await getTokenFromCookie();
+
+    // Создайте объект с данными для отправки на сервер
+    const data = {
+        name: name,
+        password: password,
+        password_confirmation: passwordConfirmation,
+    };
+
+    const apiUrl = '/api/updateProfile';
+
+    // Отправьте PATCH-запрос
+    fetch(apiUrl, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken,
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => response.json())
+        .then((responseData) => {
+            if (responseData.status === true) {
+                alert('Data has been successfully changed');
+                window.location.reload();
+            } else {
+                alert('Something goes wrong');
+                window.location.reload();
+            }
+        })
+        .catch((error) => {
+            // Обработайте ошибку здесь
+            console.error('Ошибка:', error);
+        });
+});
 
 
 fetchAndFillTable();

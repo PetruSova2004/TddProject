@@ -1,16 +1,6 @@
 async function addToCart(productId, quantity) {
     try {
-        const customToken = localStorage.getItem('customToken');
-
-        const responseToken = await fetch('/api/getCookie/Token', {
-            method: 'GET',
-            headers: {
-                'guestToken': customToken,
-            }
-        });
-        const dataToken = await responseToken.json();
-        const token = dataToken.data.cookie;
-
+        const token = await getTokenFromCookie();
         const response = await fetch('/api/cart/add', {
             method: 'POST',
             headers: {

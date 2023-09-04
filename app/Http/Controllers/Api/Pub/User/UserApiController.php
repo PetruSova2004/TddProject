@@ -6,16 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Pub\User\UpdateRequest;
 use App\Models\User;
 use App\Services\Response\ResponseService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserApiController extends Controller
 {
     public function getUserByToken(): JsonResponse
     {
         $user = User::query()
-            ->where('id', Auth::guard('api')
-                ->user()->getAuthIdentifier())
+            ->where('id', Auth::guard('api')->user()->getAuthIdentifier())
             ->first();
 
         if ($user) {
@@ -33,16 +34,18 @@ class UserApiController extends Controller
 
     public function updateProfile(UpdateRequest $request): JsonResponse
     {
-        $validatedData = $request->validated();
+        $request->validated();
         try {
             $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
-            $user->fill($validatedData); // Бросит исключение, если данные невалидны
-            $user->save();
+            $user->update([
+                'name' => $request->input('name'),
+                'password' => Hash::make($request->input('new-pwd')),
+            ]);
 
             return ResponseService::sendJsonResponse(true, 200, [], [
                 'success' => 'Data has been successfully changed',
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return ResponseService::sendJsonResponse(false, 400, [
                 'error' => 'Error: ' . $exception->getMessage(),
             ]);

@@ -26,18 +26,16 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => [
+                'required',
                 'min:4',
                 'max:255',
                 'alpha_dash',
             ],
-            'email' => [
-                'email',
-                'max:255',
-                'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/', // email без пробелов
-            ],
             'password' => [
+                'required',
                 'min:6',
                 'max:255',
+                'confirmed',
                 'alpha_dash',
             ],
         ];
@@ -46,7 +44,7 @@ class UpdateRequest extends FormRequest
     protected function failedValidation(\Illuminate\Support\Facades\Validator|\Illuminate\Contracts\Validation\Validator $validator)
     {
         throw new HttpResponseException(
-            ResponseService::sendJsonResponse(false, 400, [
+            ResponseService::sendJsonResponse(false, 405, [
                 'error' => $validator->errors(),
             ])
         );

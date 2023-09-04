@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Pub\Checkout\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +37,19 @@ class CouponService extends Controller
         $activatedCouponTime = Carbon::parse($createdAtTime);
 
         return $currentTime->diffInHours($activatedCouponTime);
+    }
 
+    public function getUserDiscount(): int
+    {
+        $user = User::query()
+            ->where('id', Auth::user()->getAuthIdentifier())
+            ->first();
+        $discount = 0;
+
+        foreach ($user->coupons as $coupon) {
+            $discount += $coupon->discount_percent;
+        }
+        return $discount;
     }
 
 }

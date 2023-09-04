@@ -94,7 +94,6 @@ class CartTest extends TestCase
                 'status' => true,
                 'errors' => [],
             ]);
-
     }
 
     public function testCartDelete(): void

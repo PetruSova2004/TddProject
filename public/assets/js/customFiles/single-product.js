@@ -44,3 +44,42 @@ fetch(apiWithParams, {
     .catch(error => {
         // Обработка ошибок
     });
+
+
+const addToCartButton = document.getElementById('addToCartButton');
+
+// Добавьте обработчик события клика
+addToCartButton.addEventListener('click', function () {
+    // Получите идентификатор товара
+    const productId = id; // Замените на реальный идентификатор товара
+
+    // Получите количество товара
+    const quantityInput = document.querySelector('.pro-qty input');
+    const quantity = parseInt(quantityInput.value, 10);
+
+
+    addToCart(productId, quantity);
+});
+
+async function addToCart(productId, quantity) {
+    try {
+        const token = await getTokenFromCookie();
+        const response = await fetch('/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: quantity
+            })
+        });
+        const data = await response.json();
+
+        console.log(data);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
