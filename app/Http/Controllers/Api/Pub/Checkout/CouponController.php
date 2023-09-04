@@ -46,7 +46,7 @@ class CouponController extends Controller
                 'value' => $coupon->code,
                 'time' => 360,
             ];
-            $coupon->users()->attach($user->getAuthIdentifier());
+            $coupon->users->attach($user->getAuthIdentifier());
             return ResponseService::sendJsonResponse(true, 200, [], [
                 'success' => 'Coupon has been found',
                 'discount' => $coupon->discount_percent,

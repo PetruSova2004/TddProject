@@ -39,7 +39,7 @@ class UserApiController extends Controller
             $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
             $user->update([
                 'name' => $request->input('name'),
-                'password' => Hash::make($request->input('new-pwd')),
+                'password' => Hash::make($request->input('password')),
             ]);
 
             return ResponseService::sendJsonResponse(true, 200, [], [

@@ -170,7 +170,6 @@ profileForm.addEventListener('submit', async function (e) {
 
     const apiUrl = '/api/updateProfile';
 
-    // Отправьте PATCH-запрос
     fetch(apiUrl, {
         method: 'PATCH',
         headers: {
@@ -182,6 +181,7 @@ profileForm.addEventListener('submit', async function (e) {
         .then((response) => response.json())
         .then((responseData) => {
             if (responseData.status === true) {
+                console.log(responseData);
                 alert('Data has been successfully changed');
                 window.location.reload();
             } else {
