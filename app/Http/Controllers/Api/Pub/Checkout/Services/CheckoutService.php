@@ -9,6 +9,7 @@ use App\Http\Requests\Pub\Checkout\CheckoutRequest;
 use App\Mail\Checkout\ConfirmationMail;
 use App\Models\Order;
 use App\Models\User;
+use App\Services\Coupon\CouponTrait;
 use App\Services\Response\ResponseService;
 use Carbon\Carbon;
 use Exception;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Mail;
 
 class CheckoutService extends Controller
 {
+    use CouponTrait;
     private CartService $cartService;
     private CouponService $couponService;
 
@@ -43,7 +45,7 @@ class CheckoutService extends Controller
                     'lastname' => $request->input('lastname'),
                     'email' => $request->input('email'),
                     'phone' => $request->input('phone'),
-                    'discount' => $this->couponService->getUserDiscount(),
+                    'discount' => $this->getUserDiscount(),
                     'price' => $request->input('price'),
                     'company' => $request->input('company'),
                     'country' => $request->input('country'),
@@ -101,7 +103,7 @@ class CheckoutService extends Controller
 
         return $orders->map(function ($order) use ($coupons) {
             if ($coupons->count()) {
-                $price = $this->cartService->calcPriceWithDiscount($coupons, $order->price)['priceWithDiscount'];
+                $price = $this->cartService->calcPriceWithDiscount($order->price)['priceWithDiscount'];
             } else {
                 $price = $order->price;
             }
@@ -123,12 +125,6 @@ class CheckoutService extends Controller
                 'created_at' => Carbon::parse($order->created_at)->toDateString(), // Форматирование даты
             ];
         });
-    }
-
-    public function getDiscountOrderPrice($price)
-    {
-
-
     }
 
 }

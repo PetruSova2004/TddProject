@@ -10,6 +10,12 @@ class Coupon extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'code',
+        'discount_percent',
+        'created_at',
+        'updated_at',
+    ];
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

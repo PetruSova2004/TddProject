@@ -5,12 +5,11 @@ async function fetchUserDataAndReplaceName() {
     fetch(apiUrl, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${authToken}` // Добавляем токен в заголовок
+            'Authorization': `Bearer ${authToken}`,
         }
     })
         .then(response => response.json())
         .then(data => {
-            // Получаем данные из API
             const newName = data.data.name;
 
             // Заменяем текст на странице
@@ -27,7 +26,6 @@ async function fetchUserDataAndReplaceName() {
             const displayNameInput = document.getElementById("display-name");
             const emailInput = document.getElementById("email");
 
-            // Заполняем поля данными
             displayNameInput.value = data.data.name;
             emailInput.value = data.data.email;
 
@@ -39,30 +37,26 @@ async function fetchUserDataAndReplaceName() {
     const logoutLink = document.querySelector('.logout');
     if (logoutLink) {
         logoutLink.addEventListener('click', function (event) {
-            event.preventDefault(); // Предотвращаем действие по умолчанию (переход по ссылке)
-            logout(); // Вызываем функцию logout()
+            event.preventDefault();
+            logout();
         });
     }
 }
 
-// Функция для получения данных с API и заполнения таблицы
-async function fetchAndFillTable() {
-    const authToken = await getTokenFromCookie(); // Замените на ваш токен
+async function fetchAndFillOrdersTable() {
+    const authToken = await getTokenFromCookie();
 
-    // Замените 'URL_ВАШЕГО_API' на фактический URL вашего API
     fetch('/api/getOrder', {
         headers: {
-            'Authorization': `Bearer ${authToken}`, // Добавляем токен в заголовок
+            'Authorization': `Bearer ${authToken}`,
         }
     })
         .then(response => response.json())
         .then(data => {
             const tableBody = document.querySelector('.table tbody');
 
-            // Очистка текущего содержимого таблицы
             tableBody.innerHTML = '';
 
-            // Заполнение таблицы данными
             data.data.orders.forEach(order => {
                 const row = document.createElement('tr');
                 let statusContent;
@@ -146,11 +140,8 @@ async function payment(OrderData) {
     }
 }
 
-// Получите форму и элементы ввода
 const profileForm = document.getElementById('profileForm');
-const submitButton = document.getElementById('submitButton');
 
-// Обработчик отправки формы
 profileForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -161,7 +152,6 @@ profileForm.addEventListener('submit', async function (e) {
 
     const authToken = await getTokenFromCookie();
 
-    // Создайте объект с данными для отправки на сервер
     const data = {
         name: name,
         password: password,
@@ -196,6 +186,44 @@ profileForm.addEventListener('submit', async function (e) {
 });
 
 
-fetchAndFillTable();
+// Функция для выполнения запроса к API и обновления данных на странице
+async function fetchAndDisplayCoupons() {
+    const token = await getTokenFromCookie();
 
+    fetch('/api/getCoupon', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.data.coupons);
+            const couponTableBody = document.getElementById('coupon-table-body');
+            couponTableBody.innerHTML = '';
+
+            data.data.coupons.forEach(coupon => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                            <td>${coupon.code}</td>
+                            <td>%${coupon.discount_percent}</td>
+                            <td>${coupon.created_at}</td>
+                            <td>${coupon.expired ? 'Yes' : 'No'}</td>
+                            <td>
+                                <a href="#/" class="check-btn sqr-btn">
+                                    <i class="fa fa-cloud-download"></i> Download File
+                                </a>
+                            </td>
+                        `;
+                couponTableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Ошибка при выполнении запроса к API:', error);
+        });
+    // Вызываем функцию для загрузки данных о купонах при загрузке страницы
+}
+
+fetchAndDisplayCoupons()
+fetchAndFillOrdersTable();
 fetchUserDataAndReplaceName();

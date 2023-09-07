@@ -12,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Omnipay\Common\GatewayInterface;
 use Omnipay\Omnipay;
-use Illuminate\Http\RedirectResponse;
 
 class PaymentController extends Controller
 {
@@ -74,7 +73,6 @@ class PaymentController extends Controller
     public function payment_success(Request $request): JsonResponse
     {
         if ($request->input('paymentId') && $request->input('PayerID') && $request->input('order')) {
-            $this->service->payOrder($request->input('order'));
 
             $transaction = $this->gateway->completePurchase(array(
                 'payer_id' => $request->input('PayerID'),
@@ -84,6 +82,8 @@ class PaymentController extends Controller
 
             if ($response->isSuccessful()) {
                 // The customer has successfully paid.
+                $this->service->payOrder($request->input('order'));
+
                 $arr_body = $response->getData();
 
                 // Insert transaction data into the database

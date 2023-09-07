@@ -49,7 +49,7 @@ Route::middleware('auth:api')->group(function () {
     Route::patch('/updateProfile', 'App\Http\Controllers\Api\Pub\User\UserApiController@updateProfile')->name('api.updateProfile');
 
     Route::post('/applyCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@apply')->name('api.applyCoupon');
-    Route::post('/deleteCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@delete')->name('api.deleteCoupon');
+    Route::delete('/deleteCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@delete')->name('api.deleteCoupon');
     Route::get('/getCoupon', 'App\Services\Coupon\CouponService@getCoupon')->name('api.getCoupon');
 
     Route::get('/blogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogs')->name('api.getBlogs');
@@ -63,7 +63,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/payment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@charge')->name('api.payOrder');
     Route::post('/errorPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_error')->name('api.paymentError');
     Route::post('/successPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_success')->name('api.paymentSuccess');
-
 });
 
 

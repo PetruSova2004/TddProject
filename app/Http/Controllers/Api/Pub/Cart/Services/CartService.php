@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers\Api\Pub\Cart\Services;
 
+use App\Http\Controllers\Api\Pub\Checkout\Services\CouponService;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Coupon;
+use App\Services\Coupon\CouponTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class CartService extends Controller
 {
+
+//    private CouponService $couponService;
+//
+//    public function __construct(CouponService $couponService)
+//    {
+//        $this->couponService = $couponService;
+//    }
+
+    use CouponTrait;
     public function getUserCart(Model $user): array|bool
     {
         $cartProducts = DB::table('products')
@@ -62,15 +75,9 @@ class CartService extends Controller
         }
     }
 
-    public function calcPriceWithDiscount($coupons, $totalPrice): array
+    public function calcPriceWithDiscount($totalPrice): array
     {
-        $totalPercents = 0;
-
-        if ($coupons) {
-            foreach ($coupons as $coupon) {
-                $totalPercents += $coupon->discount_percent;
-            }
-        }
+        $totalPercents = $this->getUserDiscount();
 
         $priceWithDiscount = $totalPrice - ($totalPrice / 100 * $totalPercents);
 

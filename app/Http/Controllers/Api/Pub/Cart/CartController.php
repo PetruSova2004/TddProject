@@ -36,7 +36,7 @@ class CartController extends Controller
             }
 
             if ($coupons->count() > 0) {
-                $priceData = $this->service->calcPriceWithDiscount($coupons, $totalPrice);
+                $priceData = $this->service->calcPriceWithDiscount($totalPrice);
 
                 return ResponseService::sendJsonResponse(true, 200, [], [
                     'cart' => $cart,

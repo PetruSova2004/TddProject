@@ -51,7 +51,7 @@
                                             </button>
                                             <button class="nav-link" id="download-tab" data-bs-toggle="tab"
                                                     data-bs-target="#download" type="button" role="tab"
-                                                    aria-controls="download" aria-selected="false">Download
+                                                    aria-controls="download" aria-selected="false">Coupons
                                             </button>
                                             <button class="nav-link" id="payment-method-tab" data-bs-toggle="tab"
                                                     data-bs-target="#payment-method" type="button" role="tab"
@@ -112,34 +112,21 @@
                                         <div class="tab-pane fade" id="download" role="tabpanel"
                                              aria-labelledby="download-tab">
                                             <div class="myaccount-content">
-                                                <h3>Downloads</h3>
+                                                <h3>Coupons</h3>
+                                                <h5>P.S: You can hold only two coupons at the same time</h5>
                                                 <div class="myaccount-table table-responsive text-center">
                                                     <table class="table table-bordered">
                                                         <thead class="thead-light">
                                                         <tr>
-                                                            <th>Product</th>
+                                                            <th>Code</th>
+                                                            <th>Discount</th>
                                                             <th>Date</th>
-                                                            <th>Expire</th>
-                                                            <th>Download</th>
+                                                            <th>Expired</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>Haven - Free Real Estate PSD Template</td>
-                                                            <td>Aug 22, 2018</td>
-                                                            <td>Yes</td>
-                                                            <td><a href="#/" class="check-btn sqr-btn"><i
-                                                                        class="fa fa-cloud-download"></i> Download File</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>HasTech - Profolio Business Template</td>
-                                                            <td>Sep 12, 2018</td>
-                                                            <td>Never</td>
-                                                            <td><a href="#/" class="check-btn sqr-btn"><i
-                                                                        class="fa fa-cloud-download"></i> Download File</a>
-                                                            </td>
-                                                        </tr>
+                                                        <tbody id="coupon-table-body">
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -213,7 +200,8 @@
                                                             </div>
                                                         </fieldset>
                                                         <div class="single-input-item">
-                                                            <button id="submitButton" type="submit" class="check-btn sqr-btn">Save
+                                                            <button id="submitButton" type="submit"
+                                                                    class="check-btn sqr-btn">Save
                                                                 Changes
                                                             </button>
                                                         </div>

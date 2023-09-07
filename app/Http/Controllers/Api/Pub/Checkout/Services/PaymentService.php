@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api\Pub\Checkout\Services;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\User;
 use App\Services\Response\ResponseService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PaymentService extends Controller
 {
@@ -47,20 +50,20 @@ class PaymentService extends Controller
 
     public function storePayment($arr_body): void
     {
-        $payment = new Payment;
-        $payment->payment_id = $arr_body['id'];
-        $payment->payer_id = $arr_body['payer']['payer_info']['payer_id'];
-        $payment->payer_email = $arr_body['payer']['payer_info']['email'];
-        $payment->amount = $arr_body['transactions'][0]['amount']['total'];
-        $payment->currency = env('PAYPAL_CURRENCY');
-        $payment->payment_status = $arr_body['state'];
-        $payment->save();
+        Payment::query()->insert([
+            'payment_id' => $arr_body['id'],
+            'payer_id' => $arr_body['payer']['payer_info']['payer_id'],
+            'payer_email' => $arr_body['payer']['payer_info']['email'],
+            'amount' => $arr_body['transactions'][0]['amount']['total'],
+            'currency' => env('PAYPAL_CURRENCY'),
+            'payment_status' => $arr_body['state'],
+        ]);
     }
 
     public function approveOrder($orderId): JsonResponse
     {
         try {
-            $order = Order::query()->where('id', $orderId)->firstOrFail();
+            $order = Order::query()->where('id', $orderId)->first();
 
             if ($order->status === 'Pending') {
                 $order->status = 'Approved';
@@ -84,9 +87,20 @@ class PaymentService extends Controller
     public function payOrder($orderId): bool|JsonResponse
     {
         try {
-            $order = Order::query()->where('id', $orderId)->firstOrFail();
+            $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
+            $coupons = $user->coupons;
+
+            foreach ($coupons as $coupon) {
+                DB::table('coupon_user')
+                    ->where('user_id', $user->id)
+                    ->where('coupon_id', $coupon->id)
+                    ->delete();
+            }
+
+            $order = Order::query()->where('id', $orderId)->first();
             $order->status = 'Paid';
             $order->save();
+
             return true;
         } catch (Exception $exception) {
             return ResponseService::sendJsonResponse(false, 400, [

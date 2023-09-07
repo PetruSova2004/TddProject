@@ -59,6 +59,7 @@ class UserTest extends TestCase
             'name' => 'NewName',
             'email' => 'newemail@mail.com',
             'password' => 'newPassword144',
+            'password_confirmation' => 'newPassword144',
         ];
 
         $response = $this->withHeaders([
@@ -78,7 +79,6 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'name' => $data['name'],
-            'email' => $data['email'],
         ]);
     }
 

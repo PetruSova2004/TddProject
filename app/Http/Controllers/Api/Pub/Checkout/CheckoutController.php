@@ -39,7 +39,8 @@ class CheckoutController extends Controller
                 $products = json_decode($order->ordered_products);
 
                 $totalPrice = $this->service->getOrderTotalPrice($order);
-                $discount = $this->cartService->calcPriceWithDiscount($user->coupons, $totalPrice);
+
+                $discount = $this->cartService->calcPriceWithDiscount($totalPrice);
 
                 $this->service->sendEmail($user, $products, $totalPrice, $order, $discount);
 
