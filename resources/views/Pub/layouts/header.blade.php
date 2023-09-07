@@ -109,8 +109,11 @@
                     </div>
                 </div>
             </div>
+            @include('Pub.layouts.alerts')
         </div>
     </div>
+
+
 
 </header>
 

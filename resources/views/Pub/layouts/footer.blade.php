@@ -24,12 +24,9 @@
                             <div class="collapse-body">
                                 <div class="widget-menu-wrap">
                                     <ul class="nav-menu">
-                                        <li><a href="about-us.blade.php">About Us</a></li>
-                                        <li><a href="account-login.blade.php">Delivery Information</a></li>
-                                        <li><a href="account-login.blade.php">Privacy Policy</a></li>
-                                        <li><a href="account-login.blade.php">Terms & Conditions</a></li>
-                                        <li><a href="contact.blade.php">Contact Us</a></li>
-                                        <li><a href="account-login.blade.php">Loag In Info</a></li>
+                                        <li><a href="{{route('about.index')}}">About Us</a></li>
+                                        <li><a href="{{route('contact.index')}}">Contact Us</a></li>
+                                        <li><a href="{{route('login.index')}}">Log In Info</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -44,12 +41,10 @@
                             <div class="collapse-body">
                                 <div class="widget-menu-wrap">
                                     <ul class="nav-menu">
-                                        <li><a href="account-login.blade.php">Gallery</a></li>
-                                        <li><a href="shop.blade.php">Brands</a></li>
-                                        <li><a href="account-login.blade.php">Gift Certificates</a></li>
-                                        <li><a href="shop.blade.php">Specials</a></li>
-                                        <li><a href="account.blade.php">My Account Us</a></li>
-                                        <li><a href="about-us.blade.php">About Us</a></li>
+                                        <li><a href="{{route('about.index')}}">Gallery</a></li>
+                                        <li><a href="{{route('products.index')}}">Brands</a></li>
+                                        <li><a href="{{route('user.index')}}">My Account Us</a></li>
+                                        <li><a href="{{route('about.index')}}">About Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -63,7 +58,7 @@
                         <div id="widgetId-3" class="collapse widget-collapse-body">
                             <div class="collapse-body">
                                 <div class="widget-contact-info">
-                                    <p class="contact-info-desc">If you have any question.please contact us at <a href="mailto://demo@example.com">demo@example.com</a></p>
+                                    <p class="contact-info-desc">If you have any question.please contact us at <a href="mailto://my_mail@example.com">my_mail@example.com</a></p>
                                     <div class="contact-item">
                                         <div class="icon">
                                             <i class="pe-7s-map-marker"></i>
@@ -97,9 +92,6 @@
                 <div class="col-12">
                     <div class="footer-bottom-content">
                         <p class="copyright">© 2021 Tuime. Made with <i class="fa fa-heart"></i> by <a target="_blank" href="https://themeforest.net/user/codecarnival">Codecarnival.</a></p>
-                        <div class="payment">
-                            <a href="account.blade.php"><img src="/assets/img/photos/payment.webp" width="192" height="21" alt="Payment Logo"></a>
-                        </div>
                     </div>
                 </div>
             </div>

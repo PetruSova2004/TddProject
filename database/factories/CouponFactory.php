@@ -35,7 +35,7 @@ class CouponFactory extends Factory
 
         return [
             'code' => $code,
-            'discount_percent' => fake()->randomNumber(2), // Генерирует случайное число с двумя знаками после десятичной точки
+            'discount_percent' => $this->faker->randomFloat(2, 1, 10), // Генерирует число с 2 знаками после десятичной точки от 0 до 10
         ];
     }
 }

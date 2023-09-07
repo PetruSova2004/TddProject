@@ -198,30 +198,68 @@ async function fetchAndDisplayCoupons() {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data.data.coupons);
             const couponTableBody = document.getElementById('coupon-table-body');
             couponTableBody.innerHTML = '';
 
             data.data.coupons.forEach(coupon => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                            <td>${coupon.code}</td>
-                            <td>%${coupon.discount_percent}</td>
-                            <td>${coupon.created_at}</td>
-                            <td>${coupon.expired ? 'Yes' : 'No'}</td>
-                            <td>
-                                <a href="#/" class="check-btn sqr-btn">
-                                    <i class="fa fa-cloud-download"></i> Download File
-                                </a>
-                            </td>
-                        `;
+                    <td>${coupon.code}</td>
+                    <td>%${coupon.discount_percent}</td>
+                    <td>${coupon.created_at}</td>
+                    <td>${coupon.expired ? 'Yes' : 'No'}</td>
+                    <td>
+                        <a href="#/" class="check-btn sqr-btn" id="deleteButton-${coupon.code}">
+                            <i class="fa fa-cloud-download"></i> Delete Coupon
+                        </a>
+                    </td>
+    `;
                 couponTableBody.appendChild(row);
+
+                const deleteButton = document.getElementById(`deleteButton-${coupon.code}`);
+                deleteButton.addEventListener('click', async function (event) {
+                    event.preventDefault(); // Prevent the default link behavior
+                    const couponCode = coupon.code; // Get the coupon code
+                    await deleteCoupon(couponCode); // Call your deleteCoupon function with the coupon code
+                });
             });
         })
         .catch(error => {
             console.error('Ошибка при выполнении запроса к API:', error);
         });
     // Вызываем функцию для загрузки данных о купонах при загрузке страницы
+}
+
+async function deleteCoupon(code) {
+    const token = await getTokenFromCookie();
+    const data = {
+        code: code,
+    };
+
+    fetch('/api/deleteCoupon', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+        },
+        body: JSON.stringify(data),
+
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === true) {
+                alert('Coupon has been successfully deleted');
+                window.location.reload();
+            }else {
+                alert('Something goes wrong');
+                window.location.reload();
+            }
+
+        })
+        .catch(error => {
+            // Обработка ошибок
+            console.error('Ошибка при выполнении запроса:', error);
+        });
 }
 
 fetchAndDisplayCoupons()

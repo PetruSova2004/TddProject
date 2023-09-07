@@ -25,7 +25,7 @@ class CouponService
             ]);
         } else {
             return ResponseService::sendJsonResponse(false, 400, [
-                'Error' => 'Cannot find Cookie Coupon'
+                'Error' => 'Cannot find coupons',
             ]);
         }
     }

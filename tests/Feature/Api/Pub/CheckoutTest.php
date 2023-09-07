@@ -184,7 +184,7 @@ class CheckoutTest extends TestCase
         ]);
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->post('/api/deleteCoupon', $data);
+        ])->delete('/api/deleteCoupon', $data);
         $response->assertOk();
 
         $response
