@@ -19,7 +19,7 @@
                             <h2 class="title">Account</h2>
                             <nav class="breadcrumb-area">
                                 <ul class="breadcrumb">
-                                    <li><a href="index.blade.php">Home</a></li>
+                                    <li><a href="{{route('home')}}">Home</a></li>
                                     <li class="breadcrumb-sep">//</li>
                                     <li>Account</li>
                                 </ul>
@@ -57,10 +57,7 @@
                                                     data-bs-target="#payment-method" type="button" role="tab"
                                                     aria-controls="payment-method" aria-selected="false">Payment Method
                                             </button>
-                                            <button class="nav-link" id="address-edit-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#address-edit" type="button" role="tab"
-                                                    aria-controls="address-edit" aria-selected="false">address
-                                            </button>
+
                                             <button class="nav-link" id="account-info-tab" data-bs-toggle="tab"
                                                     data-bs-target="#account-info" type="button" role="tab"
                                                     aria-controls="account-info" aria-selected="false">Account Details
@@ -146,13 +143,11 @@
                                             <div class="myaccount-content">
                                                 <h3>Billing Address</h3>
                                                 <address>
-                                                    <p><strong>Alex Tuntuni</strong></p>
-                                                    <p>1355 Market St, Suite 900 <br>
-                                                        San Francisco, CA 94103</p>
-                                                    <p>Mobile: (123) 456-7890</p>
+                                                    <p class="name"><strong></strong></p>
+                                                    <p class="address"></p>
+                                                    <p class="mobile"></p>
                                                 </address>
-                                                <a href="#/" class="check-btn sqr-btn"><i class="fa fa-edit"></i> Edit
-                                                    Address</a>
+                                                <a href="#/" class="check-btn sqr-btn"><i class="fa fa-edit"></i> Edit Address</a>
                                             </div>
                                         </div>
 
@@ -168,10 +163,22 @@
                                                                 Name</label>
                                                             <input type="text" id="display-name" name="name"/>
                                                         </div>
+
                                                         <div class="single-input-item">
-                                                            <label for="email" class="required">Email Addres</label>
+                                                            <label for="email" class="required">Email Address</label>
                                                             <input type="email" id="email" name="email" readonly/>
                                                         </div>
+
+                                                        <div class="single-input-item">
+                                                            <label for="address" class="required">Address</label>
+                                                            <input type="text" id="address" name="address"/>
+                                                        </div>
+
+                                                        <div class="single-input-item">
+                                                            <label for="phone" class="required">Phone</label>
+                                                            <input type="text" id="phone" name="phone"/>
+                                                        </div>
+
                                                         <fieldset>
                                                             <legend>Password change</legend>
                                                             <div class="single-input-item">

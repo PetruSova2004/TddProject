@@ -20,7 +20,7 @@
                             <h2 class="title">Login</h2>
                             <nav class="breadcrumb-area">
                                 <ul class="breadcrumb">
-                                    <li><a href="index.blade.php">Home</a></li>
+                                    <li><a href="{{route('home')}}">Home</a></li>
                                     <li class="breadcrumb-sep">//</li>
                                     <li>Login</li>
                                 </ul>
@@ -354,8 +354,7 @@
                     <li class="offcanvas-nav-parent">
                         <a class="offcanvas-nav-item" href="javascript:void(0)">Home</a>
                         <ul>
-                            <li><a href="index.blade.php"><span>Home One</span></a></li>
-                            <li><a href="index-two.blade.php"><span>Home Two</span></a></li>
+                            <li><a href="{{route('home')}}"><span>Home One</span></a></li>
                         </ul>
                     </li>
 

@@ -20,7 +20,7 @@
                             <h2 class="title">Register</h2>
                             <nav class="breadcrumb-area">
                                 <ul class="breadcrumb">
-                                    <li><a href="index.blade.php">Home</a></li>
+                                    <li><a href="{{route('home')}}">Home</a></li>
                                     <li class="breadcrumb-sep">//</li>
                                     <li>Register</li>
                                 </ul>
@@ -56,13 +56,26 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
+                                            <label for="password">Address <span class="required">*</span></label>
+                                            <input id="address" name="address" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="phone">Phone <span class="required">*</span></label>
+                                            <input id="phone" name="phone" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
                                             <label for="password">Password <span class="required">*</span></label>
                                             <input id="password" name="password" class="form-control" type="password">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group mb--0">
-                                            <input type="submit" class="btn-register" onclick="register()" value="Register">
+                                            <input type="submit" class="btn-register" onclick="register()"
+                                                   value="Register">
                                             <a href="{{route('google.redirect')}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="26"
                                                      fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
@@ -360,8 +373,7 @@
                     <li class="offcanvas-nav-parent">
                         <a class="offcanvas-nav-item" href="javascript:void(0)">Home</a>
                         <ul>
-                            <li><a href="index.blade.php"><span>Home One</span></a></li>
-                            <li><a href="index-two.blade.php"><span>Home Two</span></a></li>
+                            <li><a href="{{route('home')}}"><span>Home One</span></a></li>
                         </ul>
                     </li>
 

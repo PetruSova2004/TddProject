@@ -24,6 +24,8 @@ class UserApiController extends Controller
                 'message' => 'User was successfully found',
                 'email' => $user->email,
                 'name' => $user->name,
+                'phone' => $user->phone,
+                'address' => $user->address,
             ]);
         } else {
             return ResponseService::sendJsonResponse(false, 400, [
@@ -35,21 +37,31 @@ class UserApiController extends Controller
     public function updateProfile(UpdateRequest $request): JsonResponse
     {
         $request->validated();
-        try {
-            $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
-            $user->update([
-                'name' => $request->input('name'),
-                'password' => Hash::make($request->input('password')),
-            ]);
 
-            return ResponseService::sendJsonResponse(true, 200, [], [
-                'success' => 'Data has been successfully changed',
-            ]);
-        } catch (Exception $exception) {
-            return ResponseService::sendJsonResponse(false, 400, [
-                'error' => 'Error: ' . $exception->getMessage(),
+        if ($request->input('password_confirmation') === $request->input('password')) {
+            try {
+                $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
+                $user->update([
+                    'name' => $request->input('name'),
+                    'address' => $request->input('address'),
+                    'phone' => $request->input('phone'),
+                    'password' => Hash::make($request->input('password')),
+                ]);
+
+                return ResponseService::sendJsonResponse(true, 200, [], [
+                    'success' => 'Data has been successfully changed',
+                ]);
+            } catch (Exception $exception) {
+                return ResponseService::sendJsonResponse(false, 400, [
+                    'error' => 'Error: ' . $exception->getMessage(),
+                ]);
+            }
+        } else {
+            return ResponseService::sendJsonResponse(false, 422, [
+                'Error' => 'password_confirmation and password does not match',
             ]);
         }
+
     }
 
 }

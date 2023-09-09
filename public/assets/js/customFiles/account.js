@@ -11,6 +11,8 @@ async function fetchUserDataAndReplaceName() {
         .then(response => response.json())
         .then(data => {
             const newName = data.data.name;
+            const phone = data.data.phone;
+            const address = data.data.address;
 
             // Заменяем текст на странице
             const welcomeText = document.querySelector('.welcome p');
@@ -25,9 +27,23 @@ async function fetchUserDataAndReplaceName() {
 
             const displayNameInput = document.getElementById("display-name");
             const emailInput = document.getElementById("email");
+            const addressInput = document.getElementById("address");
+            const phoneInput = document.getElementById("phone");
 
             displayNameInput.value = data.data.name;
             emailInput.value = data.data.email;
+            addressInput.value = data.data.address;
+            phoneInput.value = data.data.phone;
+
+
+            // Получить доступ к элементам <p> по классам
+            const nameElement = document.querySelector('.name');
+            const addressElement = document.querySelector('.address');
+            const mobileElement = document.querySelector('.mobile');
+
+            nameElement.textContent = "Name: " + newName;
+            addressElement.textContent = "Address: " + address;
+            mobileElement.textContent = "Phone: " + phone;
 
         })
         .catch(error => {
@@ -147,6 +163,8 @@ profileForm.addEventListener('submit', async function (e) {
 
     // Получите значения полей формы
     const name = document.getElementById('display-name').value;
+    const address = document.getElementById('address').value;
+    const phone = document.getElementById('phone').value;
     const password = document.getElementById('new-pwd').value;
     const passwordConfirmation = document.getElementById('confirm-pwd').value;
 
@@ -154,6 +172,8 @@ profileForm.addEventListener('submit', async function (e) {
 
     const data = {
         name: name,
+        address: address,
+        phone: phone,
         password: password,
         password_confirmation: passwordConfirmation,
     };

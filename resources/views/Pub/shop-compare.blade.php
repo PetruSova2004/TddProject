@@ -20,7 +20,7 @@
               <h2 class="title">Compare</h2>
               <nav class="breadcrumb-area">
                 <ul class="breadcrumb">
-                  <li><a href="index.blade.php">Home</a></li>
+                  <li><a href="{{route('home')}}">Home</a></li>
                   <li class="breadcrumb-sep">//</li>
                   <li>Compare</li>
                 </ul>
