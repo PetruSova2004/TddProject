@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
-class CustomAuthentificate
+class CustomAuthenticate
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(Request): (Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -20,7 +20,7 @@ class CustomAuthentificate
         if ($cookie) {
             return $next($request);
         } else {
-            return redirect()->route('home')->with('error', 'You dont have access to this page');
+            return redirect()->route('home')->with('error', 'You need to log in to access this page');
         }
     }
 }

@@ -24,9 +24,12 @@ class AuthTest extends TestCase
         $password = Str::random(7);
 
         $userData = [
-            'name' => $this->faker->firstName,
+            'name' => "MoreThan4CharactersName",
             'email' => $this->faker->unique()->safeEmail,
+            'address' => $this->faker->address,
+            'phone' => '+3212456578',
             'password' => $password,
+            'password_confirmation' => $password,
         ];
 
         $this->assertDatabaseMissing('users', [

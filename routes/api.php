@@ -63,6 +63,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/payment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@charge')->name('api.payOrder');
     Route::post('/errorPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_error')->name('api.paymentError');
     Route::post('/successPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_success')->name('api.paymentSuccess');
+
+    Route::post('/applyReview', 'App\Http\Controllers\Api\Pub\Review\ReviewController@apply')->name('api.applyReview');
 });
 
 

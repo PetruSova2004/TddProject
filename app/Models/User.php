@@ -10,11 +10,6 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 
-/**
- * @property string $email
- * @property string $name
- * @property string $password
- */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -62,8 +57,14 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function cart()
+    public function cart(): HasMany
     {
         return $this->hasMany(Cart::class);
     }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
 }

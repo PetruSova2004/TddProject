@@ -58,6 +58,8 @@ class UserTest extends TestCase
         $data = [
             'name' => 'NewName',
             'email' => 'newemail@mail.com',
+            'address' => fake()->address,
+            'phone' => "+37367594703",
             'password' => 'newPassword144',
             'password_confirmation' => 'newPassword144',
         ];

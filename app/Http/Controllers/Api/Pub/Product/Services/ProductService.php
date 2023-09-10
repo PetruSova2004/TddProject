@@ -13,9 +13,9 @@ class ProductService extends Controller
     {
         // Collection является базовым типом для коллекций моделей Eloquent.
         $categoryIds = $request->input('category_id');
+        $limit = $request->input('limit');
         $price = $request->input('price');
         $search = $request->input('search');
-
         $query = Product::query();
 
         if ($categoryIds) {
@@ -27,6 +27,9 @@ class ProductService extends Controller
         }
         if ($search) {
             $query->where('title', 'LIKE', $search . '%');
+        }
+        if ($limit) {
+            $query->take($limit);
         }
 
         return $query->get();

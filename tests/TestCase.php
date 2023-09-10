@@ -52,6 +52,8 @@ abstract class TestCase extends BaseTestCase
 
         return User::factory()->create([
             'email' => 'test@example.com',
+            'phone' => "+3736759470",
+            'address' => fake()->address,
             'password' => bcrypt('password123'),
         ]);
     }

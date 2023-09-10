@@ -34,31 +34,24 @@ class UpdateRequest extends FormRequest
             ],
             'address' => [
                 'required',
+                'string',
                 'min:4',
                 'max:255',
-                'regex:/^[A-Za-z0-9_\-\s]+$/'
             ],
             'phone' => [
                 'required',
                 'string',
                 'min:4',
                 'max:255',
-                'regex:/^\+?\d{1,4}\s?\(?\d{1,4}\)?[\s\.-]?\d{1,10}$/',
-                // Регулярное выражение, разрешающее разные форматы номеров:
-                // Примеры:
-                // +1 (123) 456-7890
-                // 123-456-7890
-                // 123.456.7890
-                // 1234567890
-                // +1234 567 890
-                'password' => [
-                    'nullable',
-                    'min:6',
-                    'max:255',
-                    'confirmed',
-                    'alpha_dash',
-                ],
-            ]
+                'phone', // https://github.com/Propaganistas/Laravel-Phone
+            ],
+            'password' => [
+                'nullable',
+                'min:6',
+                'max:255',
+                'confirmed',
+                'alpha_dash',
+            ],
         ];
     }
 

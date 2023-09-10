@@ -29,7 +29,7 @@ class AuthApiController extends Controller
 
         $this->service->createUser($request);
 
-        $user = User::query()->where('email', $request->email)->first();
+        $user = User::query()->where('email', $request->input('email'))->first();
 
         if ($user) {
             $token = $user->createToken('PersonalAccessToken')->accessToken;
@@ -50,7 +50,7 @@ class AuthApiController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        $user = User::query()->where('email', $request->email)->first();
+        $user = User::query()->where('email', $request->input('email'))->first();
 
         if ($user && Auth::attempt($credentials)) {
             $token = $user->createToken('PersonalAccessToken')->accessToken;
@@ -64,6 +64,14 @@ class AuthApiController extends Controller
             return ResponseService::sendJsonResponse(true, 200, [], [
                 'success' => 'You have successfully log in',
                 'token' => $token,
+                'user' => $user->makeHidden([
+                    'id',
+                    'google_id',
+                    'email_verified_at',
+                    'is_admin',
+                    'created_at',
+                    'updated_at',
+                ]),
             ], $cookie);
         } else {
             return ResponseService::sendJsonResponse(false, 400, [

@@ -188,26 +188,41 @@
                               <h4 class="title collapsed" data-bs-toggle="collapse" data-bs-target="#comment-widgetId-1">Add Reviwe</h4>
                               <div id="comment-widgetId-1" class="collapse collapse-body">
                                 <div class="review-comment-form">
-                                  <form action="#">
+
+                                  <form id="reviewForm">
                                     <div class="row">
                                       <div class="col-12">
                                         <div class="form-group">
                                           <label for="ReviewComment" class="form-label">Your review *</label>
-                                          <textarea id="ReviewComment" class="form-control"></textarea>
+                                          <input id="comment" class="form-control" type="text">
                                         </div>
                                       </div>
-                                      <div class="col-12">
-                                        <div class="form-group">
-                                          <label for="Reviewname" class="form-label">Name *</label>
-                                          <input id="Reviewname" class="form-control" type="text">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="name" class="form-label">Name *</label>
+                                                <input id="name" class="form-control" type="text">
+                                            </div>
                                         </div>
-                                      </div>
-                                      <div class="col-12">
-                                        <div class="form-group">
-                                          <label for="Reviewemail" class="form-label">Email *</label>
-                                          <input id="Reviewemail" class="form-control" type="email">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input id="email" class="form-control" type="text">
+                                            </div>
                                         </div>
-                                      </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="rating" class="form-label">Rating</label>
+                                                <select id="rating" class="form-control">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <option id="ratingOption" value="{{ $i }}">
+                                                            @for ($j = 1; $j <= $i; $j++)
+                                                                &#9733;
+                                                            @endfor
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                        </div>
                                       <div class="col-md-12">
                                         <div class="form-group mb--0">
                                           <button type="submit">Submit</button>
@@ -215,6 +230,7 @@
                                       </div>
                                     </div>
                                   </form>
+
                                 </div>
                               </div>
                             </div>
@@ -245,126 +261,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6 col-lg-3">
-            <!--== Start Product Item ==-->
-            <div class="product-item">
-              <div class="product-thumb">
-                <a href="single-product.html">
-                  <img src="/assets/img/shop/5.webp" width="270" height="320" alt="Image-HasTech">
-                </a>
-              </div>
-              <div class="product-info">
-                <h4 class="title"><a href="single-product.html">Fusion Backpack</a></h4>
-                <div class="prices">
-                  <span class="price">$45.00</span>
-                </div>
-              </div>
-              <div class="product-action">
-                <button type="button" class="btn-product-wishlist" data-bs-toggle="modal" data-bs-target="#action-WishlistModal">
-                  <i class="pe-7s-like"></i>
-                </button>
-                <div class="product-action-links">
-                  <button type="button" class="btn-product-cart" data-bs-toggle="modal" data-bs-target="#action-CartAddModal">
-                    <i class="pe-7s-shopbag"></i>
-                  </button>
-                  <button type="button" class="btn-product-quick-view" data-bs-toggle="modal" data-bs-target="#action-QuickViewModal">
-                    <i class="pe-7s-look"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!--== End prPduct Item ==-->
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <!--== Start Product Item ==-->
-            <div class="product-item">
-              <div class="product-thumb">
-                <a href="single-product.html">
-                  <img src="/assets/img/shop/6.webp" width="270" height="320" alt="Image-HasTech">
-                </a>
-              </div>
-              <div class="product-info">
-                <h4 class="title"><a href="single-product.html">Savvy Shoulder Tote</a></h4>
-                <div class="prices">
-                  <span class="price">$30.00</span>
-                </div>
-              </div>
-              <div class="product-action">
-                <button type="button" class="btn-product-wishlist" data-bs-toggle="modal" data-bs-target="#action-WishlistModal">
-                  <i class="pe-7s-like"></i>
-                </button>
-                <div class="product-action-links">
-                  <button type="button" class="btn-product-cart" data-bs-toggle="modal" data-bs-target="#action-CartAddModal">
-                    <i class="pe-7s-shopbag"></i>
-                  </button>
-                  <button type="button" class="btn-product-quick-view" data-bs-toggle="modal" data-bs-target="#action-QuickViewModal">
-                    <i class="pe-7s-look"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!--== End prPduct Item ==-->
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <!--== Start Product Item ==-->
-            <div class="product-item">
-              <div class="product-thumb">
-                <a href="single-product.html">
-                  <img src="/assets/img/shop/7.webp" width="270" height="320" alt="Image-HasTech">
-                </a>
-              </div>
-              <div class="product-info">
-                <h4 class="title"><a href="single-product.html">Voyage Yoga Bag</a></h4>
-                <div class="prices">
-                  <span class="price">$39.00</span>
-                </div>
-              </div>
-              <div class="product-action">
-                <button type="button" class="btn-product-wishlist" data-bs-toggle="modal" data-bs-target="#action-WishlistModal">
-                  <i class="pe-7s-like"></i>
-                </button>
-                <div class="product-action-links">
-                  <button type="button" class="btn-product-cart" data-bs-toggle="modal" data-bs-target="#action-CartAddModal">
-                    <i class="pe-7s-shopbag"></i>
-                  </button>
-                  <button type="button" class="btn-product-quick-view" data-bs-toggle="modal" data-bs-target="#action-QuickViewModal">
-                    <i class="pe-7s-look"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!--== End prPduct Item ==-->
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <!--== Start Product Item ==-->
-            <div class="product-item">
-              <div class="product-thumb">
-                <a href="single-product.html">
-                  <img src="/assets/img/shop/8.webp" width="270" height="320" alt="Image-HasTech">
-                </a>
-              </div>
-              <div class="product-info">
-                <h4 class="title"><a href="single-product.html">Wayfarer Messenger Bag</a></h4>
-                <div class="prices">
-                  <span class="price">$50.00</span>
-                </div>
-              </div>
-              <div class="product-action">
-                <button type="button" class="btn-product-wishlist" data-bs-toggle="modal" data-bs-target="#action-WishlistModal">
-                  <i class="pe-7s-like"></i>
-                </button>
-                <div class="product-action-links">
-                  <button type="button" class="btn-product-cart" data-bs-toggle="modal" data-bs-target="#action-CartAddModal">
-                    <i class="pe-7s-shopbag"></i>
-                  </button>
-                  <button type="button" class="btn-product-quick-view" data-bs-toggle="modal" data-bs-target="#action-QuickViewModal">
-                    <i class="pe-7s-look"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!--== End prPduct Item ==-->
-          </div>
+
         </div>
       </div>
     </section>
