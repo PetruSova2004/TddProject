@@ -37,10 +37,15 @@ fetch(apiWithParams, {
 
         const categoriesElement = document.querySelector('.product-single-meta li span + a');
 
-        // Обновляем текстовое содержимое в элементе DOM
-        categoriesElement.textContent = data.data.product.category_title;
+        const linkElement = document.createElement('a');
+        linkElement.href = '/products?category_id=' + data.data.product.category_id;
+        linkElement.textContent = data.data.product.category_title;
+
+        categoriesElement.textContent = '';
+        categoriesElement.appendChild(linkElement);
 
         await fetchCategories(data.data.product.category_id);
+        await fetchReviews();
 
     })
     .catch(error => {
@@ -63,57 +68,124 @@ addToCartButton.addEventListener('click', function () {
     addToCart(productId, quantity);
 });
 
-const reviewForm = document.getElementById('reviewForm')
-reviewForm.addEventListener('submit', async function (e) {
+document.addEventListener('DOMContentLoaded', async function () {
+    const reviewForm = document.getElementById('reviewForm')
     const token = await getTokenFromCookie();
 
-    if (!token) {
-        alert('You should be authorized')
-        window.location.reload();
-    }
-    e.preventDefault();
-    const name = document.getElementById('name');
-    const comment = document.getElementById('comment');
-    const email = document.getElementById('email');
+    reviewForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!token) {
+            alert('You should be authorized')
+            window.location.reload();
+        }
+        e.preventDefault();
+        const name = document.getElementById('name');
+        const comment = document.getElementById('comment');
+        const email = document.getElementById('email');
 
-    const rating = $("#rating").val();
+        const rating = $("#rating").val();
 
-    const data = {
-        name: name.value,
-        email: email.value,
-        comment: comment.value,
-        rating: rating,
-        product_id: id,
-    };
+        const data = {
+            name: name.value,
+            email: email.value,
+            comment: comment.value,
+            rating: rating,
+            product_id: id,
+        };
 
-    const ApiUrl = '/api/applyReview';
+        const ApiUrl = '/api/applyReview';
 
-    fetch(ApiUrl, {
-        method: 'POST',
+        fetch(ApiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                if (responseData.status === true) {
+                    console.log(responseData);
+                    alert('Your review has been successfully added');
+                    window.location.reload();
+                } else {
+                    alert('Something goes wrong');
+                    // window.location.reload();
+                }
+            })
+            .catch((error) => {
+                // Обработайте ошибку здесь
+                console.error('Ошибка:', error);
+            });
+    });
+});
+
+async function fetchReviews() {
+    const reviewUrl = '/api/getProductReviews?product_id=' + id;
+    const token = localStorage.getItem('customToken');
+
+    fetch(reviewUrl, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token,
+            'guestToken': token,
         },
-        body: JSON.stringify(data),
     })
         .then((response) => response.json())
         .then((responseData) => {
-            // console.log(responseData);
+            console.log(responseData);
+            const reviewCountElement = document.getElementById('review-count');
+
             if (responseData.status === true) {
-                console.log(responseData);
-                alert('Your review has been successfully added');
-                window.location.reload();
+
+                reviewCountElement.textContent = responseData.data.count;
+                displayReviews(responseData.data.reviews)
             } else {
-                alert('Something goes wrong');
-                // window.location.reload();
+                reviewCountElement.textContent = 0;
             }
+
         })
         .catch((error) => {
             // Обработайте ошибку здесь
             console.error('Ошибка:', error);
         });
-});
+}
 
+function displayReviews(reviewsData) {
+    const reviewContainer = document.getElementById('reviewContent');
+    const reviewForm = document.getElementById('reviewForm');
+
+    reviewContainer.innerHTML = '';
+
+    reviewsData.forEach(review => {
+        const authorElement = document.createElement('div');
+        authorElement.classList.add('comment-author');
+
+        let ratingHTML = '';
+        for (let i = 1; i <= review.rating; i++) {
+            ratingHTML += '&#9733;'; // Добавляем золотую звезду в HTML
+        }
+
+        authorElement.innerHTML = `
+            <div class="comment-thumb">
+              <img src="/assets/img/shop/avatar.webp" width="60"
+                    height="60" alt="Image-HasTech">
+            </div>
+            <div class="comment-content">
+               <div class="rating-box">
+                   <i>${ratingHTML}</i>
+               </div>
+               <h4><span>${review.email}</span> - ${review.uploaded_time}</h4>
+               <p class="desc">${review.comment}</p>
+            </div>
+        `;
+
+        reviewContainer.appendChild(authorElement);
+    });
+    reviewContainer.appendChild(reviewForm);
+
+}
 
 async function fetchCategories(category) {
     const limit = 4;

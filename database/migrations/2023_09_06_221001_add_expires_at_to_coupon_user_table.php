@@ -14,10 +14,8 @@ return new class extends Migration
     {
         Schema::table('coupon_user', function (Blueprint $table) {
             $table->timestamp('expires_at')
-                ->default(now()->addHours(48))
                 ->nullable();
         });
-
     }
 
     /**

@@ -55,7 +55,6 @@ class RegisterRequest extends FormRequest
             'password' => [
                 'min:6',
                 'max:255',
-                'confirmed',
                 'alpha_dash',
             ],
 

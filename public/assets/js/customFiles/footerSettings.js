@@ -35,7 +35,7 @@ function buildProductElements(products, accessToken) {
 
         productElement.innerHTML = `
       <a href="#/" class="remove">×</a>
-      <a href="single-product.html">
+      <a href="/product?id=${product.product_id}">
         <img src="${product.image_path}" width="90" height="110" alt="${product.title}">
         <span class="product-title">${product.title}</span>
       </a>

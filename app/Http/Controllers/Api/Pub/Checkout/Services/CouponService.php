@@ -45,13 +45,18 @@ class CouponService extends Controller
             'value' => $coupon->code,
             'time' => 360,
         ];
-        $coupon->users()->attach($user->getAuthIdentifier());
-
+        DB::table('coupon_user')
+            ->insert([
+                'user_id' => $user->id,
+                'coupon_id' => $coupon->id,
+                'expires_at' => now()->addHours(48),
+            ]);
         return ResponseService::sendJsonResponse(true, 200, [], [
             'success' => 'Coupon has been found',
             'discount' => $coupon->discount_percent,
         ], $cookie);
     }
+
     public function commonQuery(Request $request): Builder
     {
         $coupon = Coupon::query()

@@ -31,6 +31,8 @@ Route::middleware('demand_token')->group(function () {
 
     Route::post('/login', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@login')->name('api.login');
     Route::post('/registration', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@register')->name('api.register');
+
+    Route::get('/getProductReviews', 'App\Http\Controllers\Api\Pub\Review\ReviewController@getProductReviews')->name('api.getProductReviews');
 });
 
 
@@ -65,6 +67,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/successPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_success')->name('api.paymentSuccess');
 
     Route::post('/applyReview', 'App\Http\Controllers\Api\Pub\Review\ReviewController@apply')->name('api.applyReview');
+
 });
 
 
