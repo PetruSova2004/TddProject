@@ -33,6 +33,10 @@ Route::middleware('demand_token')->group(function () {
     Route::post('/registration', 'App\Http\Controllers\Api\Pub\Auth\AuthApiController@register')->name('api.register');
 
     Route::get('/getProductReviews', 'App\Http\Controllers\Api\Pub\Review\ReviewController@getProductReviews')->name('api.getProductReviews');
+
+    Route::post('/addToWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@add')->name('api.addToWishlist');
+    Route::post('/clearWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@clear')->name('api.clearWishlist');
+
 });
 
 
@@ -67,7 +71,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/successPayment', 'App\Http\Controllers\Api\Pub\Checkout\PaymentController@payment_success')->name('api.paymentSuccess');
 
     Route::post('/applyReview', 'App\Http\Controllers\Api\Pub\Review\ReviewController@apply')->name('api.applyReview');
-
 });
 
 

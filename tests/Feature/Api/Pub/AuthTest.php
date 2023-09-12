@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -102,9 +103,21 @@ class AuthTest extends TestCase
         $testAuthRoute->assertStatus(200);
 
 
-        // Test deleting token(Logout)
-        $user->tokens()->delete();
-        $this->assertEquals(0, $user->tokens()->count());
+        // Test logout
+        $logoutResponse = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/logout');
+        $logoutResponse->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'errors',
+                'data',
+            ])
+            ->assertJson([
+                'status' => true,
+                'errors' => [],
+            ]);
+        $this->assertNull(Cache::get('wishlist'));
     }
 
     public function testBadLogin(): void

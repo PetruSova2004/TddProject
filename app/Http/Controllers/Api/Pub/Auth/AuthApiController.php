@@ -12,6 +12,7 @@ use App\Services\Response\ResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class AuthApiController extends Controller
 {
@@ -84,6 +85,7 @@ class AuthApiController extends Controller
     {
         $user = $request->user();
         $user->token()->revoke();
+        Cache::forget('wishlist');
 
         $cookie = [
             'name' => 'Token',

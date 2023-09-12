@@ -191,13 +191,13 @@ categories();
 document.getElementById('searchButton').addEventListener('click', function (event) {
     event.preventDefault(); // Отмена отправки формы
 
-    var searchValue = document.getElementById('searchInput').value;
-    var currentUrl = window.location.href;
+    let searchValue = document.getElementById('searchInput').value;
+    let currentUrl = window.location.href;
 
-    var urlWithoutSearch = removeURLParameter(currentUrl, 'search');
+    let urlWithoutSearch = removeURLParameter(currentUrl, 'search');
 
     // Добавление GET-параметра к URL
-    var newUrl;
+    let newUrl;
     if (urlWithoutSearch.indexOf('?') !== -1) {
         // Проверяем, есть ли уже символ "?" в URL, чтобы определить, следует ли использовать знак "?" или "&" при добавлении нового параметра "search".
         newUrl = urlWithoutSearch + '&search=' + encodeURIComponent(searchValue);
@@ -210,12 +210,12 @@ document.getElementById('searchButton').addEventListener('click', function (even
 });
 
 function removeURLParameter(url, parameter) {
-    var urlParts = url.split('?');
+    let urlParts = url.split('?');
     if (urlParts.length >= 2) {
-        var prefix = encodeURIComponent(parameter) + '=';
-        var parameters = urlParts[1].split('&');
+        let prefix = encodeURIComponent(parameter) + '=';
+        let parameters = urlParts[1].split('&');
 
-        for (var i = parameters.length - 1; i >= 0; i--) {
+        for (let i = parameters.length - 1; i >= 0; i--) {
             if (parameters[i].lastIndexOf(prefix, 0) !== -1) {
                 parameters.splice(i, 1);
             }
