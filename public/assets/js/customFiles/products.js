@@ -1,28 +1,3 @@
-async function addToCart(productId, quantity) {
-    try {
-        const token = await getTokenFromCookie();
-        const response = await fetch('/api/cart/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({
-                productId: productId,
-                quantity: quantity
-            })
-        });
-        const data = await response.json();
-
-        // Обработайте полученные данные
-        console.log(data); // Выведите данные в консоль или выполните другие действия с ними
-
-        // Дополнительный код для обновления интерфейса, если требуется
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 async function fetchData() {
     try {
         const customToken = localStorage.getItem('customToken');
@@ -112,6 +87,10 @@ async function fetchData() {
             wishlistButton.dataset.bsToggle = 'modal';
             wishlistButton.dataset.bsTarget = '#action-WishlistModal';
             wishlistButton.innerHTML = '<i class="pe-7s-like"></i>';
+
+            wishlistButton.addEventListener('click', async () => {
+                await addToWishlist(product.id, 1);
+            });
 
             const productActionLinks = document.createElement('div');
             productActionLinks.classList.add('product-action-links');

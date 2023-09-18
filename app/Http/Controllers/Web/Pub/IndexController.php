@@ -18,36 +18,12 @@ class IndexController extends Controller
 
     public function test()
     {
-        Cache::forget('cache');
-        dd(Cache::get('cache'));
+        $wishlist = Cache::get('wishlist');
+
     }
 
     public function test2()
     {
-        try {
-            $id = 1;
-            $existingProducts = Cache::get('cache');
-            $newProduct = Product::query()->where('id', $id)->first();
-            $match = false;
-
-            if ($existingProducts) {
-                foreach ($existingProducts as $item) {
-                    if ($item->id === $newProduct->id) {
-                        $match = true;
-                        break;
-                    }
-                }
-                if ($match === false) {
-                    $existingProducts[] = $newProduct;
-                }
-            } else {
-                $existingProducts[] = $newProduct;
-            }
-
-            Cache::put('cache', $existingProducts);
-            dd(Cache::get('cache'));
-        } catch (\Exception $exception) {
-            return $exception->getMessage();
-        }
+        return view('Admin.test');
     }
 }

@@ -263,6 +263,52 @@ async function updateTokenFetchPromise(promise) {
     tokenFetchPromise = promise; // Устанавливаем новый промис ожидания
 }
 
+async function addToCart(productId, quantity = 1) {
+    try {
+        const token = await getTokenFromCookie();
+        const response = await fetch('/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: quantity
+            })
+        });
+        const data = await response.json();
+
+        // Обработайте полученные данные
+        console.log(data); // Выведите данные в консоль или выполните другие действия с ними
+
+        // Дополнительный код для обновления интерфейса, если требуется
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function addToWishlist(productId) {
+    try {
+        const token = localStorage.getItem('customToken');
+        const response = await fetch('/api/addToWishlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'guestToken': token
+            },
+            body: JSON.stringify({
+                productId: productId,
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+
+    } catch (error) {
+        // console.log(error);
+    }
+}
+
 getCustomToken();
 handleMenu();
 

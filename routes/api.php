@@ -34,8 +34,10 @@ Route::middleware('demand_token')->group(function () {
 
     Route::get('/getProductReviews', 'App\Http\Controllers\Api\Pub\Review\ReviewController@getProductReviews')->name('api.getProductReviews');
 
+    Route::get('/getWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@get')->name('api.getWishlist');
     Route::post('/addToWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@add')->name('api.addToWishlist');
-    Route::post('/clearWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@clear')->name('api.clearWishlist');
+    Route::delete('/clearWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@clearAll')->name('api.clearWishlist');
+    Route::delete('/deleteProductFromWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@deleteOne')->name('api.deleteOneFromWishlist');
 
 });
 

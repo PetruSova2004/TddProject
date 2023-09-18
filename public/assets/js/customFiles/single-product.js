@@ -54,6 +54,11 @@ fetch(apiWithParams, {
 
 
 const addToCartButton = document.getElementById('addToCartButton');
+const addToWishlistButton = document.getElementById('addToWishlistButton');
+
+addToWishlistButton.addEventListener('click', async function() {
+   await addToWishlist(id);
+});
 
 // Добавьте обработчик события клика
 addToCartButton.addEventListener('click', function () {
@@ -134,7 +139,6 @@ async function fetchReviews() {
     })
         .then((response) => response.json())
         .then((responseData) => {
-            console.log(responseData);
             const reviewCountElement = document.getElementById('review-count');
 
             if (responseData.status === true) {

@@ -25,7 +25,7 @@ class WishlistRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'productId' => 'exists:products,id'
+            'productId' => 'exists:products,id'
         ];
     }
 

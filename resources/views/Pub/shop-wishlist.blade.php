@@ -51,78 +51,6 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="tbody-item">
-                      <td class="product-remove">
-                        <a class="remove" href="javascript:void(0)">×</a>
-                      </td>
-                      <td class="product-thumbnail">
-                        <div class="thumb">
-                          <a href="single-product.blade.php">
-                            <img src="/assets/img/shop/product-mini/wishlist1.webp" width="59" height="58" alt="Image-HasTech">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="product-name">
-                        <a class="title" href="single-product.blade.php">Condimentum posuere consectetur urna</a>
-                      </td>
-                      <td class="product-price">
-                        <span class="price">$115.00</span>
-                      </td>
-                      <td class="product-stock-status">
-                        <span class="wishlist-in-stock">In Stock</span>
-                      </td>
-                      <td class="product-add-to-cart">
-                        <a class="btn-shop-cart" href="shop-cart.blade.php">Add to Cart</a>
-                      </td>
-                    </tr>
-                    <tr class="tbody-item">
-                      <td class="product-remove">
-                        <a class="remove" href="javascript:void(0)">×</a>
-                      </td>
-                      <td class="product-thumbnail">
-                        <div class="thumb">
-                          <a href="single-product.blade.php">
-                            <img src="/assets/img/shop/product-mini/wishlist2.webp" width="59" height="58" alt="Image-HasTech">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="product-name">
-                        <a class="title" href="single-product.blade.php">Kaoreet lobortis sagittis laoreet</a>
-                      </td>
-                      <td class="product-price">
-                        <span class="price">$95.00</span>
-                      </td>
-                      <td class="product-stock-status">
-                        <span class="wishlist-in-stock">In Stock</span>
-                      </td>
-                      <td class="product-add-to-cart">
-                        <a class="btn-shop-cart" href="shop-cart.blade.php">Add to Cart</a>
-                      </td>
-                    </tr>
-                    <tr class="tbody-item">
-                      <td class="product-remove">
-                        <a class="remove" href="javascript:void(0)">×</a>
-                      </td>
-                      <td class="product-thumbnail">
-                        <div class="thumb">
-                          <a href="single-product.blade.php">
-                            <img src="/assets/img/shop/product-mini/wishlist3.webp" width="59" height="58" alt="Image-HasTech">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="product-name">
-                        <a class="title" href="single-product.blade.php">Nostrum exercitationem itae ipsum</a>
-                      </td>
-                      <td class="product-price">
-                        <span class="price">$79.00</span>
-                      </td>
-                      <td class="product-stock-status">
-                        <span class="wishlist-in-stock">In Stock</span>
-                      </td>
-                      <td class="product-add-to-cart">
-                        <a class="btn-shop-cart" href="shop-cart.blade.php">Add to Cart</a>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </form>
@@ -138,6 +66,7 @@
 </div>
 
 @include('Pub.layouts.footerSettings')
+<script src="/assets/js/customFiles/shop-wishlist.js"></script>
 
 </body>
 

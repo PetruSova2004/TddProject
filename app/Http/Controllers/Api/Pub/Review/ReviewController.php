@@ -53,7 +53,7 @@ class ReviewController extends Controller
                 'count' => $reviews->count(),
             ]);
         } else {
-            return ResponseService::sendJsonResponse(false, 404, [
+            return ResponseService::sendJsonResponse(false, 200, [
                 'Not Found' => 'There are no reviews for this product',
             ]);
         }

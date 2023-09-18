@@ -145,10 +145,12 @@
                                                     data-bs-toggle="modal" data-bs-target="#action-CartAddModal">
                                                 Add To Cart
                                             </button>
-                                            <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
+
+                                            <button id="addToWishlistButton" type="button" class="btn-product-wishlist" data-bs-toggle="modal"
                                                     data-bs-target="#action-WishlistModal">
                                                 <i class="pe-7s-like"></i>
                                             </button>
+
                                             <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
                                                     data-bs-target="#action-QuickViewModal">
                                                 <i class="pe-7s-look"></i>
