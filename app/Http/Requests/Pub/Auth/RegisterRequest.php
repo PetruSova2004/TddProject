@@ -61,7 +61,7 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator): HttpResponseException
     {
         throw new HttpResponseException(
             ResponseService::sendJsonResponse(false, 400, [

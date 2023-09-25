@@ -311,13 +311,47 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
+
+
+
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text'        => 'Categories',
+            'route'         => 'admin.category.index',
+            'icon'        => 'fas fa-fw fa-folder',
         ],
+        [
+            'text'        => 'Products',
+            'url'         => 'admin/pages',
+            'icon'        => 'fas fa-fw fa-shopping-cart',
+        ],
+        [
+            'text'        => 'Blogs',
+            'url'         => 'admin/pages',
+            'icon'        => 'fas fa-fw fa-pencil-alt',
+        ],
+        [
+            'text'        => 'Countries',
+            'url'         => 'admin/pages',
+            'icon'        => 'fas fa-fw fa-flag',
+        ],
+        [
+            'text'        => 'Coupons',
+            'url'         => 'admin/pages',
+            'icon'        => 'fas fa-fw fa-tag',
+        ],
+        [
+            'text'        => 'Orders',
+            'url'         => 'admin/pages',
+            'icon'        => 'fas fa-fw fa-list-alt',
+        ],
+        [
+            'text'        => 'Users',
+            'url'         => 'admin/pages',
+            'icon'        => 'fas fa-fw fa-user',
+        ],
+
+
+
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

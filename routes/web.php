@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,11 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\Web\Pub\IndexController@index')->name('home');
 
 Route::get('/test', 'App\Http\Controllers\Web\Pub\IndexController@test')->name('test');
+
 Route::get('/test2', 'App\Http\Controllers\Web\Pub\IndexController@test2')->name('test2');
-
-Route::get('/payment', 'App\Http\Controllers\PaymentController@index');
-Route::post('/charge', 'App\Http\Controllers\PaymentController@charge');
-
 
 Route::get('/products', 'App\Http\Controllers\Web\Pub\ProductController@index')->name('products.index');
 Route::get('/product', 'App\Http\Controllers\Web\Pub\ProductController@showProduct')->name('product.show');
@@ -56,6 +54,13 @@ Route::group(['middleware' => 'custom_web_auth'], function () {
 
     Route::get('/successPayment', 'App\Http\Controllers\Web\Pub\AfterPaymentController@success')->name('success-payment.index');
     Route::get('/errorPayment', 'App\Http\Controllers\Web\Pub\AfterPaymentController@error')->name('error-payment.index');
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/index', 'App\Http\Controllers\Web\Admin\Index\IndexController@index')->name('admin.index');
+        // 'as' определяет префикс (или имя) для всех маршрутов.
+        Route::resource('/category', CategoryController::class, ['as' => 'admin']);
+
+    });
 });
 
 

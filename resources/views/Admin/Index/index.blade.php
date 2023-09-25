@@ -11,5 +11,6 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script src="/assets/js/customFiles/account.js"></script>
+    <script src="/assets/js/admin/index.js"></script>
 @stop

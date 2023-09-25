@@ -4,12 +4,13 @@ namespace App\Services\Cookie;
 
 use App\Http\Controllers\Controller;
 use App\Services\Response\ResponseService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cookie;
 
 class CookieService extends Controller
 {
 
-    public function getCookie($cookieName)
+    public function getCookie($cookieName): JsonResponse
     {
         $value = Cookie::get($cookieName);
         if ($value) {
@@ -23,7 +24,7 @@ class CookieService extends Controller
         }
     }
 
-    public function removeCookie($cookieName)
+    public function removeCookie($cookieName): JsonResponse
     {
         $value = Cookie::get($cookieName);
         $dataForDelete = [

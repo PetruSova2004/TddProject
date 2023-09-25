@@ -20,11 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (responseData.status === true) {
                     window.location.href = '/';
                 } else {
-                    console.error(responseData);
+                    alert('Your credentials are invalid');
+                    window.location.reload();
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                alert('Something goes wrong');
+                window.location.reload();
             });
     });
 });

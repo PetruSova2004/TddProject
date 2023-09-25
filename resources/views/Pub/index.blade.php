@@ -177,7 +177,7 @@
                         <div class="product-item">
                             <div class="product-thumb">
                                 <a href="single-product.blade.php">
-                                    <img src="/assets/img/shop/category/Oscar.webp" width="270" height="320"
+                                    <img src="/assets/img/shop/category/x1pOvQni64Po9BugwMhvxnkEv5uGYPe6fVQfSPuU.jpg" width="270" height="320"
                                          alt="Image-HasTech">
                                 </a>
                             </div>

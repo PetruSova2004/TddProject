@@ -71,6 +71,7 @@ class WishlistController extends Controller
                     $match = true;
                 }
             }
+
             if ($match) {
                 return ResponseService::sendJsonResponse(true, 200, [], [
                     'success' => "Product " . $product->title . " has been successfully deleted form wishlist",

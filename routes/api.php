@@ -55,6 +55,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/getUser', 'App\Http\Controllers\Api\Pub\User\UserApiController@getUserByToken')->name('api.getUser');
     Route::patch('/updateProfile', 'App\Http\Controllers\Api\Pub\User\UserApiController@updateProfile')->name('api.updateProfile');
+    Route::get('/checkAdmin', 'App\Http\Controllers\Api\Pub\User\UserApiController@checkAdmin')->name('api.checkAdmin');
 
     Route::post('/applyCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@apply')->name('api.applyCoupon');
     Route::delete('/deleteCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@delete')->name('api.deleteCoupon');

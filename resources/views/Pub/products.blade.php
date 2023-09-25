@@ -19,7 +19,7 @@
                             <h2 class="title">Products</h2>
                             <nav class="breadcrumb-area">
                                 <ul class="breadcrumb">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="{{route('home')}}">Home</a></li>
                                     <li class="breadcrumb-sep">//</li>
                                     <li>Products</li>
                                 </ul>

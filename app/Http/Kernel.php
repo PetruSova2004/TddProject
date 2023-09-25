@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\DisallowGetMethod;
+//use App\Http\Middleware\DisallowGetMethod;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
 
         'custom_web_auth' => \App\Http\Middleware\CustomAuthenticate::class,
         'demand_token' => \App\Http\Middleware\DemandToken::class,
+        'admin' => \App\Http\Middleware\AdminAuthenticate::class,
     ];
 }

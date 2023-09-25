@@ -15,9 +15,10 @@ async function fetchData() {
 }
 
 async function populateTableWithData(data) {
+    console.log(data)
     const tbody = document.querySelector('.table tbody');
 
-    data.forEach(item => {
+    Object.values(data).forEach(item => {
         const row = document.createElement('tr');
 
         row.innerHTML = `

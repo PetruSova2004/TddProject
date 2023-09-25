@@ -61,7 +61,20 @@ class UserApiController extends Controller
                 'Error' => 'password_confirmation and password does not match',
             ]);
         }
+    }
 
+    public function checkAdmin(): JsonResponse
+    {
+        $user = User::query()->where('id', Auth::user()->getAuthIdentifier())->first();
+        if ($user->is_admin === 'Yes') {
+            return ResponseService::sendJsonResponse(true, 200, [], [
+                'status' => 'Yes',
+            ]);
+        } else {
+            return ResponseService::sendJsonResponse(false, 404, [
+                'status' => 'No',
+            ]);
+        }
     }
 
 }

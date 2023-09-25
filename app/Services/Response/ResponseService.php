@@ -9,11 +9,11 @@
 namespace App\Services\Response;
 
 
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\JsonResponse;
 
 class ResponseService
 {
-    private static function responseParams($status, $errors = [], $data = [], $cookie = null)
+    private static function responseParams($status, $errors = [], $data = [], $cookie = null): array
     { // формируем параметры запроса
         return [
             'status' => $status,
@@ -23,7 +23,7 @@ class ResponseService
         ];
     }
 
-    public static function sendJsonResponse($status, $code = 200, $errors = [], $data = [], $cookie = null)
+    public static function sendJsonResponse($status, $code = 200, $errors = [], $data = [], $cookie = null): JsonResponse
     {
         if ($cookie) {
             return response()->json(
@@ -39,12 +39,12 @@ class ResponseService
     }
 
 
-    public static function success($data = [])
+    public static function success($data = []): JsonResponse
     { // этот метод мы будем использовать для отправки положительного ответа с определенном набором данных
         return self::sendJsonResponse(true, 200, [], $data);
     }
 
-    public static function notFound($data = [])
+    public static function notFound($data = []): JsonResponse
     {
         return self::sendJsonResponse(false, 404, [], []);
     }

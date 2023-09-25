@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(responseData => {
                 if (responseData.status === true) {
-                    // If the status is true, make a new request to the API
                     fetch('/api/getUser', {
                         method: 'GET',
                         headers: {
@@ -27,18 +26,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     })
                         .then(userResponse => userResponse.json())
                         .then(userData => {
-                            // Do something with the user data here
                             window.location.href = '/';
                         })
                         .catch(error => {
                             console.error('Error fetching user data:', error);
                         });
                 } else {
-                    console.error(responseData);
+                    alert('Your credentials are invalid');
+                    window.location.reload();
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                alert('Something goes wrong');
+                window.location.reload();
             });
     });
 });

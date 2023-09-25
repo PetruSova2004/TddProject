@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
+    protected $fillable = [
+        'title',
+        'image_path',
+    ];
     use HasFactory;
 
     public function products(): HasMany

@@ -10,7 +10,11 @@ async function fetchCartProducts(accessToken) {
 
         const subtotalElement = document.querySelector('.cart-total .amount');
         if (subtotalElement) {
-            subtotalElement.textContent = `£${data.data.totalPrice}`; // Обновляем значение на странице
+            if (data.data.count > 0) {
+                subtotalElement.textContent = `£${data.data.totalPrice}`; // Обновляем значение на странице
+            } else {
+                subtotalElement.textContent = `£0`; // Обновляем значение на странице
+            }
         }
 
         const count = document.querySelector('.shopping-cart-btn .shop-count');
