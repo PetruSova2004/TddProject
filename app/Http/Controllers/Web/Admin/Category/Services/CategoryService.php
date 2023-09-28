@@ -42,4 +42,16 @@ class CategoryService extends Controller
             return redirect()->back()->with('error', 'Something goes wrong');
         }
     }
+
+    public function deleteCategory(string $id): RedirectResponse
+    {
+        $category = Category::query()->where('id', $id)->first();
+        $path = public_path($category->image_path);
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+        $category->delete();
+        return redirect()->route('admin.category.index')->with('success', 'Category has been successfully deleted');
+    }
+
 }

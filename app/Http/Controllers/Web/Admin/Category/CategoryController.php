@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\Category\StoreRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
@@ -76,12 +75,6 @@ class CategoryController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        $category = Category::query()->where('id', $id)->first();
-        $path = public_path($category->image_path);
-        if (File::exists($path)) {
-            File::delete($path);
-        }
-        $category->delete();
-        return redirect()->route('admin.category.index')->with('success', 'Category has been successfully deleted');
+        return $this->service->deleteCategory($id);
     }
 }
