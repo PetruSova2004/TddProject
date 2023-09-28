@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
+use App\Http\Controllers\Web\Admin\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,7 +60,7 @@ Route::group(['middleware' => 'custom_web_auth'], function () {
         Route::get('/index', 'App\Http\Controllers\Web\Admin\Index\IndexController@index')->name('admin.index');
         // 'as' определяет префикс (или имя) для всех маршрутов.
         Route::resource('/category', CategoryController::class, ['as' => 'admin']);
-
+        Route::resource('/product', ProductController::class, ['as' => 'admin']);
     });
 });
 

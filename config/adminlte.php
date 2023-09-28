@@ -321,7 +321,7 @@ return [
         ],
         [
             'text'        => 'Products',
-            'url'         => 'admin/pages',
+            'route'         => 'admin.product.index',
             'icon'        => 'fas fa-fw fa-shopping-cart',
         ],
         [

@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Web\Admin\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Web\Admin\Category\Services\CategoryService;
 use App\Http\Requests\Admin\Category\StoreRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
+    private CategoryService $service;
+
+    public function __construct(CategoryService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -35,16 +42,7 @@ class CategoryController extends Controller
      */
     public function store(StoreRequest $request): RedirectResponse
     {
-        $request->validated();
-        $image_file = $request->file('image_file');
-        $path = $image_file->store('shop/category', ['disk' => 'image']);
-
-        Category::query()->create([
-            'title' => $request->input('title'),
-            'image_path' => "/assets/img/" . $path,
-        ]);
-
-        return redirect()->route('admin.category.index')->with('success', 'Zbs');
+        return $this->service->storeCategory($request);
     }
 
     /**
@@ -70,20 +68,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateRequest $request, string $id): RedirectResponse
     {
-        $request->validated();
-        $category = Category::query()->where('id', $id)->first();
-        $path = public_path($category->image_path);
-        if (File::exists($path)) {
-            $updatedPath = $request->file('image_file')->store('shop/category', ['disk' => 'image']);
-            File::delete($path);
-            $category->update([
-                'title' => $request->input('title'),
-                'image_path' => "/assets/img/" . $updatedPath,
-            ]);
-            return redirect()->route('admin.category.index')->with('success', 'Category has been successfully updated');
-        } else {
-            return redirect()->back()->with('error', 'Something goes wrong');
-        }
+        return $this->service->updateCategory($request, $id);
     }
 
     /**
@@ -91,7 +76,12 @@ class CategoryController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        Category::query()->where('id', $id)->delete();
+        $category = Category::query()->where('id', $id)->first();
+        $path = public_path($category->image_path);
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+        $category->delete();
         return redirect()->route('admin.category.index')->with('success', 'Category has been successfully deleted');
     }
 }

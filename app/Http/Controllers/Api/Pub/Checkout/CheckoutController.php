@@ -29,9 +29,8 @@ class CheckoutController extends Controller
         try {
             $request->validated();
             $user = User::query()
-                ->find(Auth::user()->getAuthIdentifier())
+                ->where('id', Auth::user()->getAuthIdentifier())
                 ->first();
-            // Здесь мы сначала создаем объект запроса с помощью User::query(), затем вызываем find, и после этого добавляем first(), чтобы выполнить запрос и получить объект модели.
 
             $order = $this->service->insertOrder($request, $user);
 
@@ -53,7 +52,7 @@ class CheckoutController extends Controller
                 ]);
             } else {
                 return ResponseService::sendJsonResponse(false, 400, [
-                    'Error' => 'Something goes wrong'
+                    'Error' => $order,
                 ]);
             }
         } catch (Exception $exception) {

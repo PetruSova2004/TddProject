@@ -32,7 +32,7 @@ class CheckoutService extends Controller
         $this->couponService = $couponService;
     }
 
-    public function insertOrder(CheckoutRequest $request, Model $user)
+    public function insertOrder(CheckoutRequest $request, Model $user): Model|\Illuminate\Database\Eloquent\Collection|bool|\Illuminate\Database\Eloquent\Builder|JsonResponse|array|null
     {
         $carts = $this->cartService->getUserCart($user);
 
@@ -83,7 +83,7 @@ class CheckoutService extends Controller
         return $price;
     }
 
-    public function sendEmail(User $user, $data, int $totalPrice, Order $order, array $discount = null): bool|JsonResponse
+    public function sendEmail($user, $data, int $totalPrice, $order, array $discount = null): bool|JsonResponse
     {
         $userEmail = $user->email;
         try {

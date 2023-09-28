@@ -255,8 +255,9 @@ async function addOrder() {
             await alert('Your order has been successfully added, and waiting for confirmation on email');
             window.location.href = "/";
         } else {
-            alert('Validation Error')
-            window.location.reload();
+            console.log(data);
+            // alert('Validation Error')
+            // window.location.reload();
         }
     } catch (error) {
         console.error('Error:', error);

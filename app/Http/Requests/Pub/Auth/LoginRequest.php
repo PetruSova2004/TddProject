@@ -35,7 +35,7 @@ class LoginRequest extends FormRequest
             ],
             'password' => [
                 'required',
-                'min:6',
+                'min:4',
                 'max:255',
                 'alpha_dash',
             ],

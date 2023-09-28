@@ -32,6 +32,7 @@ class RegisterRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
+                'unique:users,email',
                 'max:255',
                 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/', // email без пробелов
             ],
@@ -53,7 +54,7 @@ class RegisterRequest extends FormRequest
                 'phone', // https://github.com/Propaganistas/Laravel-Phone
             ],
             'password' => [
-                'min:6',
+                'min:4',
                 'max:255',
                 'alpha_dash',
             ],

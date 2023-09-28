@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Api\Pub\Cart\Services;
 
-use App\Http\Controllers\Api\Pub\Checkout\Services\CouponService;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\Coupon;
 use App\Services\Coupon\CouponTrait;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +30,7 @@ class CartService extends Controller
 
         $cart = [];
 
-        if (!$cartProducts->isEmpty()) {
+        if ($cartProducts->isNotEmpty()) {
             foreach ($cartProducts as $cartProduct) {
                 $cart[] = [
                     'product_id' => $cartProduct->product_id,

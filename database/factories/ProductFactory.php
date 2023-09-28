@@ -26,7 +26,7 @@ class ProductFactory extends Factory
         return [
             'title' => fake()->name,
             'price' => fake()->randomFloat(2, 0, 9999.99),
-            'image_path' => "assets/img/shop/1.webp",
+            'image_path' => "/assets/img/shop/1.webp",
             'description' => fake()->text,
             'views' => fake()->numberBetween(1, 100),
             'count' => fake()->numberBetween(1, 250),
