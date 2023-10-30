@@ -17,6 +17,11 @@ class AdminAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        $user = User::find(Auth::user()->getAuthIdentifier());
+        if ($user->is_admin) {
+            return $next($request);
+        } else {
+            return redirect()->back()->with('error', 'No');
+        }
     }
 }

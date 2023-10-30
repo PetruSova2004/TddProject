@@ -1,0 +1,83 @@
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <div style="display: flex; justify-content: space-between;">
+        <h1>Dashboard</h1>
+        <a href="{{route('admin.country.create')}}"
+           class="btn btn-info btn-sm float-left mr-1">
+            <i class="fas">Create</i>
+        </a>
+    </div>
+@stop
+
+@section('content')
+    <section class="content">
+        @include('Pub.layouts.alerts')
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body table-responsive p-0 usersTable">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Zip</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($countries as $country)
+                                    <tr>
+                                        <td>{{$country->id}}</td>
+                                        <td>
+                                            <a href="{{ route('admin.country.show', ['country' => $country->id]) }}">{{$country->name}}</a>
+                                        </td>
+                                        <td>
+                                            <p>{{$country->code}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{$country->zip}}</p>
+                                        </td>
+                                        <td>
+                                            <a href="{{route('admin.country.edit', ['country' => $country->id])}}"
+                                               class="btn btn-info btn-sm float-left mr-1">
+                                                <i class="fas fa-pencil-alt">Edit</i>
+                                            </a>
+
+                                            <form
+                                                action="{{ route('admin.country.destroy', ['country' => $country->id]) }}"
+                                                method="post" class="float-left">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Подтвердите удаление')">
+                                                    <i
+                                                        class="fas fa-trash-alt">Delete</i>
+                                                </button>
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+@stop
+
+@section('js')
+    <script src="/assets/js/admin/footerSettings.js"></script>
+@stop

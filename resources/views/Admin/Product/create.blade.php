@@ -93,4 +93,5 @@
 @stop
 
 @section('js')
+    <script src="/assets/js/admin/footerSettings.js"></script>
 @stop

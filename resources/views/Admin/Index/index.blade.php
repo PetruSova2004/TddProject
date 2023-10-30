@@ -12,5 +12,5 @@
 
 @section('js')
     <script src="/assets/js/customFiles/account.js"></script>
-    <script src="/assets/js/admin/index.js"></script>
+    <script src="/assets/js/admin/footerSettings.js"></script>
 @stop

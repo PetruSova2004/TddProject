@@ -316,12 +316,12 @@ return [
 
         [
             'text'        => 'Categories',
-            'route'         => 'admin.category.index',
+            'route'       => 'admin.category.index',
             'icon'        => 'fas fa-fw fa-folder',
         ],
         [
             'text'        => 'Products',
-            'route'         => 'admin.product.index',
+            'route'       => 'admin.product.index',
             'icon'        => 'fas fa-fw fa-shopping-cart',
         ],
         [
@@ -331,22 +331,22 @@ return [
         ],
         [
             'text'        => 'Countries',
-            'url'         => 'admin/pages',
+            'route'         => 'admin.country.index',
             'icon'        => 'fas fa-fw fa-flag',
         ],
         [
             'text'        => 'Coupons',
-            'url'         => 'admin/pages',
+            'route'         => 'admin.coupon.index',
             'icon'        => 'fas fa-fw fa-tag',
         ],
         [
             'text'        => 'Orders',
-            'url'         => 'admin/pages',
+            'route'         => 'admin.order.index',
             'icon'        => 'fas fa-fw fa-list-alt',
         ],
         [
             'text'        => 'Users',
-            'url'         => 'admin/pages',
+            'route'       => 'admin.user.index',
             'icon'        => 'fas fa-fw fa-user',
         ],
 

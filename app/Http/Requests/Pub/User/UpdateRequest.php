@@ -30,7 +30,7 @@ class UpdateRequest extends FormRequest
                 'required',
                 'min:4',
                 'max:255',
-                'regex:/^[A-Za-z0-9_\-\s]+$/', // разрешит буквы (как заглавные, так и строчные), цифры, подчеркивания, дефисы и пробелы в строке.
+                'regex:/^[A-Za-z0-9_\-\s]+$/', // will allow letters (both uppercase and lowercase), numbers, underscores, hyphens and spaces in the string.
             ],
             'address' => [
                 'required',
@@ -45,7 +45,7 @@ class UpdateRequest extends FormRequest
                 'max:255',
                 'phone', // https://github.com/Propaganistas/Laravel-Phone
             ],
-            'password' => [
+            'password' => [ 
                 'nullable',
                 'min:6',
                 'max:255',

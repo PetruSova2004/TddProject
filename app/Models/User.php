@@ -10,6 +10,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 
+/**
+ * @method static find(mixed $getAuthIdentifier)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;

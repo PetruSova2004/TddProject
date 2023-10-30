@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
+use App\Http\Controllers\Web\Admin\Country\CountryController;
+use App\Http\Controllers\Web\Admin\Coupon\CouponController;
+use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
+use App\Http\Controllers\Web\Admin\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +35,6 @@ Route::get('/contact', 'App\Http\Controllers\Web\Pub\ContactController@index')->
 Route::get('/blog', 'App\Http\Controllers\Web\Pub\BlogController@blog')->name('blog.index');
 Route::get('/blogDetails', 'App\Http\Controllers\Web\Pub\BlogController@blogDetails')->name('blogDetails.index');
 
-
 Route::get('/wishlist', 'App\Http\Controllers\Web\Pub\WishlistController@index')->name('wishlist.index');
 
 Route::get('/compare', 'App\Http\Controllers\Web\Pub\CompareController@index')->name('compare.index');
@@ -57,10 +60,14 @@ Route::group(['middleware' => 'custom_web_auth'], function () {
     Route::get('/errorPayment', 'App\Http\Controllers\Web\Pub\AfterPaymentController@error')->name('error-payment.index');
 
     Route::prefix('admin')->group(function () {
-        Route::get('/index', 'App\Http\Controllers\Web\Admin\Index\IndexController@index')->name('admin.index');
+        Route::get('/', 'App\Http\Controllers\Web\Admin\Index\IndexController@index')->name('admin.index');
         // 'as' определяет префикс (или имя) для всех маршрутов.
         Route::resource('/category', CategoryController::class, ['as' => 'admin']);
         Route::resource('/product', ProductController::class, ['as' => 'admin']);
+        Route::resource('/country', CountryController::class, ['as' => 'admin']);
+        Route::resource('/coupon', CouponController::class, ['as' => 'admin']);
+        Route::resource('/user', UserController::class, ['as' => 'admin']);
+        Route::resource('/order', OrderController::class, ['as' => 'admin']);
     });
 });
 
