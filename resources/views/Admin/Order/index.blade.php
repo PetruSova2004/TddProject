@@ -45,7 +45,7 @@
                                         <td>{{$order->lastname}}</td>
                                         <td>{{$order->phone}}</td>
                                         <td>${{$order->price}}</td>
-                                        <td>{{$order->discount}}</td>
+                                        <td>{{$order->discount}}%</td>
                                         <td>{{$order->status}}</td>
                                         <td>{{$order->company}}</td>
                                         <td>{{$order->country}}</td>

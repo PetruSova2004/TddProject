@@ -59,7 +59,7 @@ class AuthApiController extends Controller
             $cookie = [
                 'name' => 'Token',
                 'value' => $token,
-                'time' => 525600,
+                'time' => 240,
             ];
 
             return ResponseService::sendJsonResponse(true, 200, [], [

@@ -131,6 +131,22 @@
                                     </ul>
                                 </div>
                             </div>
+
+                            <div class="blog-widget blog-sidebar-tags">
+                                <h4 class="sidebar-title">Popular Tags</h4>
+                                <div class="sidebar-tags">
+                                    <ul class="tags-list mb--0">
+                                        <li><a href="blog.blade.php">Pet</a></li>
+                                        <li><a href="blog.blade.php">Animal</a></li>
+                                        <li><a href="blog.blade.php">Dog</a></li>
+                                        <li><a href="blog.blade.php">Pet Food</a></li>
+                                        <li><a href="blog.blade.php">Dress</a></li>
+                                        <li><a href="blog.blade.php">Food</a></li>
+                                        <li><a href="blog.blade.php">Cat</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

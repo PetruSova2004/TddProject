@@ -16,6 +16,7 @@ class ProductService extends Controller
         $limit = $request->input('limit');
         $price = $request->input('price');
         $search = $request->input('search');
+        $tag = $request->input('tag');
         $query = Product::query();
 
         if ($categoryIds) {
@@ -30,6 +31,11 @@ class ProductService extends Controller
         }
         if ($limit) {
             $query->take($limit);
+        }
+        if ($tag) {
+            $query->whereHas('tags', function ($query) use ($tag) {
+                $query->where('title', $tag);
+            });
         }
 
         return $query->get();

@@ -167,6 +167,48 @@ async function categories() {
 }
 categories();
 
+async function tags() {
+    // Получаем контейнер для тегов
+    const tagsContainer = document.querySelector('.sidebar-tags ul');
+    const token = await getCustomToken();
+
+// Отправляем AJAX-запрос к API и обновляем теги
+    fetch('/api/popularTags', {
+        method: 'GET',
+        headers: {
+            'guestToken': token,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            // Проверяем, успешен ли запрос
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Преобразуем ответ в JSON
+        })
+        .then(data => {
+            // Очищаем текущие теги в контейнере
+            tagsContainer.innerHTML = '';
+
+            // Обновляем список тегов
+            data.data.tags.forEach(tag => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '/products?tag=' + tag.title;
+                a.textContent = tag.title;
+
+                li.appendChild(a);
+                tagsContainer.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('Ошибка при загрузке тегов', error);
+        });
+
+}
+tags();
+
 document.getElementById('searchButton').addEventListener('click', function (event) {
     event.preventDefault(); // Отмена отправки формы
 

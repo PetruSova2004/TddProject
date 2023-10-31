@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\Web\Pub\IndexController@index')->name('home');
 
 Route::get('/test', 'App\Http\Controllers\Web\Pub\IndexController@test')->name('test');
-
 Route::get('/test2', 'App\Http\Controllers\Web\Pub\IndexController@test2')->name('test2');
 
 Route::get('/products', 'App\Http\Controllers\Web\Pub\ProductController@index')->name('products.index');

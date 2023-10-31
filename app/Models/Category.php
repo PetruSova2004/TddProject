@@ -19,4 +19,9 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class);
+    }
+
 }

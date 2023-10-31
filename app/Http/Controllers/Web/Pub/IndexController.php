@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Web\Pub;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\View\View;
 
 
@@ -16,6 +18,7 @@ class IndexController extends Controller
 
     public function test()
     {
+
     }
 
     function test2()
