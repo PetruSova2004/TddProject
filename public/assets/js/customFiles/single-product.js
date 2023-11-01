@@ -111,16 +111,15 @@ document.addEventListener('DOMContentLoaded', async function () {
             .then((response) => response.json())
             .then((responseData) => {
                 if (responseData.status === true) {
-                    console.log(responseData);
                     alert('Your review has been successfully added');
                     window.location.reload();
                 } else {
+                    console.log(responseData)
                     alert('Something goes wrong');
                     // window.location.reload();
                 }
             })
             .catch((error) => {
-                // Обработайте ошибку здесь
                 console.error('Ошибка:', error);
             });
     });

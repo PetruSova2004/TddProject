@@ -41,7 +41,7 @@
                             <div class="col-12">
                                 <div class="banner-product-single-style2-item">
                                     <div class="thumb">
-                                        <a href="shop.html">
+                                        <a href="{{route('products.index')}}">
                                             <img src="assets/img/shop/banner/3.webp" width="870" height="247"
                                                  alt="Image-HasTech">
                                         </a>
@@ -49,7 +49,7 @@
                                     <div class="content">
                                         <h5 class="sub-title">-25% Off </h5>
                                         <h5 class="title">Pet Food, Medicin & Shop With Us</h5>
-                                        <a class="btn-theme-link" href="shop.html">Shop Now</a>
+                                        <a class="btn-theme-link" href="{{route('products.index')}}">Shop Now</a>
                                     </div>
                                 </div>
                             </div>

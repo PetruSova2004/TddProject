@@ -13,29 +13,32 @@ use Illuminate\Http\JsonResponse;
 
 class ResponseService
 {
-    private static function responseParams($status, $errors = [], $data = [], $cookie = null): array
+    private static function responseParams($status, $errors = [], $data = []): array
     { // формируем параметры запроса
         return [
             'status' => $status,
             'errors' => (object)$errors,
             'data' => (object)$data,
-            'cookie' => $cookie,
         ];
     }
 
-    public static function sendJsonResponse($status, $code = 200, $errors = [], $data = [], $cookie = null): JsonResponse
+    public static function sendJsonResponse($status, $code = 200, $errors = [], $data = [], $cookies = []): JsonResponse
     {
-        if ($cookie) {
-            return response()->json(
-                self::responseParams($status, $errors, $data, $cookie['name']),
-                $code
-            )->cookie($cookie['name'], $cookie['value'], $cookie['time']);
+        $response = response()->json(
+            self::responseParams($status, $errors, $data)
+        );
+
+        if ($cookies) {
+            foreach ($cookies as $cookie) {
+                $response->cookie($cookie['name'], $cookie['value'], $cookie['time']);
+            }
         } else {
             return response()->json(
                 self::responseParams($status, $errors, $data),
                 $code
             );
         }
+        return $response;
     }
 
 
@@ -44,8 +47,8 @@ class ResponseService
         return self::sendJsonResponse(true, 200, [], $data);
     }
 
-    public static function notFound($data = []): JsonResponse
+    public static function notFound(): JsonResponse
     {
-        return self::sendJsonResponse(false, 404, [], []);
+        return self::sendJsonResponse(false, 404);
     }
 }

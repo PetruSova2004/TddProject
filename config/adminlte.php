@@ -326,7 +326,7 @@ return [
         ],
         [
             'text'        => 'Blogs',
-            'url'         => 'admin/pages',
+            'route'         => 'admin.blog.index',
             'icon'        => 'fas fa-fw fa-pencil-alt',
         ],
         [

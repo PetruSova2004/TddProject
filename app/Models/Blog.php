@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @method static find()
+ */
 class Blog extends Model
 {
     use HasFactory;
@@ -31,6 +34,11 @@ class Blog extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function comments(): BelongsToMany
+    {
+        return $this->belongsToMany(Comment::class);
     }
 
 }

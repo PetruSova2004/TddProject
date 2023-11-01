@@ -29,7 +29,7 @@
                                     <label for="title">Title</label>
                                     <input type="text" name="title"
                                            class="form-control @error('title') is-invalid @enderror" id="title"
-                                           placeholder="Название">
+                                           placeholder="Title">
                                 </div>
                                 <div class="form-group">
                                     <label for="file">Choose Image</label>
@@ -43,7 +43,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
 

@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Product;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminAuthenticate
@@ -17,11 +16,12 @@ class AdminAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = User::find(Auth::user()->getAuthIdentifier());
-        if ($user->is_admin) {
+        // esem - encrypted secret email
+        $user = User::query()->where('email', Cookie::get('esem'))->first();
+        if ($user->is_admin === 'Yes') {
             return $next($request);
         } else {
-            return redirect()->back()->with('error', 'No');
+            return redirect()->back()->with('error', 'You dont have admin privileges');
         }
     }
 }

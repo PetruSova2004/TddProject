@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Blog\BlogController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use App\Http\Controllers\Web\Admin\Country\CountryController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
@@ -58,7 +59,7 @@ Route::group(['middleware' => 'custom_web_auth'], function () {
     Route::get('/successPayment', 'App\Http\Controllers\Web\Pub\AfterPaymentController@success')->name('success-payment.index');
     Route::get('/errorPayment', 'App\Http\Controllers\Web\Pub\AfterPaymentController@error')->name('error-payment.index');
 
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get('/', 'App\Http\Controllers\Web\Admin\Index\IndexController@index')->name('admin.index');
         // 'as' определяет префикс (или имя) для всех маршрутов.
         Route::resource('/category', CategoryController::class, ['as' => 'admin']);
@@ -67,6 +68,7 @@ Route::group(['middleware' => 'custom_web_auth'], function () {
         Route::resource('/coupon', CouponController::class, ['as' => 'admin']);
         Route::resource('/user', UserController::class, ['as' => 'admin']);
         Route::resource('/order', OrderController::class, ['as' => 'admin']);
+        Route::resource('/blog', BlogController::class, ['as' => 'admin']);
     });
 });
 

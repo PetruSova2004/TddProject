@@ -18,7 +18,7 @@ class IndexController extends Controller
 
     public function test()
     {
-
+        dd(encrypt('peetrusoova@gmail.com'));
     }
 
     function test2()

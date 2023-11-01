@@ -27,31 +27,3 @@ async function getTokenFromCookie() {
         throw error;
     }
 }
-
-async function fetchUserDataAndReplaceName() {
-    const apiUrl = '/api/checkAdmin';
-    const authToken = await getTokenFromCookie();
-
-    fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${authToken}`,
-        }
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                window.location.href = '/';
-            }
-        })
-        .then(data => {
-            if (data.status === false) {
-                window.location.href = '/';
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка при получении данных:', error);
-        });
-}
-fetchUserDataAndReplaceName();

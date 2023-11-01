@@ -144,6 +144,8 @@ async function logout() {
         if (logoutResponse.ok) {
             handleMenu(); // Remove the "Logout" menu item after successful logout
             window.location.href = '/';
+        } else {
+            console.log(logoutResponse)
         }
     } catch (error) {
         console.error('Error in request:', error);

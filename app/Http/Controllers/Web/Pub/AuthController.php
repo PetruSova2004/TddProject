@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Pub;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,9 +40,11 @@ class AuthController extends Controller
                 ]);
             }
             $token = $user->createToken('PersonalAccessToken')->accessToken;
+
             return redirect()->route('home')
                 ->with('success', "Welcome " . $googleUser->getName())
-                ->withCookie('Token', $token, 525600);
+                ->withCookie('Token', $token, 240)
+                ->withCookie('esem', encrypt($googleUser->getEmail()), 240);
         } catch (Throwable $throwable) {
             return $throwable->getMessage();
         }

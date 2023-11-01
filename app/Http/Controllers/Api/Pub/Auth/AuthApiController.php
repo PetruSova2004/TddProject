@@ -9,15 +9,17 @@ use App\Http\Requests\Pub\Auth\LoginRequest;
 use App\Http\Requests\Pub\Auth\RegisterRequest;
 use App\Models\User;
 use App\Services\Response\ResponseService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class AuthApiController extends Controller
 {
 
-    private $service;
+    private AuthService $service;
 
     public function __construct(AuthService $service)
     {
@@ -57,9 +59,16 @@ class AuthApiController extends Controller
             $token = $user->createToken('PersonalAccessToken')->accessToken;
 
             $cookie = [
-                'name' => 'Token',
-                'value' => $token,
-                'time' => 240,
+                [
+                    'name' => 'Token',
+                    'value' => $token,
+                    'time' => 240,
+                ],
+                [
+                    'name' => 'esem',
+                    'value' => $user->email,
+                    'time' => 240,
+                ]
             ];
 
             return ResponseService::sendJsonResponse(true, 200, [], [
@@ -83,22 +92,36 @@ class AuthApiController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-        $user = $request->user();
-        $user->token()->revoke();
-        Cache::forget('wishlist');
+        try {
+            $user = $request->user();
+            $user->token()->revoke();
+            Cache::forget('wishlist');
 
-        $cookie = [
-            'name' => 'Token',
-            'value' => null,
-            'time' => -1,
-        ];
+            $cookie = [
+                [
+                    'name' => 'Token',
+                    'value' => null,
+                    'time' => -1,
+                ],
+                [
+                    'name' => 'esem',
+                    'value' => null,
+                    'time' => -1,
+                ]
+            ];
 
-        event(new TokenCookieExpired($user));
+            event(new TokenCookieExpired($user));
 
-        return ResponseService::sendJsonResponse(true, 200, [], [
-            'success' => 'You have been successfully log out',
-            'user' => $user,
-        ], $cookie);
+            return ResponseService::sendJsonResponse(true, 200, [], [
+                'success' => 'You have been successfully log out',
+                'user' => $user,
+            ], $cookie);
+        } catch (Exception $exception) {
+            return ResponseService::sendJsonResponse(false, 400, [
+                'error' => $exception->getMessage()
+            ]);
+        }
+
     }
 
 
