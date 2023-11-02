@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
             'author' => 'required|exists:users,id',
             'tag_id' => 'required|array|min:1',
             'tag_id.*' => 'integer|exists:tags,id',
+            'image_file' => 'file|mimes:jpg,jpeg,png,svg,webp',
         ];
     }
 }

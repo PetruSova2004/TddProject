@@ -45,6 +45,14 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="file">Choose Image</label>
+                                    <input type="file" name="image_file"
+                                           class="form-control-file @error('image_file') is-invalid @enderror" id="image_file">
+                                    @error('image_file')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label>Tags</label><br>
                                     @foreach($tags as $tag)
                                         <div class="form-check">
@@ -61,7 +69,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <button type="submit" class="btn btn-primary">Create</button>
                             </div>
                         </form>
 

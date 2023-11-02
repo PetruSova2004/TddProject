@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:3|max:255|alpha_dash',
-            'image_file' => 'required|mimes:jpg,png,svg,jpeg',
+            'image_file' => 'required|mimes:jpg,png,svg,jpeg,webp',
         ];
     }
 }

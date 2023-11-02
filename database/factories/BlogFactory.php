@@ -4,11 +4,12 @@ namespace Database\Factories;
 
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blog>
+ * @extends Factory<Blog>
  */
 class BlogFactory extends Factory
 {
@@ -28,6 +29,7 @@ class BlogFactory extends Factory
             'description' => fake()->text,
             'category_id' => fake()->randomElement($categories),
             'user_id' => fake()->randomElement($users),
+            'image_path' => fake()->text,
         ];
     }
 }

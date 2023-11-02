@@ -18,7 +18,7 @@ class IndexController extends Controller
 
     public function test()
     {
-        dd(encrypt('peetrusoova@gmail.com'));
+        dd(productImagePath("zbs.png"));
     }
 
     function test2()

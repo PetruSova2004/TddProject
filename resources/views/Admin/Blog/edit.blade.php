@@ -58,17 +58,41 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label for="file">Choose Image</label>
+                                                <input type="file" name="image_file"
+                                                       class="form-control-file @error('image_file') is-invalid @enderror" id="image_file">
+                                                @error('image_file')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
                                             <div class="form-check-group" style="margin-bottom: 15px;">
                                                 <label for="category_id">Tags</label>
                                                 @foreach($tags as $tag)
                                                     <div class="form-check" style="margin-bottom: 10px;">
-                                                        <input class="form-check-input" type="checkbox" name="tag_id[]"
-                                                               value="{{$tag->id}}" id="tag{{$tag->id}}">
-                                                        <label class="form-check-label" for="tag{{$tag->id}}">
-                                                            {{$tag->title}}
+                                                        @php
+                                                            $isChecked = false;
+                                                            foreach($blog->tags as $blogTag) {
+                                                                if($blogTag->id === $tag->id) {
+                                                                    $isChecked = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                        @endphp
+
+                                                        <input class="form-check-input" type="checkbox"
+                                                               name="tag_id[]"
+                                                               value="{{ $tag->id }}" id="tag{{ $tag->id }}"
+                                                               @if($isChecked) checked @endif>
+
+                                                        <label class="form-check-label" for="tag{{ $tag->id }}">
+                                                            {{ $tag->title }}
                                                         </label>
                                                     </div>
                                                 @endforeach
+
                                             </div>
 
 

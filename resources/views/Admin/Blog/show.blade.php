@@ -22,7 +22,7 @@
                             <div class="mr-3">
                                 <a href="{{route('admin.blog.edit', $blog->id)}}" class="btn btn-primary">Update</a>
                             </div>
-                            <form action="{{route('admin.blog.destroy', $blog->id)}}" method="post">
+                            <form action="{{route('admin.blog.destroy', ['blog' => $blog->id])}}" method="post">
                                 @csrf
                                 @method('delete')
                                 <input type="submit" class="btn btn-danger" value="Delete">
@@ -49,6 +49,14 @@
                                     <tr>
                                         <td>Author</td>
                                         <td>{{$blog->user->name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tags</td>
+                                        <td>
+                                            @foreach($blog->tags as $tag)
+                                                {{$tag->title}},
+                                            @endforeach
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

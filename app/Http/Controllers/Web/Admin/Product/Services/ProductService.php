@@ -17,7 +17,8 @@ class ProductService extends Controller
         $request->validated();
         try {
             $image_file = $request->file('image_file');
-            $path = $image_file->store('shop/products', ['disk' => 'image']);
+            $fileName = time() . '_' . $image_file->getClientOriginalName();
+            $image_file->storeAs("public/shop/images/products/" . $fileName);
 
             Product::query()->create([
                 'title' => $request->input('title'),
@@ -25,9 +26,8 @@ class ProductService extends Controller
                 'price' => $request->input('price'),
                 'category_id' => $request->input('category_id'),
                 'count' => $request->input('count'),
-                'image_path' => "/assets/img/" . $path,
+                'image_path' => productImagePath($fileName),
             ]);
-
             return redirect()->route('admin.product.store')->with('success', 'Product has been successfully added');
         } catch (Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
@@ -36,22 +36,26 @@ class ProductService extends Controller
 
     public function updateProduct(UpdateRequest $request, string $id): RedirectResponse
     {
-        $request->validated();
         try {
+            $request->validated();
             $product = Product::query()->where('id', $id)->first();
-            $path = public_path($product->image_path);
-            $updatedPath = $request->file('image_file')->store('shop/products', ['disk' => 'image']);
+            $path = storage_path($product->image_path);
+            $correctedPath = str_replace('/var/www/storage/storage/', '/var/www/storage/app/public/', $path);
 
-            if (File::exists($path)) {
-                File::delete($path);
+            if (File::exists($correctedPath)) {
+                File::delete($correctedPath);
             }
+            $image_file = $request->file('image_file');
+            $fileName = time() . '_' . $image_file->getClientOriginalName();
+            $image_file->storeAs("public/shop/images/products/" . $fileName);
+
             $product->update([
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
                 'price' => $request->input('price'),
                 'category_id' => $request->input('category_id'),
                 'count' => $request->input('count'),
-                'image_path' => "/assets/img/" . $updatedPath,
+                'image_path' => productImagePath($fileName),
             ]);
             return redirect()
                 ->route('admin.product.show', ['product' => $product->id])
@@ -63,7 +67,14 @@ class ProductService extends Controller
 
     public function deleteProduct(string $id): RedirectResponse
     {
-        Product::query()->where('id', $id)->first()->delete();
+        $product = Product::query()->where('id', $id)->first();
+        $path = storage_path($product->image_path);
+        $correctedPath = str_replace('/var/www/storage/storage/', '/var/www/storage/app/public/', $path);
+
+        if (File::exists($correctedPath)) {
+            File::delete($correctedPath);
+        }
+        $product->delete();
         return redirect()->route('admin.product.index')->with('success', 'Product has been successfully deleted');
     }
 

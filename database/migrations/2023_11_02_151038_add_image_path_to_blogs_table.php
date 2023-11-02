@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->string('message');
-            $table->timestamps();
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->string('image_path');
         });
     }
 
@@ -27,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->dropColumn('image_path');
+        });
     }
 };

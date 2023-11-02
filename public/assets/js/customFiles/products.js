@@ -45,9 +45,9 @@ async function fetchData() {
 
             const productImage = document.createElement('img');
             productImage.src = product.image_path;
-            productImage.width = 270;
-            productImage.height = 320;
             productImage.alt = 'Image-HasTech';
+            productImage.classList.add('custom-image');
+
 
             const productInfo = document.createElement('div');
             productInfo.classList.add('product-info');
@@ -64,7 +64,7 @@ async function fetchData() {
 
             const productPrice = document.createElement('span');
             productPrice.classList.add('price');
-            productPrice.textContent = product.price;
+            productPrice.textContent = "$" + product.price;
 
             // Добавляем элементы в контейнер товаров
             productPrices.appendChild(productPrice);

@@ -58,7 +58,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Подтвердите удаление')">
+                                                        onclick="return confirm('Confirm Delete')">
                                                     <i
                                                         class="fas fa-trash-alt">Delete</i>
                                                 </button>

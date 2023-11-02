@@ -25,6 +25,8 @@ Route::patch('/confirmOrder/{orderId}', 'App\Http\Controllers\Api\Pub\Checkout\S
 
 Route::middleware('demand_token')->group(function () {
     Route::get('/categoryAll', 'App\Http\Controllers\Api\Pub\Category\CategoryController@getCategories')->name('api.getCategories');
+    Route::get('/popularCategories', 'App\Http\Controllers\Api\Pub\Category\CategoryController@popularCategories')->name('api.getPopularCategories');
+
     Route::get('/popularTags', 'App\Http\Controllers\Api\Pub\Tag\TagController@getMostPopularTags')->name('api.getPopularTags');
     Route::get('/getCookie/{cookieName}', 'App\Services\Cookie\CookieService@getCookie')->name('api.getCookie');
     Route::get('/getProducts', 'App\Http\Controllers\Api\Pub\Product\ProductController@getProducts')->name('api.getProducts');
@@ -39,6 +41,10 @@ Route::middleware('demand_token')->group(function () {
     Route::post('/addToWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@add')->name('api.addToWishlist');
     Route::delete('/clearWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@clearAll')->name('api.clearWishlist');
     Route::delete('/deleteProductFromWishlist', 'App\Http\Controllers\Api\Pub\Wishlist\WishlistController@deleteOne')->name('api.deleteOneFromWishlist');
+
+    Route::get('/blogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogs')->name('api.getBlogs');
+    Route::get('/blog', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogDetails')->name('api.getBlogDetails');
+    Route::get('/recentBlogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getRecentBlogs')->name('api.getRecentBlogs');
 
 });
 
@@ -60,9 +66,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/applyCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@apply')->name('api.applyCoupon');
     Route::delete('/deleteCoupon', 'App\Http\Controllers\Api\Pub\Checkout\CouponController@delete')->name('api.deleteCoupon');
     Route::get('/getCoupon', 'App\Services\Coupon\CouponService@getCoupon')->name('api.getCoupon');
-
-    Route::get('/blogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogs')->name('api.getBlogs');
-    Route::get('/blog', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogDetails')->name('api.getBlogDetails');
 
     Route::get('/getCountries', 'App\Services\Country\CountryService@getCountries')->name('api.getCountries');
 

@@ -54,13 +54,15 @@ class CouponController extends Controller
         if ($coupon) {
             $user->coupons()->detach($coupon->id);
             $cookie = [
-                'name' => 'Coupon',
-                'value' => $coupon->code,
-                'time' => -1,
+                [
+                    'name' => 'Coupon',
+                    'value' => $coupon->code,
+                    'time' => -1,
+                ]
             ];
 
             return ResponseService::sendJsonResponse(true, 200, [], [
-                'Deleted' => "Coupon " . $coupon->title . " has been removed by timeout",
+                'Deleted' => "Coupon " . $coupon->title . " has been removed",
             ], $cookie);
         } else {
             return ResponseService::sendJsonResponse(false, 200, [], [

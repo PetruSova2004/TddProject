@@ -172,9 +172,10 @@ async function applyCoupon() {
             alert("You activated the coupon successfully, your discount for all products is " + discount + "%");
             window.location.reload();
         } else {
-            alert('Failed to apply coupon')
+            // alert('Failed to apply coupon')
+            console.log(response);
             console.error('Failed to apply coupon:', response.status, response.statusText);
-            window.location.reload();
+            // window.location.reload();
         }
 
     } catch (error) {

@@ -41,9 +41,11 @@ class CouponService extends Controller
             ]);
         }
         $cookie = [
-            'name' => 'Coupon',
-            'value' => $coupon->code,
-            'time' => 360,
+            [
+                'name' => 'Coupon',
+                'value' => $coupon->code,
+                'time' => 360,
+            ]
         ];
         DB::table('coupon_user')
             ->insert([

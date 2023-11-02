@@ -52,7 +52,7 @@ class UpdateRequest extends FormRequest
             'image_file' => [
                 'required',
                 'file',
-                'mimes:jpg,png,svg,jpeg'
+                'mimes:jpg,png,svg,jpeg,webp'
             ],
         ];
     }

@@ -165,11 +165,13 @@ table p {
   margin-bottom: 0;
 }
 
-/*
------------------------------------------------------------------------
-  Common CSS
------------------------------------------------------------------------
-*/
+
+.custom-image {
+    width: 270px;
+    height: 320px;
+    object-fit: cover;
+}
+
 /*-------- Background Style Css --------*/
 .bg-img {
   background: no-repeat center center;
