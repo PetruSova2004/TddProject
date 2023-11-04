@@ -337,12 +337,17 @@ return [
         [
             'text'        => 'Coupons',
             'route'         => 'admin.coupon.index',
-            'icon'        => 'fas fa-fw fa-tag',
+            'icon'        => 'fas fa-fw fa-ticket-alt',
         ],
         [
             'text'        => 'Orders',
             'route'         => 'admin.order.index',
             'icon'        => 'fas fa-fw fa-list-alt',
+        ],
+        [
+            'text'        => 'Tags',
+            'route'         => 'admin.tag.index',
+            'icon'        => 'fas fa-fw fa-tag',
         ],
         [
             'text'        => 'Users',

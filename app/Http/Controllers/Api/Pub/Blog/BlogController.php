@@ -8,6 +8,7 @@ use App\Models\Blog;
 use App\Services\Response\ResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class BlogController extends Controller
 {
@@ -21,7 +22,7 @@ class BlogController extends Controller
 
     public function getBlogs(): JsonResponse
     {
-        $blogs = $this->service->getBlogs();
+        $blogs = $this->service->blogs();
         if ($blogs->count() > 0) {
             return ResponseService::sendJsonResponse(true, 200, [], [
                 'blogs' => $blogs,
@@ -51,13 +52,16 @@ class BlogController extends Controller
 
     public function getRecentBlogs(): JsonResponse
     {
-        $blogs = Blog::query()->latest()->take(3)->select([
-            'created_at',
-            'title',
-        ]);
-        return ResponseService::sendJsonResponse(true, 200, [], [
-            'blogs' => $blogs,
-        ]);
+        $blogs = $this->service->recentBlogs();
+        if ($blogs) {
+            return ResponseService::sendJsonResponse(true, 200, [], [
+                'blogs' => $blogs,
+            ]);
+        } else {
+            return ResponseService::sendJsonResponse(false, 404, [
+                'Error' => 'Invalid blogs receiving'
+            ]);
+        }
     }
 
 }

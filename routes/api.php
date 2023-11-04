@@ -45,7 +45,6 @@ Route::middleware('demand_token')->group(function () {
     Route::get('/blogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogs')->name('api.getBlogs');
     Route::get('/blog', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getBlogDetails')->name('api.getBlogDetails');
     Route::get('/recentBlogs', 'App\Http\Controllers\Api\Pub\Blog\BlogController@getRecentBlogs')->name('api.getRecentBlogs');
-
 });
 
 

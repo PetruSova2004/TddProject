@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Product\StoreRequest;
 use App\Http\Requests\Admin\Product\UpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -36,7 +37,8 @@ class ProductController extends Controller
     public function create(): View
     {
         $categories = Category::all();
-        return view('Admin.Product.create', compact('categories'));
+        $tags = Tag::all();
+        return view('Admin.Product.create', compact('categories', 'tags'));
     }
 
     /**
@@ -63,7 +65,8 @@ class ProductController extends Controller
     {
         $product = Product::query()->where('id', $id)->first();
         $categories = Category::all();
-        return view('Admin.Product.edit', compact('product', 'categories'));
+        $tags = Tag::all();
+        return view('Admin.Product.edit', compact('product', 'categories', 'tags'));
     }
 
     /**

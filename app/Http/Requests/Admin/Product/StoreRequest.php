@@ -5,6 +5,8 @@ namespace App\Http\Requests\Admin\Product;
 use App\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -21,9 +23,10 @@ class StoreRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         $category_ids = Category::query()->pluck('id')->toArray();
+
         return [
             'title' => [
                 'required',
@@ -47,6 +50,10 @@ class StoreRequest extends FormRequest
                 'required',
                 'min: 0',
                 'numeric',
+            ],
+            'tag_id.*' => [
+                'required',
+                Rule::exists('tags', 'id')
             ],
             'image_file' => [
                 'required',

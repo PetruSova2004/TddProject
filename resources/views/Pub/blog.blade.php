@@ -36,8 +36,8 @@
       <div class="container">
         <div class="row justify-content-between">
           <div class="col-xl-8">
-            <div class="row">
-              <div class="col-md-6 col-lg-4 col-xl-6">
+            <div class="row" id="blogContainer">
+              <div class="col-md-6 col-lg-4 col-xl-6" >
                 <!--== Start Blog Item ==-->
                 <div class="post-item">
                   <div class="thumb">
@@ -58,115 +58,10 @@
                 </div>
                 <!--== End Blog Item ==-->
               </div>
-              <div class="col-md-6 col-lg-4 col-xl-6">
-                <!--== Start Blog Item ==-->
-                <div class="post-item">
-                  <div class="thumb">
-                    <a href="blog-details.blade.php">
-                      <img src="/assets/img/blog/2.webp" width="350" height="250" alt="Image-HasTech">
-                    </a>
-                  </div>
-                  <div class="content">
-                    <div class="meta">
-                      <ul>
-                        <li class="author-info"><span>By:</span> <a href="blog.blade.php">Admin</a></li>
-                        <li class="post-date"><a href="blog.blade.php">Sep 24,2022</a></li>
-                      </ul>
-                    </div>
-                    <h4 class="title"><a href="blog-details.blade.php">It is a long established fact that a reader will.</a></h4>
-                    <a class="btn-theme btn-sm" href="blog-details.blade.php">Read More</a>
-                  </div>
-                </div>
-                <!--== End Blog Item ==-->
-              </div>
-              <div class="col-md-6 col-lg-4 col-xl-6">
-                <!--== Start Blog Item ==-->
-                <div class="post-item">
-                  <div class="thumb">
-                    <a href="blog-details.blade.php">
-                      <img src="/assets/img/blog/3.webp" width="350" height="250" alt="Image-HasTech">
-                    </a>
-                  </div>
-                  <div class="content">
-                    <div class="meta">
-                      <ul>
-                        <li class="author-info"><span>By:</span> <a href="blog.blade.php">Admin</a></li>
-                        <li class="post-date"><a href="blog.blade.php">Sep 24,2022</a></li>
-                      </ul>
-                    </div>
-                    <h4 class="title"><a href="blog-details.blade.php">Fashions fade, style is eternal About Upto.</a></h4>
-                    <a class="btn-theme btn-sm" href="blog-details.blade.php">Read More</a>
-                  </div>
-                </div>
-                <!--== End Blog Item ==-->
-              </div>
-              <div class="col-md-6 col-lg-4 col-xl-6">
-                <!--== Start Blog Item ==-->
-                <div class="post-item">
-                  <div class="thumb">
-                    <a href="blog-details.blade.php">
-                      <img src="/assets/img/blog/4.webp" width="350" height="250" alt="Image-HasTech">
-                    </a>
-                  </div>
-                  <div class="content">
-                    <div class="meta">
-                      <ul>
-                        <li class="author-info"><span>By:</span> <a href="blog.blade.php">Admin</a></li>
-                        <li class="post-date"><a href="blog.blade.php">Sep 24,2022</a></li>
-                      </ul>
-                    </div>
-                    <h4 class="title"><a href="blog-details.blade.php">The industry's standard dummy text ever.</a></h4>
-                    <a class="btn-theme btn-sm" href="blog-details.blade.php">Read More</a>
-                  </div>
-                </div>
-                <!--== End Blog Item ==-->
-              </div>
-              <div class="col-md-6 col-lg-4 col-xl-6">
-                <!--== Start Blog Item ==-->
-                <div class="post-item">
-                  <div class="thumb">
-                    <a href="blog-details.blade.php">
-                      <img src="/assets/img/blog/5.webp" width="350" height="250" alt="Image-HasTech">
-                    </a>
-                  </div>
-                  <div class="content">
-                    <div class="meta">
-                      <ul>
-                        <li class="author-info"><span>By:</span> <a href="blog.blade.php">Admin</a></li>
-                        <li class="post-date"><a href="blog.blade.php">Sep 24,2022</a></li>
-                      </ul>
-                    </div>
-                    <h4 class="title"><a href="blog-details.blade.php">Be distracted by the readable content.</a></h4>
-                    <a class="btn-theme btn-sm" href="blog-details.blade.php">Read More</a>
-                  </div>
-                </div>
-                <!--== End Blog Item ==-->
-              </div>
-              <div class="col-md-6 col-lg-4 col-xl-6">
-                <!--== Start Blog Item ==-->
-                <div class="post-item">
-                  <div class="thumb">
-                    <a href="blog-details.blade.php">
-                      <img src="/assets/img/blog/6.webp" width="350" height="250" alt="Image-HasTech">
-                    </a>
-                  </div>
-                  <div class="content">
-                    <div class="meta">
-                      <ul>
-                        <li class="author-info"><span>By:</span> <a href="blog.blade.php">Admin</a></li>
-                        <li class="post-date"><a href="blog.blade.php">Sep 24,2022</a></li>
-                      </ul>
-                    </div>
-                    <h4 class="title"><a href="blog-details.blade.php">Lorem Ipsum is simply dummy text of the.</a></h4>
-                    <a class="btn-theme btn-sm" href="blog-details.blade.php">Read More</a>
-                  </div>
-                </div>
-                <!--== End Blog Item ==-->
-              </div>
             </div>
           </div>
           <div class="col-xl-4">
-            <div class="blog-sidebar">
+            <div class="blog-sidebar" id="blogSidebar">
               <div class="blog-sidebar-search">
                 <div class="sidebar-search-form">
                   <form action="#">
@@ -177,48 +72,18 @@
               </div>
 
               <div class="blog-widget blog-sidebar-category">
-                <h4 class="sidebar-title">Popular Categoris</h4>
+                <h4 class="sidebar-title">Popular Categories</h4>
                 <div class="sidebar-category">
                   <ul class="category-list">
-                    <li><a href="blog.blade.php">Accesasories  <span>(6)</span></a></li>
-                    <li><a href="blog.blade.php">Computer  <span>(4)</span></a></li>
-                    <li><a href="blog.blade.php">Covid-19 <span>(2)</span></a></li>
-                    <li><a href="blog.blade.php">Electronics <span>(12)</span></a></li>
-                    <li><a href="blog.blade.php">Furniture <span>(9)</span></a></li>
+
                   </ul>
                 </div>
               </div>
 
-              <div class="blog-widget blog-sidebar-post">
+              <div class="blog-widget blog-sidebar-post" id="recentBlogs">
                 <h4 class="sidebar-title">Recent Posts</h4>
                 <div class="sidebar-post">
-                  <div class="single-post">
-                    <div class="post-thumb">
-                      <a href="blog-details.blade.php"><img src="/assets/img/blog/s1.webp" width="65" height="68" alt="Image-HasTech"></a>
-                    </div>
-                    <div class="post-content">
-                      <span class="date"><a href="blog.blade.php">Sep 24,2022</a></span>
-                      <h6 class="title"><a href="blog-details.blade.php">Lorem ipsum dolor sit amet conse adipis.</a></h6>
-                    </div>
-                  </div>
-                  <div class="single-post">
-                    <div class="post-thumb">
-                      <a href="blog-details.blade.php"><img src="/assets/img/blog/s2.webp" width="65" height="68" alt="Image-HasTech"></a>
-                    </div>
-                    <div class="post-content">
-                      <span class="date"><a href="blog.blade.php">Sep 24,2022</a></span>
-                      <h6 class="title"><a href="blog-details.blade.php">Nicholas K Spring 2022 Runway.</a></h6>
-                    </div>
-                  </div>
-                  <div class="single-post">
-                    <div class="post-thumb">
-                      <a href="blog-details.blade.php"><img src="/assets/img/blog/s3.webp" width="65" height="68" alt="Image-HasTech"></a>
-                    </div>
-                    <div class="post-content">
-                      <span class="date"><a href="blog.blade.php">Sep 24,2022</a></span>
-                      <h6 class="title"><a href="blog-details.blade.php">Celebrity Daughter Opens About Upto.</a></h6>
-                    </div>
-                  </div>
+
                 </div>
               </div>
 
@@ -226,13 +91,7 @@
                 <h4 class="sidebar-title">Popular Tags</h4>
                 <div class="sidebar-tags">
                   <ul class="tags-list mb--0">
-                    <li><a href="blog.blade.php">Pet</a></li>
-                    <li><a href="blog.blade.php">Animal</a></li>
-                    <li><a href="blog.blade.php">Dog</a></li>
-                    <li><a href="blog.blade.php">Pet Food</a></li>
-                    <li><a href="blog.blade.php">Dress</a></li>
-                    <li><a href="blog.blade.php">Food</a></li>
-                    <li><a href="blog.blade.php">Cat</a></li>
+
                   </ul>
                 </div>
               </div>
@@ -249,6 +108,8 @@
 
 <!--=======================Javascript============================-->
 @include('Pub.layouts.footerSettings')
+<script src="/assets/js/customFiles/blogs.js"></script>
+<script src="/assets/js/customFiles/blog-sidebar.js"></script>
 </body>
 
 </html>

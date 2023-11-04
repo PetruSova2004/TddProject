@@ -6,9 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @method static find(string $id)
+ */
 class Tag extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'occurrences',
+    ];
 
     public function products(): BelongsToMany
     {

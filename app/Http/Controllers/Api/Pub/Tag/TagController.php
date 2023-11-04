@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Tag;
 use App\Services\Response\ResponseService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TagController extends Controller
 {

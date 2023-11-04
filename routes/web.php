@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\Admin\Country\CountryController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
+use App\Http\Controllers\Web\Admin\Tag\TagController;
 use App\Http\Controllers\Web\Admin\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,7 @@ Route::group(['middleware' => 'custom_web_auth'], function () {
         Route::resource('/user', UserController::class, ['as' => 'admin']);
         Route::resource('/order', OrderController::class, ['as' => 'admin']);
         Route::resource('/blog', BlogController::class, ['as' => 'admin']);
+        Route::resource('/tag', TagController::class, ['as' => 'admin']);
     });
 });
 

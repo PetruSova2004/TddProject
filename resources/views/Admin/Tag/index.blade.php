@@ -2,12 +2,10 @@
 
 @section('title', 'Dashboard')
 
-
-
 @section('content_header')
     <div style="display: flex; justify-content: space-between;">
         <h1>Dashboard</h1>
-        <a href="{{route('admin.product.create')}}"
+        <a href="{{route('admin.tag.create')}}"
            class="btn btn-info btn-sm float-left mr-1">
             <i class="fas">Create</i>
         </a>
@@ -27,59 +25,32 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Title</th>
-                                    <th>Price</th>
-                                    <th>Views</th>
-                                    <th>Category</th>
-                                    <th>Count</th>
-                                    <th>Tags</th>
-                                    <th>Actions</th>
+                                    <th>Occurrences</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($products as $product)
+                                @foreach($tags as $tag)
                                     <tr>
-                                        <td>{{$product->id}}</td>
+                                        <td>{{$tag->id}}</td>
                                         <td>
-                                            <a href="{{ route('admin.product.show', ['product' => $product->id]) }}">{{$product->title}}</a>
+                                            <a href="{{ route('admin.tag.show', ['tag' => $tag->id]) }}">{{$tag->title}}</a>
                                         </td>
                                         <td>
-                                            <p>{{$product->price}}</p>
+                                            <p>{{$tag->occurrences}}</p>
                                         </td>
                                         <td>
-                                            <p>{{$product->views}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{$product->category->title}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{$product->count}}</p>
-                                        </td>
-                                        <td>
-                                        <td>
-                                            <p>
-                                                @foreach($product->tags as $key => $tag)
-                                                    <a href="">{{ $tag->title }}</a>
-                                                    @if(!$loop->last) {{-- $loop встроенная переменная в blade шаблонах, которая представляет собой объект цикла --}}
-                                                    ,
-                                                    @endif
-                                                @endforeach
-                                            </p>
-                                        </td>
-
-
-                                        <td>
-                                            <a href="{{route('admin.product.edit', ['product' => $product->id])}}"
+                                            <a href="{{route('admin.tag.edit', ['tag' => $tag->id])}}"
                                                class="btn btn-info btn-sm float-left mr-1">
                                                 <i class="fas fa-pencil-alt">Edit</i>
                                             </a>
 
                                             <form
-                                                action="{{ route('admin.product.destroy', ['product' => $product->id]) }}"
+                                                action="{{ route('admin.tag.destroy', ['tag' => $tag->id]) }}"
                                                 method="post" class="float-left">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Подтвердите удаление')">
+                                                        onclick="return confirm('Confirm Delete')">
                                                     <i
                                                         class="fas fa-trash-alt">Delete</i>
                                                 </button>
@@ -103,5 +74,4 @@
 @stop
 
 @section('js')
-    <script src="/assets/js/admin/footerSettings.js"></script>
 @stop

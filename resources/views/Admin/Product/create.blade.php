@@ -65,6 +65,19 @@
                                            placeholder="Count">
                                 </div>
                             </div>
+
+                            <div class="form-group" style="padding-left: 2.5%">
+                                <label>Tags</label><br>
+                                @foreach($tags as $tag)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="tag_id[]" value="{{$tag->id}}" id="tag{{$tag->id}}">
+                                        <label class="form-check-label" for="tag{{$tag->id}}">
+                                            {{$tag->title}}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+
                             <div style="padding: 2%" class="form-group">
                                 <label for="file">Choose Image</label>
                                 <input type="file" name="image_file"

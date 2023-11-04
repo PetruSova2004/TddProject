@@ -20,7 +20,7 @@ class ProductService extends Controller
             $fileName = time() . '_' . $image_file->getClientOriginalName();
             $image_file->storeAs("public/shop/images/products/" . $fileName);
 
-            Product::query()->create([
+            $product = Product::query()->create([
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
                 'price' => $request->input('price'),
@@ -28,6 +28,11 @@ class ProductService extends Controller
                 'count' => $request->input('count'),
                 'image_path' => productImagePath($fileName),
             ]);
+
+            foreach ($request->input('tag_id') as $id) {
+                $product->tags()->attach($id);
+            }
+
             return redirect()->route('admin.product.store')->with('success', 'Product has been successfully added');
         } catch (Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
@@ -39,15 +44,23 @@ class ProductService extends Controller
         try {
             $request->validated();
             $product = Product::query()->where('id', $id)->first();
-            $path = storage_path($product->image_path);
-            $correctedPath = str_replace('/var/www/storage/storage/', '/var/www/storage/app/public/', $path);
+            $tagsIds = $request->input('tag_id');
 
-            if (File::exists($correctedPath)) {
-                File::delete($correctedPath);
-            }
             $image_file = $request->file('image_file');
-            $fileName = time() . '_' . $image_file->getClientOriginalName();
-            $image_file->storeAs("public/shop/images/products/" . $fileName);
+            if ($image_file) {
+                $path = storage_path($product->image_path);
+                $correctedPath = str_replace('/var/www/storage/storage/', '/var/www/storage/app/public/', $path);
+
+                if (File::exists($correctedPath)) {
+                    File::delete($correctedPath);
+                }
+
+                $fileName = time() . '_' . $image_file->getClientOriginalName();
+                $image_file->storeAs("public/shop/images/products/" . $fileName);
+                $finalPath = productImagePath($fileName);
+            } else {
+                $finalPath = $product->image_path;
+            }
 
             $product->update([
                 'title' => $request->input('title'),
@@ -55,8 +68,15 @@ class ProductService extends Controller
                 'price' => $request->input('price'),
                 'category_id' => $request->input('category_id'),
                 'count' => $request->input('count'),
-                'image_path' => productImagePath($fileName),
+                'image_path' => $finalPath,
             ]);
+
+            $product->tags()->detach();
+            if ($tagsIds)
+            foreach ($tagsIds as $id) {
+                $product->tags()->attach($id);
+            }
+
             return redirect()
                 ->route('admin.product.show', ['product' => $product->id])
                 ->with('success', 'Product has been successfully updated');

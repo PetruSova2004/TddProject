@@ -5,7 +5,7 @@
 @section('content_header')
     <div style="display: flex; justify-content: space-between;">
         <h1>Dashboard</h1>
-        <a href="{{route('admin.blog.create')}}"
+        <a href="{{route('admin.tag.create')}}"
            class="btn btn-info btn-sm float-left mr-1">
             <i class="fas">Create</i>
         </a>
@@ -21,9 +21,9 @@
                     <div class="card">
                         <div class="card-header d-flex p-3">
                             <div class="mr-3">
-                                <a href="{{route('admin.blog.edit', $blog->id)}}" class="btn btn-primary">Update</a>
+                                <a href="{{route('admin.tag.edit', $tag->id)}}" class="btn btn-primary">Update</a>
                             </div>
-                            <form action="{{route('admin.blog.destroy', ['blog' => $blog->id])}}" method="post">
+                            <form action="{{route('admin.tag.destroy', ['tag' => $tag->id])}}" method="post">
                                 @csrf
                                 @method('delete')
                                 <input type="submit" class="btn btn-danger" value="Delete">
@@ -37,27 +37,11 @@
                                     <tbody>
                                     <tr>
                                         <td>Title</td>
-                                        <td>{{$blog->title}}</td>
+                                        <td>{{$tag->title}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Description</td>
-                                        <td>{{$blog->description}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Category</td>
-                                        <td>{{$blog->category->title}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Author</td>
-                                        <td>{{$blog->user->name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tags</td>
-                                        <td>
-                                            @foreach($blog->tags as $tag)
-                                                {{$tag->title}},
-                                            @endforeach
-                                        </td>
+                                        <td>Occurrences</td>
+                                        <td>{{$tag->occurrences}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

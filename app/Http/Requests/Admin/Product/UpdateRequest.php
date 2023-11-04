@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin\Product;
 use App\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -49,8 +50,12 @@ class UpdateRequest extends FormRequest
                 'min: 0',
                 'numeric',
             ],
-            'image_file' => [
+            'tag_id.*' => [
                 'required',
+                Rule::exists('tags', 'id')
+            ],
+            'image_file' => [
+                'nullable',
                 'file',
                 'mimes:jpg,png,svg,jpeg,webp'
             ],

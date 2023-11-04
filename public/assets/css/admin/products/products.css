@@ -1,0 +1,12 @@
+.custom-tag-container {
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.custom-tag-container:last-child {
+    margin-right: 0;
+}
